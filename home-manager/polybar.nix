@@ -1,5 +1,6 @@
 { lib, pkgs, ... }:
 {
+  home.packages = with pkgs; [ ethtool ];
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
@@ -9,166 +10,129 @@
     config = {
       "settings" = { screenchange-reload = "true"; };
 
-      "bar/top-main" = {
+      "bar/mainBar" = {
+        monitor-strict = false;
+        override-redirect = false;
+        fixed-center = "true";
         width = "100%";
         height = "20";
-        fixed-center = "false";
-        background = "\${xrdb:color0}";
-        foreground = "\${xrdb:color7}";
-        line-size = "1";
-        padding-left = "1";
-        padding-right = "1";
-        module-margin-left = "1";
-        module-margin-right = "1";
-        #font-0 = "${config.resources.font.name}:pixelsize=${
-            #lib.strings.floatToString config.resources.font.size
-          #}:antialias=true;2";
+        background = "#000000";
+        foreground = "#FFFFFF";
+        module-margin-left = "0";
+        module-margin-right = "0";
+
+        font-0 = "Roboto:size=14;1";
+        font-1 = "RobotoMono Nerd Font Mono:pixelsize=20;3";
+        font-2 = "RobotoMono Nerd Font Mono:pixelsize=20;3";
+      };
+      "bar/top" = {
+        "inherit" = "bar/mainBar";
         modules-left = "i3";
-        modules-center = "spotify previous playpause next sep date";
-        # TODO: Add pipewire module
+        modules-center = "date";
         modules-right =
-          "vpn screenshot temperature cpu memory network-wired network-wireless backlight battery powermenu";
+          "volume network-wired network-wireless battery";
         tray-position = "right";
-        tray-detached = "false";
+        tray-detached = false;
         tray-padding = "2";
-        tray-background = "\${xrdb:color0}";
-        wm-restack = "i3";
-        cursor-click = "pointer";
-        cursor-scroll = "ns-resize";
-        # IPC for Spotify
-        enable-ipc = "true";
+        tray-background = "#000000";
       };
 
-      "module/previous" = {
-        type = "custom/script";
-        interval = "86400";
-        format = "%{T3}<label>";
-        # Previous song icon
-        exec = "echo ";
-        click-left =
-          "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous";
-      };
-
-      "module/next" = {
-        type = "custom/script";
-        interval = "86400";
-        format = "%{T3}<label>";
-        # Next song icon
-        exec = "echo ";
-        click-left =
-          "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next";
-      };
-
-      "module/playpause" = {
-        type = "custom/ipc";
-        # Default
-        hook-0 = "echo ";
-        # Playing
-        hook-1 = "echo ";
-        # Paused
-        hook-2 = "echo ";
-        initial = "1";
-        click-left =
-          "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause";
+      "bar/bottom" = {
+        "inherit" = "bar/mainBar";
+        bottom = "true";
+        modules-left = "memory cpu";
+        modules-center = "window-title";
+        modules-right =
+          "vpn";
+        tray-position = "right";
+        tray-detached = false;
+        tray-padding = "2";
+        tray-background = "#000000";
       };
 
       "module/i3" = {
-        type = "internal/i3";
-        index-sort = "true";
-        wrapping-scroll = "false";
-        ws-icon-0 = "1;%{F#F65F12} %{F-}";
-        ws-icon-1 = "2;%{F#3C8642} %{F-}";
-        ws-icon-2 = "3; ";
-        ws-icon-3 = "4;%{F#1E88E5} %{F-}";
-        ws-icon-4 = "5; ";
-        ws-icon-5 = "6; ";
-        ws-icon-6 = "7; ";
-        ws-icon-7 = "8;%{F#D91D57} %{F-}";
-        ws-icon-8 = "9;%{F#205FB6} %{F-}";
-        ws-icon-9 = "10;%{F#1DD05D}♫ %{F-}";
-        ws-icon-default = "";
-        format = "<label-state>";
-        label-focused = "%icon%";
-        label-focused-padding = "2";
-        label-focused-underline = "#FFF";
-        label-unfocused = "%icon%";
-        label-unfocused-padding = "2";
-        label-visible = "%icon%";
-        label-visible-padding = "2";
-        label-urgent = "%icon%";
-        label-urgent-background = "#C37561";
-        label-urgent-padding = "2";
+         type = "internal/i3";
+         format = "<label-state> <label-mode>";
+         index-sort = true;
+         wrapping-scroll = false;
+      };
+
+      "module/window-title" = {
+        type = "internal/xwindow";
+        format = "<label>";
+        label = "%title%";
+        label-maxlen = "40";
+        label-empty = "Desktop";
+      };
+
+      "module/network-wireless" = {
+        type = "internal/network";
+        interface = "wlp2s0";
+        interval = "3.0";
+        format-connected-prefix = " ";
+        format-connected-background = "#000000";
+        format-connected-foreground = "#FFFFFF";
+        format-connected = "  <ramp-signal> <label-connected>  ";
+        format-connected-underline= "#FFFFFF";
+        label-connected = "";
+
+        format-disconnected = " no wifi :( ";
+        format-disconnected-background = "#000000";
+        label-disconnected-foreground = "#000000";
+
+        ramp-signal-0 = "    0%";
+        ramp-signal-1 = "    25%";
+        ramp-signal-2 = "    50%";
+        ramp-signal-3 = "    75%";
+        ramp-signal-4 = "    100%";
+        ramp-signal-foreground = "#FFFFFF";
+      };
+
+      "module/network-wired" = {
+        type = "internal/network";
+        interval = "5.0";
+        format-connected-underline = "#000000";
+        format-connected-prefix = "";
+        format-connected-prefix-foreground = "#FFFFFF";
+        label-connected = "%local_ip%";
+        format-disconnected = "no wired connection";
       };
 
       "module/cpu" = {
         type = "internal/cpu";
         interval = "1";
-        format = "<label> <ramp-load>";
-        label = "";
-        label-foreground = "#98B9B1";
-        ramp-load-0 = "▁";
-        ramp-load-1 = "▂";
-        ramp-load-2 = "▃";
-        ramp-load-3 = "▄";
-        ramp-load-4 = "▅";
-        ramp-load-5 = "▆";
-        ramp-load-6 = "▇";
-        ramp-load-7 = "█";
-
-        ramp-load-0-foreground = "#B6B99D";
-        ramp-load-1-foreground = "#B6B99D";
-        ramp-load-2-foreground = "#A0A57E";
-        ramp-load-3-foreground = "#DEBC9C";
-        ramp-load-4-foreground = "#DEBC9C";
-        ramp-load-5-foreground = "#D1A375";
-        ramp-load-6-foreground = "#D19485";
-        ramp-load-7-foreground = "#C36561";
-      };
-
-      "module/screenshot" = {
-        type = "custom/text";
-        content = "";
-        # TODO: Fix
-        click-left = "~/.config/rofi/scripts/menu_screenshot.sh";
-      };
-
-      "module/sep" = {
-        type = "custom/text";
-        content = " | ";
+        format = "<label>";
+        format-prefix = "";
+        format-prefix-font = "3";
+        label = " %percentage%%";
       };
 
       "module/memory" = {
         type = "internal/memory";
         interval = "1";
-
-        format = "<label> <ramp-used>";
-        label = "";
-        label-foreground = "#98B9B1";
-
-        ramp-used-0 = "▁";
-        ramp-used-1 = "▂";
-        ramp-used-2 = "▃";
-        ramp-used-3 = "▄";
-        ramp-used-4 = "▅";
-        ramp-used-5 = "▆";
-        ramp-used-6 = "▇";
-        ramp-used-7 = "█";
-
-        ramp-used-0-foreground = "#B6B99D";
-        ramp-used-1-foreground = "#B6B99D";
-        ramp-used-2-foreground = "#A0A57E";
-        ramp-used-3-foreground = "#DEBC9C";
-        ramp-used-4-foreground = "#DEBC9C";
-        ramp-used-5-foreground = "#D1A375";
-        ramp-used-6-foreground = "#D19485";
-        ramp-used-7-foreground = "#C36561";
+        format-prefix = "﬙";
+        format-prefix-font = "3";
+        label = " %gb_used%";
       };
-
-      "module/powermenu" = {
-        type = "custom/text";
-        content = "";
-        # TODO: Fix
-        click-left = "~/.config/rofi/scripts/menu_powermenu.sh";
+      "module/volume" = {
+        type = "internal/pulseaudio";
+       #sink = alsa_output.pci-0000_05_00.6.analog-stereo
+        master-soundcard = "hw:1";
+        speaker-soundcard = "hw:1";
+        headphone-soundcard = "hw:1";
+        master-mixer = "Master";
+        speaker-mixer = "Speaker";
+        headphone-mixer = "Headphone";
+        headphone-id = "9";
+        mapped = true;
+        format-muted-background = "#000000";
+        format-volume-background = "#000000";
+        format-volume = "   <ramp-volume>  <label-volume>  ";
+        format-volume-prefix = " ";
+        label-muted = " mute   ";
+        ramp-volume-0 = "";
+        ramp-volume-1 = "";
+        ramp-volume-2 = "";
       };
 
       "module/vpn" = {
@@ -199,7 +163,7 @@
         label = "%temperature-c%";
         label-warn = " %temperature-c%";
         label-warn-foreground = "#F00";
-        units = "true";
+        units = true;
 
         ramp-0 = "";
         ramp-1 = "";
@@ -212,6 +176,38 @@
         ramp-3-foreground = "#D19485";
         ramp-4-foreground = "#C36561";
       };
+
+      "module/battery" = {
+        type = "internal/battery";
+        battery = "BAT0";
+        adapter = "AC";
+        full-at = "99";
+        format-full-background = "#000000";
+        format-charging-background = "#000000";
+        format-charging = "<animation-charging> <label-charging>";
+        format-charging-underline = "#000000";
+        format-charging-suffix = "   ";
+        format-discharging-background = "#000000";
+        format-discharging = "<ramp-capacity> <label-discharging>  ";
+        format-discharging-underline = "#000000";
+        format-full = "";
+        format-full-prefix-foreground = "#FFFFFF";
+        ramp-capacity-0 = "";
+        ramp-capacity-1 = "";
+        ramp-capacity-2 = "";
+        ramp-capacity-3 = "";
+        ramp-capacity-4 = "";
+        ramp-capacity-foreground = "#FFFFFF";
+        ramp-capacity-font = 2;
+        animation-charging-0 = "";
+        animation-charging-1 = "";
+        animation-charging-2 = "";
+        animation-charging-3 = "";
+        animation-charging-4 = "";
+        animation-charging-foreground = "#FFFFFF";
+        animation-charging-framerate = 750;
+      };
+
 
       "global/wm" = {
         margin-top = "5";

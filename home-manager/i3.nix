@@ -2,6 +2,9 @@
 
 let
   mod = "Mod4";
+  workspaceOne = "1: Web";
+  workspaceTwo = "2: Code";
+  workspaceThree = "3: Edit";
 in {
   xsession.windowManager.i3 = {
     enable = true;
@@ -9,8 +12,8 @@ in {
     
     config = rec {
       modifier = mod;
-
       window.border = 0;
+      bars = [];
       gaps = {
         inner = 2;
         outer = 2;
@@ -61,6 +64,15 @@ in {
 
 	# Container Focus
         "${mod}+a" = "focus parent";
+
+        # Workspaces
+        "${mod}+1" = "workspace ${workspaceOne}";
+        "${mod}+2" = "workspace ${workspaceTwo}";
+        "${mod}+3" = "workspace ${workspaceThree}";
+
+        "${mod}+Shift+1" = "move container to workspace ${workspaceOne}";
+        "${mod}+Shift+2" = "move container to workspace ${workspaceTwo}";
+        "${mod}+Shift+3" = "move container to workspace ${workspaceThree}";
       };
 
       modes = lib.mkOptionDefault {
@@ -70,27 +82,23 @@ in {
           "${mod}+r" = "mode default";
         };
       };
+      defaultWorkspace = "workspace ${workspaceOne}";
 
       startup = [
-        {
-          command = "exec i3-msg workspace 1";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "systemctl --user restart polybar.service";
-          always = true;
-          notification = false;
-        }
         {
           command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/Wallpapers/morado.jpg";
           always = true;
           notification = false;
         }
+        {
+          command = "~/nix-config/home-manager/init_polybar.sh";
+          always = true;
+          notification = false;
+        }
       ];
       assigns = {
-        "1" = [{ class = "Chromium"; }];
-        "2" = [{ class = "jetbrains-studio"; }];
+        "${workspaceOne}" = [{ class = "Chromium"; }];
+        "${workspaceTwo}" = [{ class = "jetbrains-studio"; }];
       };
     };
   };
