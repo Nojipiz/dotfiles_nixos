@@ -3,7 +3,7 @@
 {
   imports = [
     ./i3.nix
-    ./bar/polybar.nix
+    ./polybar/polybar.nix
   ];
   home.username = "nojipiz";
   home.homeDirectory = "/home/nojipiz";
