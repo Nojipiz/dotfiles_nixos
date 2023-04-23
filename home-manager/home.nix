@@ -4,6 +4,7 @@
   imports = [
     ./i3.nix
     ./polybar.nix
+    ./lunarvim.nix
   ];
   home.username = "nojipiz";
   home.homeDirectory = "/home/nojipiz";

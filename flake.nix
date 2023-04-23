@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    lunarvim = {
+       url = "github:lunarvim/lunarvim/release-1.2/neovim-0.8";
+       flake = false;
+    };
     home-manager = {
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
