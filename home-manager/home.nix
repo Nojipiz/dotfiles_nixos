@@ -5,9 +5,12 @@
     ./i3.nix
     ./polybar/polybar.nix
   ];
-  home.username = "nojipiz";
-  home.homeDirectory = "/home/nojipiz";
-  home.stateVersion = "22.11";
+  home = {
+    username = "nojipiz";
+    homeDirectory = "/home/nojipiz";
+    stateVersion = "22.11";
+  };
+
   programs.home-manager.enable = true;
 
   home.packages = [

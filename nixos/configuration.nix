@@ -86,6 +86,11 @@ in
     alacritty
     starship
     unstable.android-studio
+    emacs28NativeComp
+    cmake
+    gnumake
+    unstable.metals
+    unstable.coursier
     xdg-utils
     xorg.xmodmap
     xorg.xbacklight
@@ -96,7 +101,7 @@ in
     killall
     lazygit
     lxqt.pcmanfm-qt
-    neovim 
+    unstable.neovim-unwrapped
     gcc
     chromium
     mako
@@ -109,8 +114,8 @@ in
     networkmanager-openvpn
     networkmanagerapplet
     openvpn
-    #php74
-    #composer
+    php74
+    composer
     nodejs
   ];
 
