@@ -89,6 +89,7 @@ in
     emacs28NativeComp
     cmake
     gnumake
+    libtool
     unstable.metals
     unstable.coursier
     xdg-utils
