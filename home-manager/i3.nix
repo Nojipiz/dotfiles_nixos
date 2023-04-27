@@ -57,12 +57,12 @@ in {
         "${mod}+d" = "split h";
         "${mod}+v" = "split v";
 
-	# Container Layout
+	      # Container Layout
         "${mod}+s" = "layout stacking";
         "${mod}+w" = "layout tabbed";
         "${mod}+e" = "layout toggle split";
 
-	# Container Focus
+	      # Container Focus
         "${mod}+a" = "focus parent";
 
         # Workspaces
@@ -73,6 +73,10 @@ in {
         "${mod}+Shift+1" = "move container to workspace ${workspaceOne}";
         "${mod}+Shift+2" = "move container to workspace ${workspaceTwo}";
         "${mod}+Shift+3" = "move container to workspace ${workspaceThree}";
+
+        # Audio and brigthness
+        "XF86MonBrightnessUp" = "exec xbacklight -inc 10";
+        "XF86MonBrightnessDown" = "exec xbacklight -dec 10";
       };
 
       modes = lib.mkOptionDefault {

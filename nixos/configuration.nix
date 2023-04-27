@@ -36,6 +36,11 @@ in
     BROWSER = "chromium";
     TERMINAL = "alacritty";
   };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 
   # Select internationalisation properties.
   i18n = {
@@ -67,6 +72,10 @@ in
       enable = true;
       package = pkgs.i3-gaps;
     };
+
+    libinput = {
+      enable = true;
+    };
   };
 
   # Enable sound.
@@ -90,6 +99,7 @@ in
     cmake
     gnumake
     libtool
+    mariadb
     unstable.metals
     unstable.coursier
     xdg-utils
@@ -125,6 +135,7 @@ in
     fira-code
     fira-code-symbols
     (nerdfonts.override { fonts = [ "RobotoMono" ]; })
+    emacs-all-the-icons-fonts
   ];
 
   security.sudo.wheelNeedsPassword = false;
