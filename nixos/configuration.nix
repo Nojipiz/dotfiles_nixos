@@ -44,8 +44,9 @@ in
 
   # Select internationalisation properties.
   i18n = {
-    defaultLocale = "es_CO.UTF-8";
+    defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
+      LC_ALL = "C.UTF-8";
       LC_MESSAGES = "en_US.UTF-8";
       LC_TIME = "es_CO.UTF-8";
     };
@@ -80,9 +81,19 @@ in
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  hardware = {
+    pulseaudio.enable = false;
+    bluetooth.enable = true;
+  };
 
   programs.zsh.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+
   users.defaultUserShell = pkgs.zsh;
 
   users.users.nojipiz = {
@@ -95,6 +106,7 @@ in
     alacritty
     starship
     unstable.android-studio
+    blueman
     emacs28NativeComp
     cmake
     gnumake
@@ -102,16 +114,18 @@ in
     mariadb
     unstable.metals
     unstable.coursier
+    unstable.sbt
+    illum
     xdg-utils
     xorg.xmodmap
-    xorg.xbacklight
+    acpilight
     rofi
     polybarFull
     ripgrep
     fd
     killall
     lazygit
-    lxqt.pcmanfm-qt
+    pcmanfm
     unstable.neovim-unwrapped
     gcc
     chromium
@@ -148,6 +162,7 @@ in
     alsa.enable = true;
     pulse.enable = true;
   };
+  services.blueman.enable = true;
 
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
