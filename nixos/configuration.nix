@@ -23,7 +23,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 	
   boot.kernelParams = ["i915.force_probe=46a6"];
-  # boot.kernelPackages = pkgs.linuxPackages_5_15;
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   networking.hostName = "OLap"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -38,8 +38,8 @@ in
   };
   nix.gc = {
     automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+    dates = "daily";
+    options = "--delete-older-than 7d";
   };
 
   # Select internationalisation properties.
@@ -132,7 +132,7 @@ in
     mako
     freshfetch
     git
-    jdk17_headless	
+    jdk17_headless
     p7zip
     wl-clipboard
     wget
