@@ -23,10 +23,10 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 	
   boot.kernelParams = ["i915.force_probe=46a6"];
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   networking.hostName = "OLap"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.wireless.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
 
@@ -98,12 +98,15 @@ in
 
   users.users.nojipiz = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input"]; 
+    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker"];
     initialPassword = "password";
   };
 
+  virtualisation.docker.enable = true;
+
   environment.systemPackages = with pkgs; [
     alacritty
+    docker
     starship
     unstable.android-studio
     blueman
@@ -136,8 +139,8 @@ in
     p7zip
     wl-clipboard
     wget
-    networkmanager-openvpn
-    networkmanagerapplet
+    #networkmanager-openvpn
+    #networkmanagerapplet
     openvpn
     php74
     composer
