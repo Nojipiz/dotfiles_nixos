@@ -25,6 +25,11 @@ in
   boot.kernelParams = ["i915.force_probe=46a6"];
   # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
+  # Wifi Driver Config
+  boot.initrd.kernelModules = ["8811au"];
+
+
+
   networking.hostName = "OLap"; # Define your hostname.
   networking.wireless.enable = true;  # Easiest to use and most distros use this by default.
 
@@ -35,6 +40,7 @@ in
     EDITOR = "nvim";
     BROWSER = "chromium";
     TERMINAL = "alacritty";
+    SBT_OPTS="-Xmx3G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
   };
   nix.gc = {
     automatic = true;
@@ -106,6 +112,7 @@ in
 
   environment.systemPackages = with pkgs; [
     alacritty
+    anydesk
     docker
     starship
     unstable.android-studio
