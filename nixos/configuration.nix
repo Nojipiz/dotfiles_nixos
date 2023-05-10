@@ -26,12 +26,13 @@ in
   # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Wifi Driver Config
-  boot.initrd.kernelModules = ["8811au"];
-
-
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    rtl8821au
+  ];
+  boot.initrd.kernelModules = ["8821au"];
 
   networking.hostName = "OLap"; # Define your hostname.
-  networking.wireless.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
 
@@ -146,8 +147,8 @@ in
     p7zip
     wl-clipboard
     wget
-    #networkmanager-openvpn
-    #networkmanagerapplet
+    networkmanager-openvpn
+    networkmanagerapplet
     openvpn
     php74
     composer

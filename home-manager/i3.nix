@@ -77,6 +77,10 @@ in {
         # Audio and brigthness
         "XF86MonBrightnessUp" = "exec xbacklight -inc 10";
         "XF86MonBrightnessDown" = "exec xbacklight -dec 10";
+
+	      # Screenshots
+	      "Print" = "exec ${pkgs.scrot} $HOME/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
+
       };
 
       modes = lib.mkOptionDefault {
