@@ -93,6 +93,7 @@ in
     bluetooth.enable = true;
   };
 
+  programs.java.enable = true;
   programs.zsh.enable = true;
 
   programs.steam = {
@@ -109,7 +110,7 @@ in
     initialPassword = "password";
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker.enable = false;
 
   environment.systemPackages = with pkgs; [
     alacritty

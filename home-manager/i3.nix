@@ -79,7 +79,7 @@ in {
         "XF86MonBrightnessDown" = "exec xbacklight -dec 10";
 
 	      # Screenshots
-	      "Print" = "exec ${pkgs.scrot} $HOME/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
+	      "Print" = "exec ${pkgs.scrot}/bin/scrot /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
 
       };
 
