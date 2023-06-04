@@ -57,12 +57,12 @@ in {
         "${mod}+d" = "split h";
         "${mod}+v" = "split v";
 
-	      # Container Layout
+        # Container Layout
         "${mod}+s" = "layout stacking";
         "${mod}+w" = "layout tabbed";
         "${mod}+e" = "layout toggle split";
 
-	      # Container Focus
+        # Container Focus
         "${mod}+a" = "focus parent";
 
         # Workspaces
@@ -78,9 +78,8 @@ in {
         "XF86MonBrightnessUp" = "exec xbacklight -inc 10";
         "XF86MonBrightnessDown" = "exec xbacklight -dec 10";
 
-	      # Screenshots
-	      "Print" = "exec ${pkgs.scrot}/bin/scrot /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
-
+        # Screenshots
+        "Print" = "exec ${pkgs.scrot}/bin/scrot /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
       };
 
       modes = lib.mkOptionDefault {
@@ -101,6 +100,11 @@ in {
         {
           command = "~/nix-config/home-manager/polybar/init_polybar.sh";
           always = true;
+          notification = false;
+        }
+        {
+          command = "${pkgs.networkmanagerapplet}/bin/nm-applet";
+          always = false;
           notification = false;
         }
       ];
