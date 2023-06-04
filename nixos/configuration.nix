@@ -23,7 +23,6 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 	
   boot.kernelParams = ["i915.force_probe=46a6"];
-  # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Wifi Driver Config
   boot.extraModulePackages = with config.boot.kernelPackages; [
@@ -148,9 +147,9 @@ in
     p7zip
     wl-clipboard
     wget
+    openvpn
     networkmanager-openvpn
     networkmanagerapplet
-    openvpn
     php74
     composer
     nodejs
