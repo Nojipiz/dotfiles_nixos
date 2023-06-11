@@ -3,7 +3,6 @@
 {
   imports = [
     ./i3.nix
-    ./lunarvim.nix
     ./polybar/polybar.nix
   ];
   home = {
