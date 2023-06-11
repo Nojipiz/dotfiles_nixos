@@ -147,6 +147,7 @@ in
     p7zip
     wl-clipboard
     wget
+    vlc
     openvpn
     networkmanager-openvpn
     networkmanagerapplet
