@@ -87,7 +87,7 @@ in
 {
   home.packages = [
     pkgs.nodePackages.neovim
-    pkgs.lua-language-server
+    pkgs.sumneko-lua-language-server
     lunarvimDrv
   ];
 
@@ -106,16 +106,13 @@ in
 
   home.sessionVariables = env;
 
-  # French dictionary
-  home.file.".config/lvim/spell/fr.utf-8.spl".source = vim-spell-fr-utf8-dictionary;
-
-  home.file.".config/lvim/config.lua" = {
-    source = ../../assets/config/lvim/config.lua;
-  };
+  #home.file.".config/lvim/config.lua" = {
+  #  source = ../../assets/config/lvim/config.lua;
+  #};
 
   # FT Plugin s for some filetype specific configuration
 
-  home.file.".config/lvim/after" = {
-    source = ../../assets/config/lvim/after;
-  };
+  #home.file.".config/lvim/after" = {
+  #  source = ../../assets/config/lvim/after;
+  #};
 }
