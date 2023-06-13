@@ -1,25 +1,6 @@
-{ config, pkgs, ... }:
-# LunarVim configuration
-#
-# WARNING: Post install step
-# For now the sumneko_lua language server does not work if installed by Packer.
-# It is installed by nix directly but it is not possible to change the path of
-# the command only for the default config. As a result to make the lua lsp
-# server work you need to create a symlink instead of the binary built by
-# Mason.
-#
-# Open the logs of the lsp with :LspLog
-# Locate the `lua-language-server` binary that is not working in the logs
-# Delete it
-# Create a symlink instead: `ln -s $(which lua-language-server) <path>`
+{ config, lib, pkgs, ... }:
+
 let
-  vim-spell-fr-utf8-dictionary = builtins.fetchurl {
-    url = "http://ftp.vim.org/vim/runtime/spell/fr.utf-8.spl";
-    sha256 = "abfb9702b98d887c175ace58f1ab39733dc08d03b674d914f56344ef86e63b61";
-  };
-
-  lib = pkgs.lib;
-
   env = {
     LUNARVIM_RUNTIME_DIR = "${config.home.homeDirectory}/.local/share/lvim";
     LUNARVIM_CONFIG_DIR = "${config.home.homeDirectory}/.config/lvim";
@@ -27,7 +8,6 @@ let
     LUNARVIM_BASE_DIR = "${lunarvimDrv}/lvim";
   };
 
-  # TODO: add rust with dependencies ?
   extraPackages = with pkgs; [
     git
     rnix-lsp
@@ -46,7 +26,7 @@ let
         owner = "LunarVim";
         repo = "LunarVim";
         rev = "release-1.3/neovim-0.9";
-        sha256 = "sha256-EJranewqcymI7sUdYIQIf7oON62JFWObPHhuqwQRZqc=";
+        sha256 = "sha256-pJK9QSmOacnuEzNXjUXQJKqdfDoAKJxoK8oUW83PUkU=";
       };
 
       nativeBuildInputs = [ pkgs.makeWrapper pkgs.coreutils pkgs.gnused ];
@@ -82,7 +62,6 @@ let
         runHook postInstall
       '';
     };
-
 in
 {
   home.packages = [
@@ -91,28 +70,21 @@ in
     lunarvimDrv
   ];
 
+  home.sessionVariables = env;
+
   programs.neovim = {
     enable = true;
     withNodeJs = true;
     withPython3 = true;
-    extraPython3Packages = ps: [
-      ps.pynvim
-    ];
-    extraLuaPackages = ps: [
-      ps.luarocks
-    ];
+
     inherit extraPackages;
   };
 
-  home.sessionVariables = env;
+  home.file.".config/lvim/config.lua" = {
+    source = ../../assets/config/lvim/config.lua;
+  };
 
-  #home.file.".config/lvim/config.lua" = {
-  #  source = ../../assets/config/lvim/config.lua;
-  #};
-
-  # FT Plugin s for some filetype specific configuration
-
-  #home.file.".config/lvim/after" = {
-  #  source = ../../assets/config/lvim/after;
-  #};
+  home.file.".config/lvim/lua" = {
+    source = ../../assets/config/lvim/lua;
+  };
 }
