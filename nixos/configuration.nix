@@ -112,10 +112,12 @@ in
   virtualisation.docker.enable = false;
 
   environment.systemPackages = with pkgs; [
+    prismlauncher
     alacritty
     anydesk
     docker
     starship
+    unstable.android-tools
     unstable.android-studio
     blueman
     emacs28NativeComp
