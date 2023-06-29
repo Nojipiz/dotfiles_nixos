@@ -3,7 +3,7 @@
 --
 
 -- Color scheme and details
-lvim.colorscheme = "oxocarbon"
+lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "night"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 

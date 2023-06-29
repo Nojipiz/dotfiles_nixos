@@ -93,7 +93,7 @@ in {
 
       startup = [
         {
-          command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/Wallpapers/morado.jpg";
+          command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/wallpaper/base_wallpaper.png";
           always = true;
           notification = false;
         }

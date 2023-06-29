@@ -37,15 +37,14 @@ lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Project
 lvim.plugins = {
   { -- Plugins for databases
     "kristijanhusak/vim-dadbod-ui",
-    requires = {
-      "tpope/vim-dadbod",
-      "kristijanhusak/vim-dadbod-completion"
+    dependencies = {
+      "tpope/vim-dadbod"
+      -- "kristijanhusak/vim-dadbod-completion" Disabled because crash!!
     },
     config = function()
       require("user.database").setup()
     end
   },
-  { "nyoom-engineering/oxocarbon.nvim" },
   -- { -- Scala Support
   --   "scalameta/nvim-metals",
   --   config = function()
@@ -54,7 +53,7 @@ lvim.plugins = {
   -- },
   {
     "rest-nvim/rest.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("user.rest").setup()
     end,
