@@ -134,6 +134,7 @@ in
     unstable.sbt
     illum
     xdg-utils
+    feh
     xorg.xmodmap
     acpilight
     rofi
