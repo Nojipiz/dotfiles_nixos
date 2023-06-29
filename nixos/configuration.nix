@@ -40,7 +40,8 @@ in
     EDITOR = "nvim";
     BROWSER = "chromium";
     TERMINAL = "alacritty";
-    SBT_OPTS="-Xmx3G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
+    SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
+    JAVA_OPTS="-Xmx5G";
   };
   nix.gc = {
     automatic = true;
@@ -92,7 +93,10 @@ in
     bluetooth.enable = true;
   };
 
-  programs.java.enable = true;
+  programs.java = {
+    enable = true;
+  };
+
   programs.zsh.enable = true;
 
   programs.steam = {
@@ -119,8 +123,8 @@ in
     starship
     unstable.android-tools
     unstable.android-studio
+    unstable.postman
     blueman
-    emacs28NativeComp
     cmake
     gnumake
     libtool
@@ -147,6 +151,7 @@ in
     git
     jdk17_headless
     p7zip
+    unzip
     wl-clipboard
     wget
     vlc
@@ -163,7 +168,6 @@ in
     fira-code
     fira-code-symbols
     (nerdfonts.override { fonts = [ "RobotoMono" ]; })
-    emacs-all-the-icons-fonts
   ];
 
   security.sudo.wheelNeedsPassword = false;
