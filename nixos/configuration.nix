@@ -33,8 +33,20 @@ in
   networking.hostName = "OLap"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # Set your time zone.
 
+  # TEST MACOS -- Remove if doesn't work
+  boot.extraModprobeConfig = ''
+    options kvm_intel nested=1
+    options kvm_intel emulate_invalid_guest_state=0
+    options kvm ignore_msrs=1
+  '';
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  # END TEST MACOS -- Remove if doesn't work
+
+
+
+  # Set your time zone.
   time.timeZone = "America/Bogota";
   environment.sessionVariables = rec {
     EDITOR = "nvim";
@@ -109,11 +121,11 @@ in
 
   users.users.nojipiz = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker"];
+    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker" "libvirtd"];
     initialPassword = "password";
   };
 
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
 
   environment.systemPackages = with pkgs; [
     prismlauncher
@@ -162,6 +174,15 @@ in
     php74
     composer
     nodejs
+
+    # TEST MACOS
+    qemu
+    libvirt
+    dnsmasq
+    virt-manager
+    bridge-utils
+    flex
+    bison
   ];
 
   fonts.fonts = with pkgs; [
