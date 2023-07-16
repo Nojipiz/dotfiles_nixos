@@ -108,11 +108,11 @@ in
 
   users.users.nojipiz = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker" "libvirtd"];
+    extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker"];
     initialPassword = "password";
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker.enable = false;
 
   environment.systemPackages = with pkgs; [
     prismlauncher
@@ -152,12 +152,13 @@ in
     jdk17_headless
     p7zip
     unzip
-    wl-clipboard
+    xclip
     wget
     vlc
     openvpn
     networkmanager-openvpn
     networkmanagerapplet
+    obs-studio
     php74
     composer
     nodejs
