@@ -4,7 +4,7 @@
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
-      i3GapsSupport = true;
+      i3Support = true;
       pulseSupport = true;
     };
     config = {

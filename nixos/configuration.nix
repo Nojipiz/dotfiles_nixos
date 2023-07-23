@@ -25,10 +25,8 @@ in
   boot.kernelParams = ["i915.force_probe=46a6"];
 
   # Wifi Driver Config
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    rtl8821au
-  ];
-  boot.initrd.kernelModules = ["8821au"];
+  # boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
+  # boot.initrd.kernelModules = ["8821au"];
 
   networking.hostName = "OLap"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -42,6 +40,7 @@ in
     SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
     JAVA_OPTS="-Xmx5G";
   };
+
   nix.gc = {
     automatic = true;
     dates = "daily";
@@ -65,6 +64,11 @@ in
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" ];
 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 19000 ];
+  };
+
   services.xserver = {
     enable = true;
     layout = "latam";
@@ -77,7 +81,6 @@ in
     };
     windowManager.i3 = {
       enable = true;
-      package = pkgs.i3-gaps;
     };
 
     libinput = {
@@ -101,7 +104,7 @@ in
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
   users.defaultUserShell = pkgs.zsh;
@@ -115,66 +118,66 @@ in
   virtualisation.docker.enable = false;
 
   environment.systemPackages = with pkgs; [
-    prismlauncher
-    alacritty
-    anydesk
-    docker
-    starship
-    unstable.android-tools
-    unstable.android-studio
-    unstable.postman
-    blueman
-    cmake
-    gnumake
-    libtool
-    mariadb
-    unstable.metals
-    unstable.coursier
-    unstable.sbt
-    illum
-    xdg-utils
-    feh
-    xorg.xmodmap
-    acpilight
-    rofi
-    polybarFull
-    ripgrep
-    fd
-    killall
-    lazygit
-    pcmanfm
-    unstable.neovim-unwrapped
-    gcc
-    chromium
-    mako
-    freshfetch
-    git
-    jdk17_headless
-    p7zip
-    unzip
-    xclip
-    wget
-    vlc
-    openvpn
-    networkmanager-openvpn
-    networkmanagerapplet
-    obs-studio
-    php74
-    composer
-    nodejs
-  ];
+      prismlauncher
+      alacritty
+      anydesk
+      docker
+      starship
+      unstable.android-tools
+      unstable.android-studio
+      unstable.postman
+      blueman
+      cmake
+      gnumake
+      libtool
+      mariadb
+      unstable.metals
+      unstable.coursier
+      unstable.sbt
+      illum
+      xdg-utils
+      feh
+      xorg.xmodmap
+      acpilight
+      rofi
+      polybarFull
+      ripgrep
+      fd
+      killall
+      lazygit
+      pcmanfm
+      unstable.neovim-unwrapped
+      gcc
+      chromium
+      mako
+      freshfetch
+      git
+      jdk17_headless
+      p7zip
+      unzip
+      xclip
+      wget
+      vlc
+      openvpn
+      networkmanager-openvpn
+      networkmanagerapplet
+      obs-studio
+      php74
+      composer
+      nodejs
+      ];
 
   fonts.fonts = with pkgs; [
     roboto
-    fira-code
-    fira-code-symbols
-    (nerdfonts.override { fonts = [ "RobotoMono" ]; })
+      fira-code
+      fira-code-symbols
+      (nerdfonts.override { fonts = [ "RobotoMono" ]; })
   ];
 
   security.sudo.wheelNeedsPassword = false;
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+# Enable the OpenSSH daemon.
+# services.openssh.enable = true;
 
   services.pipewire = {
     enable = true;
@@ -183,11 +186,11 @@ in
   };
   services.blueman.enable = true;
 
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+# settings for stateful data, like file locations and database versions
+# on your system were taken. It‘s perfectly fine and recommended to leave
+# this value at the release version of the first install of this system.
+# Before changing this value read the documentation for this option
+# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 }
 

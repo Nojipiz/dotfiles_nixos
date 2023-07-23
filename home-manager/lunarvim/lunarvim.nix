@@ -26,7 +26,7 @@ let
         owner = "LunarVim";
         repo = "LunarVim";
         rev = "release-1.3/neovim-0.9";
-        sha256 = "sha256-pJK9QSmOacnuEzNXjUXQJKqdfDoAKJxoK8oUW83PUkU=";
+        sha256 = "sha256-Zh5RnQmQ7k13bpTjcfD7kpnL9TbEfYeWZsY0LQD/UCs=";
       };
 
       nativeBuildInputs = [ pkgs.makeWrapper pkgs.coreutils pkgs.gnused ];
