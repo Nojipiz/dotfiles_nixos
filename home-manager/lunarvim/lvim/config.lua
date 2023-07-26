@@ -1,7 +1,7 @@
 -- general
 vim.opt.relativenumber = true
 lvim.log.level = "warn"
-lvim.format_on_save = false
+lvim.format_on_save = true
 lvim.leader = "space"
 lvim.keys.insert_mode["ii"] = "<Esc>"
 lvim.keys.normal_mode["<S-l>"] = "<cmd> BufferLineCycleNext<CR>"
@@ -45,12 +45,12 @@ lvim.plugins = {
       require("user.database").setup()
     end
   },
-  -- { -- Scala Support
-  --   "scalameta/nvim-metals",
-  --   config = function()
-  --     require("user.metals").config()
-  --   end,
-  -- },
+  { -- Scala Support
+    "scalameta/nvim-metals",
+    config = function()
+      require("user.metals").setup()
+    end,
+  },
   {
     "rest-nvim/rest.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

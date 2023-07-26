@@ -10,6 +10,8 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "scala",
+  "php",
+  "kotlin",
   "javascript",
   "json",
   "lua",
@@ -25,8 +27,13 @@ lvim.builtin.treesitter.ensure_installed = {
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "prettierd", filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript", "php" } },
-  { command = "scalafmt", args = { "--stdin" }, filetypes = { "scala", "sbt" } }
+  { command = "prettierd", filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } },
+  {
+    command = "scalafmt",
+    args = { "--stdin" },
+    filetypes = {
+      "scala", "sbt" }
+  }
 }
 
 -- Databases
@@ -44,5 +51,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- Scala
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.scala", "*.sbt" },
-  command = "lua require('user.metals').config()"
+  command = "lua require('user.metals').setup()"
 })

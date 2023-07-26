@@ -1,6 +1,6 @@
 local M = {}
 
-M.config = function()
+M.setup = function()
   local lvim_lsp = require("lvim.lsp")
   local metals_config = require("metals").bare_config()
   metals_config.on_init = lvim_lsp.common_on_init
