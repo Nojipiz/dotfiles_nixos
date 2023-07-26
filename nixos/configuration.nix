@@ -6,7 +6,7 @@ let
       sha256 = "1lhq9aalfdx40c4ymx1hihlld83g56732s9l68z6qqjl1jgvqwzp";
     }) {system = "x86_64-linux";};
   php74 = pkgsOld.php74;
-  composer = pkgsOld.php74Packages.composer;
+  php74Packages = pkgsOld.php74Packages;
   keyboardRemap = "${pkgs.writeText  "xkb-layout" ''
     remove shift = Shift_R
     keysym Shift_R = less greater
@@ -23,10 +23,11 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 	
   boot.kernelParams = ["i915.force_probe=46a6"];
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_15.override { argsOverride = { version = "5.15.121"; }; });
 
   # Wifi Driver Config
-  # boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
-  # boot.initrd.kernelModules = ["8821au"];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
+  boot.initrd.kernelModules = ["8821au"];
 
   networking.hostName = "OLap"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -115,7 +116,7 @@ in
     initialPassword = "password";
   };
 
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
 
   environment.systemPackages = with pkgs; [
       prismlauncher
@@ -123,6 +124,7 @@ in
       anydesk
       docker
       starship
+      cargo
       unstable.android-tools
       unstable.android-studio
       unstable.postman
@@ -134,6 +136,7 @@ in
       unstable.metals
       unstable.coursier
       unstable.sbt
+      unstable.scalafmt
       illum
       xdg-utils
       feh
@@ -145,6 +148,7 @@ in
       fd
       killall
       lazygit
+      lazydocker
       pcmanfm
       unstable.neovim-unwrapped
       gcc
@@ -163,7 +167,8 @@ in
       networkmanagerapplet
       obs-studio
       php74
-      composer
+      php74Packages.composer
+      php74Packages.psalm
       nodejs
       ];
 
