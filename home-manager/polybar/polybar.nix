@@ -20,7 +20,7 @@
         foreground = "#FFFFFF";
         module-margin-left = "0";
         module-margin-right = "0";
-
+        underline-size = 2;
         font-0 = "Roboto:size=14;1";
         font-1 = "RobotoMono Nerd Font Mono:pixelsize=20;3";
         font-2 = "RobotoMono Nerd Font Mono:pixelsize=20;3";
@@ -29,8 +29,7 @@
         "inherit" = "bar/mainBar";
         modules-left = "i3";
         modules-center = "date";
-        modules-right =
-          "volume network-wired network-wireless battery";
+        modules-right = "volume network-wired vpn network-wireless battery";
         tray-position = "right";
         tray-detached = false;
         tray-padding = "2";
@@ -42,8 +41,7 @@
         bottom = "true";
         modules-left = "memory cpu";
         modules-center = "window-title";
-        modules-right =
-          "vpn";
+        modules-right = "";
         tray-position = "right";
         tray-detached = false;
         tray-padding = "2";
@@ -53,6 +51,15 @@
       "module/i3" = {
          type = "internal/i3";
          format = "<label-state> <label-mode>";
+
+         label-focused = "%name%";
+         label-focused-underline = "#FFFFFF";
+         label-focused-border = "#FFFFFF";
+         label-focused-padding = "2";
+
+         label-unfocused = "%name%";
+         label-unfocused-padding = "2";
+
          index-sort = true;
          wrapping-scroll = false;
       };
@@ -67,16 +74,15 @@
 
       "module/network-wireless" = {
         type = "internal/network";
-        interface = "wlp2s0";
+        interface = "wlp0s20f0u4";
         interval = "3.0";
         format-connected-prefix = " ";
         format-connected-background = "#000000";
         format-connected-foreground = "#FFFFFF";
         format-connected = "  <ramp-signal> <label-connected>  ";
-        format-connected-underline= "#FFFFFF";
         label-connected = "";
 
-        format-disconnected = " no wifi :( ";
+        format-disconnected = " no wifi 󰱶 ";
         format-disconnected-background = "#000000";
         label-disconnected-foreground = "#000000";
 
@@ -102,7 +108,7 @@
         type = "internal/cpu";
         interval = "1";
         format = "<label>";
-        format-prefix = "";
+        format-prefix = "";
         format-prefix-font = "3";
         label = " %percentage%%";
       };
@@ -110,13 +116,12 @@
       "module/memory" = {
         type = "internal/memory";
         interval = "1";
-        format-prefix = "﬙";
+        format-prefix = "";
         format-prefix-font = "3";
         label = " %gb_used%";
       };
       "module/volume" = {
         type = "internal/pulseaudio";
-       #sink = alsa_output.pci-0000_05_00.6.analog-stereo
         master-soundcard = "hw:1";
         speaker-soundcard = "hw:1";
         headphone-soundcard = "hw:1";
@@ -137,9 +142,9 @@
 
       "module/vpn" = {
         type = "custom/script";
-        exec = "echo ";
-        exec-if = "systemctl is-active --quiet wireguard-wg0";
-        interval = 5;
+        exec = "echo 󱇱";
+        exec-if = "pgrep -x openvpn";
+        interval = 10;
       };
 
       "module/date" = {
@@ -149,7 +154,7 @@
         time = "at %I:%M %p";
         label = "%date% %time%";
         format-prefix = " ";
-        format-prefix-foreground = "#AB71FD";
+        format-prefix-foreground = "#FFFFFF";
       };
 
       "module/temperature" = {
@@ -190,7 +195,7 @@
         format-discharging-background = "#000000";
         format-discharging = "<ramp-capacity> <label-discharging>  ";
         format-discharging-underline = "#000000";
-        format-full = "";
+        format-full = "󰂄";
         format-full-prefix-foreground = "#FFFFFF";
         ramp-capacity-0 = "";
         ramp-capacity-1 = "";
@@ -199,11 +204,11 @@
         ramp-capacity-4 = "";
         ramp-capacity-foreground = "#FFFFFF";
         ramp-capacity-font = 2;
-        animation-charging-0 = "";
-        animation-charging-1 = "";
-        animation-charging-2 = "";
-        animation-charging-3 = "";
-        animation-charging-4 = "";
+        animation-charging-0 = " ";
+        animation-charging-1 = " ";
+        animation-charging-2 = " ";
+        animation-charging-3 = " ";
+        animation-charging-4 = " ";
         animation-charging-foreground = "#FFFFFF";
         animation-charging-framerate = 750;
       };
