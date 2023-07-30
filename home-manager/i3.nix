@@ -10,7 +10,7 @@ in {
     enable = true;
     package = pkgs.i3;
     
-    config = rec {
+    config = {
       modifier = mod;
       window.border = 0;
       bars = [];
