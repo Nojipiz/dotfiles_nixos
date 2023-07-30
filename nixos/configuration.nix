@@ -34,7 +34,7 @@ in
 
   # Set your time zone.
   time.timeZone = "America/Bogota";
-  environment.sessionVariables = rec {
+  environment.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "chromium";
     TERMINAL = "alacritty";
@@ -133,10 +133,14 @@ in
       gnumake
       libtool
       mariadb
-      unstable.metals
-      unstable.coursier
-      unstable.sbt
+
+      # Scala Utilities
       unstable.scalafmt
+      unstable.coursier
+      unstable.metals
+      unstable.sbt
+      # Scala Utilities
+
       illum
       xdg-utils
       feh
@@ -160,6 +164,7 @@ in
       p7zip
       unzip
       xclip
+      zellij
       wget
       vlc
       openvpn
