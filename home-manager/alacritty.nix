@@ -1,29 +1,29 @@
 { lib, pkgs, ... }:
 
 {
-  programs.alacritty.settings = {
-    colors.normal.black = "#000000";
-    colors.normal.red = "#CD0000";
-    colors.normal.green = "#00CD00";
-    colors.normal.yellow = "#CDCD00";
-    colors.normal.blue = "#0000EE";
-    colors.normal.magenta = "#CD00CD";
-    colors.normal.cyan = "#00CDCD";
-    colors.normal.white = "#E5E5E5";
-    colors.bright.black = "#7F7F7F";
-    colors.bright.red = "#FF0000";
-    colors.bright.green = "#00FF00";
-    colors.bright.yellow = "#FFFF00";
-    colors.bright.blue = "#5C5CFF";
-    colors.bright.magenta = "#FF00FF";
-    colors.bright.cyan = "#00FFFF";
-    colors.bright.white = "#FFFFFF";
-    colors.primary.background = "#000000";
-    colors.primary.foreground = "#FFFFFF";
+  programs.alacritty.enable = true;
+  programs.alacritty.package = pkgs.alacritty;
+    programs.alacritty.settings = {
+    colors.normal.black = "#15161E";
+    colors.normal.red = "#f7768e";
+    colors.normal.green = "#9ece6a";
+    colors.normal.yellow = "#e0af68";
+    colors.normal.blue = "#7aa2f7";
+    colors.normal.magenta = "#bb9af7";
+    colors.normal.cyan = "#7dcfff";
+    colors.normal.white = "#a9b1d6";
+    colors.bright.black = "#414868";
+    colors.bright.red = "#f7768e";
+    colors.bright.green = "#9ece6a";
+    colors.bright.yellow = "#e0af68";
+    colors.bright.blue = "#7aa2f7";
+    colors.bright.magenta = "#bb9af7";
+    colors.bright.cyan = "#7dcfff";
+    colors.bright.white = "#c0caf5";
+    colors.primary.background = "#1a1b26";
+    colors.primary.foreground = "#c0caf5";
     font.normal.family = "Firacode";
     font.size = 9;
     live_config_reload = true;
-    scrolling.history = 100000;
-    working_directory = "/data";
   };
 }
