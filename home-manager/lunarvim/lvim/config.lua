@@ -1,7 +1,7 @@
 -- general
 vim.opt.relativenumber = true
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
 lvim.leader = "space"
 lvim.keys.insert_mode["ii"] = "<Esc>"
 lvim.keys.normal_mode["<S-l>"] = "<cmd> BufferLineCycleNext<CR>"
@@ -35,7 +35,8 @@ lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Project
 
 -- Additional Plugins
 lvim.plugins = {
-  { -- Plugins for databases
+  {
+    -- Plugins for databases
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
       "tpope/vim-dadbod"
@@ -45,7 +46,8 @@ lvim.plugins = {
       require("user.database").setup()
     end
   },
-  { -- Scala Support
+  {
+    -- Scala Support
     "scalameta/nvim-metals",
     config = function()
       require("user.metals").setup()
@@ -58,7 +60,8 @@ lvim.plugins = {
       require("user.rest").setup()
     end,
   },
-  { -- Orgmode Support
+  {
+    -- Orgmode Support
     "nvim-orgmode/orgmode",
     config = function()
       require("user.orgmode").setup()
