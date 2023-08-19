@@ -3,6 +3,7 @@
 {
   imports = [
     ./i3.nix
+    ./alacritty.nix
     ./zellij/zellij.nix
     ./lunarvim/lunarvim.nix
     ./polybar/polybar.nix

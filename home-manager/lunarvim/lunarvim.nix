@@ -76,6 +76,9 @@ in
     enable = true;
     withNodeJs = true;
     withPython3 = true;
+    plugins = [
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+    ];
 
     inherit extraPackages;
   };

@@ -22,8 +22,8 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 	
+  # Force Intel to work
   boot.kernelParams = ["i915.force_probe=46a6"];
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_5_15.override { argsOverride = { version = "5.15.121"; }; });
 
   # Wifi Driver Config
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
@@ -154,7 +154,7 @@ in
       lazygit
       lazydocker
       pcmanfm
-      unstable.neovim-unwrapped
+      neovim-unwrapped
       gcc
       chromium
       mako
@@ -175,7 +175,8 @@ in
       php74Packages.composer
       php74Packages.psalm
       nodejs
-      ];
+      libstdcxx5
+  ];
 
   fonts.fonts = with pkgs; [
     roboto
