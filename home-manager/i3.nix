@@ -107,6 +107,11 @@ in {
           always = false;
           notification = false;
         }
+        {
+          command = "${pkgs.redshift}/bin/redshift-gtk -l 5.5403:-73.3614";
+          always = false;
+          notification = false;
+        }
       ];
       assigns = {
         "${workspaceOne}" = [{ class = "Chromium"; }];

@@ -23,7 +23,7 @@
     colors.primary.background = "#1a1b26";
     colors.primary.foreground = "#c0caf5";
     font.normal.family = "Firacode";
-    font.size = 9;
+    font.size = 8;
     live_config_reload = true;
   };
 }

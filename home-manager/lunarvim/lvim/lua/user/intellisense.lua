@@ -36,12 +36,6 @@ formatters.setup {
   }
 }
 
--- Databases
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.sql", "*.mysql", "*.pssql" },
-  command = "lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })",
-})
-
 -- Tailwind
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tailwindcss" })
 -- require("lvim.lsp.manager").setup("tailwindcss", {

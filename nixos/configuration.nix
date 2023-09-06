@@ -40,7 +40,12 @@ in
     TERMINAL = "alacritty";
     SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
     JAVA_OPTS="-Xmx5G";
+    COMPOSER_MEMORY_LIMIT="-1";
   };
+
+  environment.interactiveShellInit = ''
+    alias graalvmjava=${pkgs.graalvm17-ce}/bin/java
+  '';
 
   nix.gc = {
     automatic = true;
@@ -123,10 +128,17 @@ in
       alacritty
       anydesk
       docker
+      docker-compose
+      lazydocker
       starship
       cargo
+
+      # Android 
       unstable.android-tools
       unstable.android-studio
+      gradle
+      # Android 
+
       unstable.postman
       blueman
       cmake
@@ -135,14 +147,16 @@ in
       mariadb
 
       # Scala Utilities
-      unstable.scalafmt
+      scalafmt
+      unstable.sbt
       unstable.coursier
       unstable.metals
-      unstable.sbt
+      postgresql
+      confluent-platform
       # Scala Utilities
 
-      illum
       xdg-utils
+      redshift
       feh
       xorg.xmodmap
       acpilight
@@ -152,7 +166,6 @@ in
       fd
       killall
       lazygit
-      lazydocker
       pcmanfm
       neovim-unwrapped
       gcc
@@ -161,6 +174,7 @@ in
       freshfetch
       git
       jdk17_headless
+      graalvm17-ce
       p7zip
       unzip
       xclip
@@ -171,11 +185,11 @@ in
       networkmanager-openvpn
       networkmanagerapplet
       obs-studio
-      php74
-      php74Packages.composer
-      php74Packages.psalm
+      # php74
+      php82
+      # php74Packages.composer
+      php82Packages.composer
       nodejs
-      libstdcxx5
   ];
 
   fonts.fonts = with pkgs; [
