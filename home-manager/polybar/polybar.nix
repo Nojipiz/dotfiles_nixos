@@ -74,7 +74,7 @@
 
       "module/network-wireless" = {
         type = "internal/network";
-        interface = "wlp0s20f0u4";
+        interface = "wlp1s0"; # TODO: Create a Global variable for this
         interval = "3.0";
         format-connected-prefix = " ";
         format-connected-background = "#000000";
