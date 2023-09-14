@@ -23,7 +23,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 	
   # Force Intel to work
-  boot.kernelParams = ["i915.force_probe=46a6"];
+  # boot.kernelParams = ["i915.force_probe=46a6"];
 
   # Wifi Driver Config
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
@@ -105,7 +105,13 @@ in
     enable = true;
   };
 
-  programs.zsh.enable = true;
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      starship init fish | source
+      set fish_greeting
+    '';
+  };
 
   programs.steam = {
     enable = true;
@@ -113,7 +119,7 @@ in
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
 
   users.users.nojipiz = {
     isNormalUser = true;
@@ -185,10 +191,6 @@ in
       networkmanager-openvpn
       networkmanagerapplet
       obs-studio
-      # php74
-      php82
-      # php74Packages.composer
-      php82Packages.composer
       nodejs
   ];
 

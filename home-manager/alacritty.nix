@@ -3,7 +3,8 @@
 {
   programs.alacritty.enable = true;
   programs.alacritty.package = pkgs.alacritty;
-    programs.alacritty.settings = {
+  programs.alacritty.settings = {
+    shell.program = "${pkgs.fish}/bin/fish";
     colors.normal.black = "#15161E";
     colors.normal.red = "#f7768e";
     colors.normal.green = "#9ece6a";
