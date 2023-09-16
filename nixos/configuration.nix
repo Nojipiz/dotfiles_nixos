@@ -85,9 +85,6 @@ in
       defaultSession = "none+sway";
       sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}" ;
     };
-    windowManager.sway = {
-      enable = true;
-    };
 
     libinput = {
       enable = true;
