@@ -82,10 +82,10 @@ in
       xterm.enable = false;
     };
     displayManager = {
-      defaultSession = "none+i3";
+      defaultSession = "none+sway";
       sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}" ;
     };
-    windowManager.i3 = {
+    windowManager.sway = {
       enable = true;
     };
 
@@ -93,6 +93,8 @@ in
       enable = true;
     };
   };
+
+  security.polkit.enable = true;
 
   # Enable sound.
   sound.enable = true;

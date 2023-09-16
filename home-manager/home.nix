@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./i3.nix
+    ./sway.nix
     ./alacritty.nix
     ./zellij/zellij.nix
     ./lunarvim/lunarvim.nix
