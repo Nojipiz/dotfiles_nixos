@@ -2,6 +2,9 @@
 
 let
   mod = "Mod4";
+  workspaceOne = "1: Web";
+  workspaceTwo = "2: Code";
+  workspaceThree = "3: Edit";
 in {
   wayland.windowManager.sway = {
     enable = true;
@@ -9,6 +12,12 @@ in {
       modifier = mod;
 
       terminal = "alacritty"; 
+
+      input = {
+        "type:keyboard" = {
+          xkb_layout = "latam";
+        };
+      };
 
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
@@ -78,22 +87,14 @@ in {
         {
           command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/wallpaper/base_wallpaper.png";
           always = true;
-          notification = false;
-        }
-        {
-          command = "~/nix-config/home-manager/polybar/init_polybar.sh";
-          always = true;
-          notification = false;
         }
         {
           command = "${pkgs.networkmanagerapplet}/bin/nm-applet";
           always = false;
-          notification = false;
         }
         {
           command = "${pkgs.redshift}/bin/redshift-gtk -l 5.5403:-73.3614";
           always = false;
-          notification = false;
         }
       ];
     };

@@ -25,7 +25,25 @@
   {
     nixosConfigurations = {
 
-      OLap = nixpkgs.lib.nixosSystem {
+      LaptopSway = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+
+          ./nixos/configuration.nix
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useUserPackages = true;
+              useGlobalPkgs = true;
+              users.nojipiz = ./home-manager/home.nix;
+            };
+          }
+        ];
+      };
+
+      LaptopXorg = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })

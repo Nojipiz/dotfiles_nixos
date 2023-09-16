@@ -22,9 +22,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 	
-  # Force Intel to work
-  # boot.kernelParams = ["i915.force_probe=46a6"];
-
   # Wifi Driver Config
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
   boot.initrd.kernelModules = ["8821au"];
@@ -41,6 +38,7 @@ in
     SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
     JAVA_OPTS="-Xmx5G";
     COMPOSER_MEMORY_LIMIT="-1";
+    NIXOS_OZONE_WL="1";
   };
 
   environment.interactiveShellInit = ''
@@ -75,29 +73,40 @@ in
     allowedTCPPorts = [ 80 443 19000 ];
   };
 
-  services.xserver = {
-    enable = true;
-    layout = "latam";
-    desktopManager = {
-      xterm.enable = false;
-    };
-    displayManager = {
-      defaultSession = "none+sway";
-      sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}" ;
-    };
+  # services.xserver = {
+   # enable = true;
+   # layout = "latam";
+    #desktopManager = {
+      #xterm.enable = false;
+   # };
+    # displayManager = {
+    #   defaultSession = "none+sway";
+    #   sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}" ;
+    # };
 
-    libinput = {
-      enable = true;
-    };
-  };
+      #libinput = {
+      #enable = true;
+    #};
+  #};
 
+  # All the wayland stuff
   security.polkit.enable = true;
+  programs.waybar.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Enable sound.
   sound.enable = true;
   hardware = {
     pulseaudio.enable = false;
     bluetooth.enable = true;
+    opengl.enable = true;
   };
 
   programs.java = {
@@ -115,7 +124,7 @@ in
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -175,6 +184,7 @@ in
       neovim-unwrapped
       gcc
       chromium
+      firefox
       mako
       freshfetch
       git
@@ -205,11 +215,6 @@ in
 # Enable the OpenSSH daemon.
 # services.openssh.enable = true;
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
   services.blueman.enable = true;
 
 # settings for stateful data, like file locations and database versions
