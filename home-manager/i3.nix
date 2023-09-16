@@ -8,12 +8,16 @@ let
 in {
   xsession.windowManager.i3 = {
     enable = true;
-    package = pkgs.i3-gaps;
+    package = pkgs.i3;
     
     config = {
       modifier = mod;
 
-      window.border = 0;
+      window = {
+        border = 0;
+        titlebar = false;
+      };
+
       bars = [];
       gaps = {
         inner = 2;
