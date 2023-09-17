@@ -80,8 +80,8 @@ in {
         "${mod}+Shift+3" = "move container to workspace ${workspaceThree}";
 
         # Audio and brigthness
-        "XF86MonBrightnessUp" = "exec xbacklight -inc 10";
-        "XF86MonBrightnessDown" = "exec xbacklight -dec 10";
+        "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
+        "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
 
         # Screenshots
         "Print" = "exec ${pkgs.scrot}/bin/scrot /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
