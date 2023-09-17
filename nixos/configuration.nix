@@ -116,7 +116,7 @@ in
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -150,7 +150,6 @@ in
       cmake
       gnumake
       libtool
-      mariadb
 
       # Scala Utilities
       scalafmt
@@ -165,7 +164,6 @@ in
       redshift
       feh
       xorg.xmodmap
-      acpilight
       rofi
       polybarFull
       ripgrep
@@ -192,6 +190,8 @@ in
       networkmanagerapplet
       obs-studio
       nodejs
+
+      via
   ];
 
   fonts.fonts = with pkgs; [
@@ -203,8 +203,10 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
-# Enable the OpenSSH daemon.
-# services.openssh.enable = true;
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  programs.light.enable = true;
 
   services.pipewire = {
     enable = true;
