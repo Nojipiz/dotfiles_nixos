@@ -5,7 +5,7 @@ lvim.builtin.cmp.experimental.ghost_text = true
 lvim.lsp.installer.setup.automatic_installation = false
 
 -- Tree sitter
-lvim.builtin.treesitter.ignore_install = { "haskell" }
+lvim.builtin.treesitter.ignore_install = { "haskell", "c_sharp" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -27,7 +27,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "prettier", filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } },
+  -- { command = "prettier", filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } },
   {
     command = "scalafmt",
     args = { "--stdin" },

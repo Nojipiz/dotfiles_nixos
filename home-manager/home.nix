@@ -5,6 +5,7 @@
     ./i3.nix
     ./alacritty.nix
     ./zellij/zellij.nix
+    ./android/android.nix
     ./lunarvim/lunarvim.nix
     ./polybar/polybar.nix
   ];

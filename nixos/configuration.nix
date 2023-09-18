@@ -105,6 +105,10 @@ in
     enable = true;
   };
 
+  programs.nix-index = {
+    enableBashIntegration = true;
+  };
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -190,8 +194,8 @@ in
       networkmanagerapplet
       obs-studio
       nodejs
-
-      via
+      # Temporal Hamachi
+      logmein-hamachi
   ];
 
   fonts.fonts = with pkgs; [
@@ -203,9 +207,6 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
   programs.light.enable = true;
 
   services.pipewire = {
@@ -214,6 +215,8 @@ in
     pulse.enable = true;
   };
   services.blueman.enable = true;
+
+  services.logmein-hamachi.enable = true;
 
 # settings for stateful data, like file locations and database versions
 # on your system were taken. It‘s perfectly fine and recommended to leave

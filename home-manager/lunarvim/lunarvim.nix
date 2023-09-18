@@ -67,6 +67,7 @@ in
   home.packages = [
     pkgs.nodePackages.neovim
     pkgs.sumneko-lua-language-server
+    pkgs.nodePackages_latest.typescript-language-server
     lunarvimDrv
   ];
 
