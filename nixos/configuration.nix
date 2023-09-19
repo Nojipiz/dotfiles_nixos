@@ -72,7 +72,7 @@ in
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 19000 ];
+    allowedTCPPorts = [ 80 443 19000 3000 ];
   };
 
   services.xserver = {

@@ -82,4 +82,7 @@ nnoremap ,b :action ToggleLineBreakpoint<CR>
 nnoremap ,d :action ContextDebug<CR>
 nnoremap ,n :action ActivateDebugToolWindow<CR>
 
+set visualbell
+set noerrorbells
+
 imap ii <Esc>
