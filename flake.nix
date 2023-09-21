@@ -28,7 +28,11 @@
       OLap = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+          ( 
+            { config, pkgs, ... }: { 
+              nixpkgs.overlays = [ overlay-unstable ]; 
+            }
+          )
 
           ./nixos/configuration.nix
 

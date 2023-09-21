@@ -4,10 +4,10 @@
   imports = [
     ./i3.nix
     ./alacritty.nix
-    ./zellij/zellij.nix
-    ./android/android.nix
-    ./lunarvim/lunarvim.nix
-    ./polybar/polybar.nix
+    ./zellij/default.nix
+    ./android/default.nix
+    ./lunarvim/default.nix
+    ./polybar/default.nix
   ];
   home = {
     username = "nojipiz";
