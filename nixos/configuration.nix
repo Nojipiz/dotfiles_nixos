@@ -114,6 +114,8 @@ in
     interactiveShellInit = ''
       starship init fish | source
       set fish_greeting
+      alias g="lazygit"
+      alias v="lvim"
     '';
   };
 
