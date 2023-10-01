@@ -68,6 +68,8 @@ in
     pkgs.nodePackages.neovim
     pkgs.sumneko-lua-language-server
     pkgs.nodePackages_latest.typescript-language-server
+    pkgs.nil
+    pkgs.xclip
     lunarvimDrv
   ];
 

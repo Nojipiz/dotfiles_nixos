@@ -1,5 +1,3 @@
-{ pkgs, ... }:
-
 {
   imports = [
     ./user/default.nix
@@ -30,10 +28,6 @@
     };
   };
 
-  console = {
-    font = "Lat2-Terminus16";
-  };
-
   # Nix's Properties
   nix.gc = {
     automatic = true;
@@ -45,9 +39,6 @@
     allowBroken = false;
   };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  programs.nix-index.enableFishIntegration = true;
-
-  virtualisation.docker.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
 

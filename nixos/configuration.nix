@@ -18,94 +18,19 @@
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
   boot.initrd.kernelModules = ["8821au"];
  
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 80 443 19000 3000 ];
-  };
-
-  programs.java = {
-    enable = true;
-  };
-
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      starship init fish | source
-      set fish_greeting
-      alias g="lazygit"
-      alias v="lvim"
-      fish_add_path ~/mutable_node_modules/bin
-    '';
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
-
   environment.systemPackages = with pkgs; [
-      prismlauncher
-      alacritty
-      anydesk
-      docker
-      docker-compose
-      lazydocker
-      starship
-      cargo
-      nil
-
-      # Android 
-      unstable.android-tools
-      unstable.android-studio
-      gradle
-      # Android 
-
-      unstable.postman
       blueman
       cmake
       gnumake
       libtool
 
-      # Scala Utilities
-      scalafmt
-      unstable.sbt
-      unstable.coursier
-      unstable.metals
-      postgresql
-      confluent-platform
-      # Scala Utilities
-
-      xdg-utils
-      redshift
-      feh
       xorg.xmodmap
-      rofi
-      polybarFull
-      ripgrep
-      fd
-      killall
-      lazygit
-      pcmanfm
-      neovim-unwrapped
       gcc
-      chromium
-      mako
-      freshfetch
-      git
-      jdk17_headless
-      graalvm17-ce
-      p7zip
-      unzip
-      xclip
-      zellij
-      wget
-      vlc
+      
       openvpn
       networkmanager-openvpn
       networkmanagerapplet
       obs-studio
-      nodejs
   ];
 }
 
