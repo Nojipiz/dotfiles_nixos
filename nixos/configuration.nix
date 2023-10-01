@@ -17,30 +17,10 @@ in
   # Wifi Driver Config
   boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
   boot.initrd.kernelModules = ["8821au"];
-  
-  environment.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "chromium";
-    TERMINAL = "alacritty";
-    SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
-    JAVA_OPTS="-Xmx5G";
-    COMPOSER_MEMORY_LIMIT="-1";
-  };
-
-  environment.interactiveShellInit = ''
-    alias graalvmjava=${pkgs.graalvm17-ce}/bin/java
-  '';
-
+ 
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 80 443 19000 3000 ];
-  };
-
-  # Enable sound.
-  sound.enable = true;
-  hardware = {
-    pulseaudio.enable = false;
-    bluetooth.enable = true;
   };
 
   programs.java = {

@@ -40,4 +40,12 @@ in
     pulse.enable = true;
   };
   services.blueman.enable = true;
+
+  # Enable sound.
+  sound.enable = true;
+  hardware = {
+    pulseaudio.enable = false;
+    bluetooth.enable = true;
+  };
+
 }
