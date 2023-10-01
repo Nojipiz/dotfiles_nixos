@@ -1,6 +1,8 @@
 {
   imports = [
     ./user/default.nix
+    ./terminal/default.nix
+    ./dev/default.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
