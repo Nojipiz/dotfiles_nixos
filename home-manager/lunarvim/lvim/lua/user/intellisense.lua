@@ -25,14 +25,24 @@ lvim.builtin.treesitter.ensure_installed = {
   "yaml",
 }
 
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   { command = "eslint_d", filetypes = { "typescript", "typescriptreact" } }
+-- }
+
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  -- { command = "prettier", filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } },
+  { 
+    command = "prettierd",
+    filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } 
+  },
   {
     command = "scalafmt",
     args = { "--stdin" },
     filetypes = {
-      "scala", "sbt" }
+      "scala",
+      "sbt" 
+    }
   }
 }
 
