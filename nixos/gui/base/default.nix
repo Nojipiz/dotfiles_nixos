@@ -48,4 +48,14 @@ in
     bluetooth.enable = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    xdg-utils
+    xorg.xmodmap
+    redshift
+    vlc
+    feh 
+    rofi
+    polybarFull
+
+  ];
 }

@@ -11,15 +11,9 @@
     alacritty
     pcmanfm
     chromium
-    vlc
     anydesk
-    unstable.postman
-    xdg-utils
-    redshift
 
-    # More related to screen?
-    feh 
-    rofi
-    polybarFull
+    unstable.postman
+    unstable.android-studio 
   ];
 }

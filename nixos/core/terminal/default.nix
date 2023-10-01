@@ -23,6 +23,7 @@
     lazygit
     zellij
     starship
+    jless
     ripgrep
     fd
     killall

@@ -23,8 +23,6 @@
       cmake
       gnumake
       libtool
-
-      xorg.xmodmap
       gcc
       
       openvpn
