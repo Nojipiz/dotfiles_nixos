@@ -1,11 +1,11 @@
 { config, pkgs, ... }:
 
-let 
-  _pkgsOld = import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/4426104c8c900fbe048c33a0e6f68a006235ac50.tar.gz";
-      sha256 = "1lhq9aalfdx40c4ymx1hihlld83g56732s9l68z6qqjl1jgvqwzp";
-    }) {system = "x86_64-linux";};
-in
+# let 
+#   _pkgsOld = import (builtins.fetchTarball {
+#       url = "https://github.com/NixOS/nixpkgs/archive/4426104c8c900fbe048c33a0e6f68a006235ac50.tar.gz";
+#       sha256 = "1lhq9aalfdx40c4ymx1hihlld83g56732s9l68z6qqjl1jgvqwzp";
+#     }) {system = "x86_64-linux";};
+# in
 {
   imports =
     [ 
