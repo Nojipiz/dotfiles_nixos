@@ -22,6 +22,7 @@
     lazydocker
     lazygit
     zellij
+    skim
     starship
     jless
     ripgrep
