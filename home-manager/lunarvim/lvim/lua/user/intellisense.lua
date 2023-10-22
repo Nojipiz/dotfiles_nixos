@@ -36,14 +36,7 @@ formatters.setup {
     command = "prettierd",
     filetypes = { "html", "vue", "css", "scss", "typescriptreact", "typescript" } 
   },
-  {
-    command = "scalafmt",
-    args = { "--stdin" },
-    filetypes = {
-      "scala",
-      "sbt" 
-    }
-  }
+  -- { command = "scalafmt", args = { "--stdin" }, filetypes = { "scala", "sbt" } }
 }
 
 -- Tailwind

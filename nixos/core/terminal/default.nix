@@ -8,6 +8,7 @@
       alias g="lazygit"
       alias v="lvim"
       fish_add_path ~/mutable_node_modules/bin
+      fish_add_path ~/.local/bin
     '';
   };
 

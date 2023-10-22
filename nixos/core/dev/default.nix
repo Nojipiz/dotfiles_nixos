@@ -5,5 +5,6 @@
     ./javascript.nix
     ./jvm.nix
     ./scala.nix
+    ./infrastructure.nix
   ];
 }

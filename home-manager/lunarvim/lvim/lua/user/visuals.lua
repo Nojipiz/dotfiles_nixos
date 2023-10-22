@@ -6,6 +6,8 @@
 lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "night"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.renderer.group_empty = true
+lvim.builtin.nvimtree.setup.view.width = "30%"
 
 -- Config for Neovide GUI
 vim.o.guifont = "Fira Code:h9"

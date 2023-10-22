@@ -29,6 +29,9 @@
       networkmanager-openvpn
       networkmanagerapplet
       obs-studio
+      
+      # TEmp
+      mariadb
   ];
 }
 

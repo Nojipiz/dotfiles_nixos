@@ -12,6 +12,7 @@
     pcmanfm
     chromium
     anydesk
+    slack
 
     unstable.postman
     unstable.android-studio 

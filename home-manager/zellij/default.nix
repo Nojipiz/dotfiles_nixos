@@ -8,5 +8,6 @@
   };
   home.file.".local/bin/project-sessionizer" = {
     source = ./project-sessionizer;
+    executable = true;
   };
 }
