@@ -1,22 +1,30 @@
+{config, pkgs , ...}:
 {
-  imports = [
-    ./user/default.nix
-    ./terminal/default.nix
-    ./dev/default.nix
+  boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8821au ];
+  boot.initrd.kernelModules = ["8821au"];
+ 
+  environment.systemPackages = with pkgs; [
+    blueman
+    cmake
+    gnumake
+    libtool
+    gcc
+      
+    openvpn
+    networkmanager-openvpn
+    networkmanagerapplet
+    obs-studio
+
+    alacritty
+    pcmanfm
+    anydesk
+    slack
   ];
 
-  # Use the systemd-boot EFI boot loader.
+ # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
-  };
-
-  # Force Intel Laptop processor to work
-  # boot.kernelParams = ["i915.force_probe=46a6"];
-
-  networking = {
-    hostName = "OLap"; 
-    networkmanager.enable = true; 
   };
 
   # Time and language settings.
@@ -50,4 +58,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
+
 }

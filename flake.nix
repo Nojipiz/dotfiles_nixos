@@ -23,6 +23,19 @@
     };
   in
   {
+    # nixosModules = {
+    #   browser = import ./nixos-modules/browser;
+    #   controllers = import ./nixos-modules/controllers;
+    #   dev = import ./nixos-modules/dev;
+    #   games = import ./nixos-modules/games;
+    #   hardware = import ./nixos-modules/hardware;
+    #   networking = import ./nixos-modules/networking;
+    #   nix = import ./nixos-modules/nix;
+    #   terminal= import ./nixos-modules/terminal;
+    #   ui = import ./nixos-modules/ui;
+    #   user = import ./nixos-modules/user;
+    # };
+
     nixosConfigurations = {
 
       OLap = nixpkgs.lib.nixosSystem {
@@ -33,8 +46,16 @@
               nixpkgs.overlays = [ overlay-unstable ]; 
             }
           )
-
-          ./nixos/configuration.nix
+          ./nixos-modules/browser
+          ./nixos-modules/controllers
+          ./nixos-modules/dev
+          ./nixos-modules/games
+          ./nixos-modules/hardware
+          ./nixos-modules/networking
+          ./nixos-modules/nix
+          ./nixos-modules/terminal
+          ./nixos-modules/ui
+          ./nixos-modules/user
 
           home-manager.nixosModules.home-manager
           {
