@@ -19,9 +19,4 @@
     JAVA_OPTS="-Xmx5G";
     COMPOSER_MEMORY_LIMIT="-1";
   };
-
-  environment.interactiveShellInit = ''
-    alias graalvmjava=${pkgs.graalvm17-ce}/bin/java
-  '';
-
 }

@@ -70,6 +70,7 @@ in
     pkgs.nodePackages_latest.typescript-language-server
     pkgs.nil
     pkgs.xclip
+    pkgs.terraform-ls
     lunarvimDrv
   ];
 

@@ -7,6 +7,7 @@
       set fish_greeting
       alias g="lazygit"
       alias v="lvim"
+      alias graalvmjava=${pkgs.graalvm17-ce}/bin/java
       fish_add_path ~/mutable_node_modules/bin
       fish_add_path ~/.local/bin
     '';
@@ -33,6 +34,7 @@
     freshfetch
     git
     p7zip
+    unzip
     wget
   ];
 }

@@ -14,7 +14,6 @@
     anydesk
     slack
 
-    unstable.postman
     unstable.android-studio 
   ];
 }
