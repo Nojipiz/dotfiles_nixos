@@ -1,20 +1,23 @@
+{pkgs, ...}:
 {  
-  config =  {
-    programs.chromium.enable = true;
-    programs.chromium.extraOpts = {
-      BookmarkBarEnabled = true;
-      BrowserSignin = 0;
-      DefaultBrowserSettingEnabled = false;
-      DefaultSearchProviderEnabled = true;
-      DefaultSearchProviderSearchURL = "https://google.com/search?q={searchTerms}";
-      ExtensionInstallForcelist = [
-        "nngceckbapebfimnlniiiahkandclblb" # Bitwarden: Pasword Manger
-          "gighmmpiobklfepjocnamgkkbiglidom" # AdBlock
-          "eimadpbcbfnmbkopoojfekhnkhdbieeh" # DarkReader
-      ];
-      HighContrastEnabled = true;
-      ImportBookmarks = false;
-      ManagedBookmarks = [
+  environment.systemPackages = with pkgs; [
+    chromium
+  ];
+  programs.chromium.enable = true;
+  programs.chromium.extraOpts = {
+    BookmarkBarEnabled = true;
+    BrowserSignin = 0;
+    DefaultBrowserSettingEnabled = false;
+    DefaultSearchProviderEnabled = true;
+    DefaultSearchProviderSearchURL = "https://google.com/search?q={searchTerms}";
+    ExtensionInstallForcelist = [
+      "nngceckbapebfimnlniiiahkandclblb" # Bitwarden: Pasword Manger
+        "gighmmpiobklfepjocnamgkkbiglidom" # AdBlock
+        "eimadpbcbfnmbkopoojfekhnkhdbieeh" # DarkReader
+    ];
+    HighContrastEnabled = true;
+    ImportBookmarks = false;
+    ManagedBookmarks = [
 # {toplevel_name = "Links";}
 # {
 #   name = "Comunications";
@@ -47,10 +50,9 @@
 #     }
 #   ];
 # }
-        ];
-      PasswordManagerEnabled = false;
-      ShowAppsShortcutInBookmarkBar = false;
-      SyncDisabled = true;
-    };
+      ];
+    PasswordManagerEnabled = false;
+    ShowAppsShortcutInBookmarkBar = false;
+    SyncDisabled = true;
   };
 }
