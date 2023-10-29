@@ -36,6 +36,7 @@
           ./modules/nixos/controllers
           ./modules/nixos/games
           ./modules/nixos/hardware
+          ./modules/nixos/development
           ./modules/nixos/networking
           ./modules/nixos/nix
           ./modules/nixos/ui

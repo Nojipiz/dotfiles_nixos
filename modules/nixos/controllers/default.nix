@@ -12,5 +12,7 @@
       pulseaudio.enable = false;
       bluetooth.enable = true;
     };
+
+    virtualisation.docker.enable = true;
   };
 }

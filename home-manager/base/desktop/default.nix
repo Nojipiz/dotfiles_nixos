@@ -3,7 +3,6 @@
     ../server
 
     ./android
-    ./development
     ./lunarvim
     ./terminal
   ];
