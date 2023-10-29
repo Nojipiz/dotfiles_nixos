@@ -32,16 +32,15 @@
               nixpkgs.overlays = [ overlay-unstable ]; 
             }
           )
-          ./nixos-modules/browser
-          ./nixos-modules/controllers
-          ./nixos-modules/dev
-          ./nixos-modules/games
-          ./nixos-modules/hardware
-          ./nixos-modules/networking
-          ./nixos-modules/nix
-          ./nixos-modules/terminal
-          ./nixos-modules/ui
-          ./nixos-modules/user
+          ./modules/nixos/browser
+          ./modules/nixos/controllers
+          ./modules/nixos/dev
+          ./modules/nixos/games
+          ./modules/nixos/hardware
+          ./modules/nixos/networking
+          ./modules/nixos/nix
+          ./modules/nixos/ui
+          ./modules/nixos/user
 
           home-manager.nixosModules.home-manager
           {

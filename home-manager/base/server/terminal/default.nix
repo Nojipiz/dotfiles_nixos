@@ -14,27 +14,5 @@
   };
 
   programs.nix-index.enableFishIntegration = true;
-
-  console = {
-    font = "Lat2-Terminus16";
-  };
-
-  # (TUI / terminal only) packages and tools
-  environment.systemPackages = with pkgs; [
-    lazydocker
-    lazygit
-    zellij
-    skim
-    starship
-    jless
-    ripgrep
-    fd
-    killall
-    neovim-unwrapped
-    freshfetch
-    git
-    p7zip
-    unzip
-    wget
-  ];
+  console.font = "Lat2-Terminus16";
 }

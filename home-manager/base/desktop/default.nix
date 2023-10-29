@@ -1,10 +1,9 @@
 {
   imports = [
+    ../server
+
+    ./lunarvim
     ./alacritty
     ./android
-    ./i3
-    ./lunarvim
-    ./polybar
-    ./zellij
   ];
 }

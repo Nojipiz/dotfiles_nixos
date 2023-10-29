@@ -1,6 +1,9 @@
 {
   imports = [
-    ./desktop
+    ../base/desktop
+
+    ./desktop/i3
+    ./desktop/polybar
   ];
 
   home = {
@@ -11,7 +14,7 @@
 
   home.file = { 
     "Images/wallpaper/base_wallpaper.png" = {
-      source = media/base_wallpaper.png;
+      source = ../../media/base_wallpaper.png;
     };
   };
 
