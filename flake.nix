@@ -23,21 +23,7 @@
     };
   in
   {
-    # nixosModules = {
-    #   browser = import ./nixos-modules/browser;
-    #   controllers = import ./nixos-modules/controllers;
-    #   dev = import ./nixos-modules/dev;
-    #   games = import ./nixos-modules/games;
-    #   hardware = import ./nixos-modules/hardware;
-    #   networking = import ./nixos-modules/networking;
-    #   nix = import ./nixos-modules/nix;
-    #   terminal= import ./nixos-modules/terminal;
-    #   ui = import ./nixos-modules/ui;
-    #   user = import ./nixos-modules/user;
-    # };
-
     nixosConfigurations = {
-
       OLap = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
@@ -62,12 +48,11 @@
             home-manager = {
               useUserPackages = true;
               useGlobalPkgs = true;
-              users.nojipiz = ./home-manager/home.nix;
+              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
             };
           }
         ];
       };
-
     };
   };
 }
