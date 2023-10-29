@@ -3,7 +3,6 @@
     ../base/desktop
 
     ./desktop/i3
-    ./desktop/games
     ./desktop/polybar
   ];
 

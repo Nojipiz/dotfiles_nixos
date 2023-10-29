@@ -34,6 +34,7 @@
           )
           ./modules/nixos/browser
           ./modules/nixos/controllers
+          ./modules/nixos/games
           ./modules/nixos/hardware
           ./modules/nixos/networking
           ./modules/nixos/nix
