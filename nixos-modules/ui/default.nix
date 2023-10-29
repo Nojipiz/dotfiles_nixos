@@ -9,7 +9,6 @@ let
   ''}";
 
 in {
-  imports = [./window-manager.nix];
   services.xserver = {
     enable = true;
     layout = "latam";

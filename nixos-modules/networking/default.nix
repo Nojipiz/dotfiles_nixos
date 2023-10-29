@@ -1,12 +1,13 @@
-{}:
 {
-  networking = {
-    hostName = "OLap"; 
-    networkmanager.enable = true; 
-  };
+  config = {
+    networking = {
+      hostName = "OLap"; 
+      networkmanager.enable = true; 
+    };
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 80 443 19000 3000 8090 ];
+    networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 19000 3000 8090 ];
+    };
   };
 }
