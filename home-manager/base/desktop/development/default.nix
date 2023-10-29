@@ -5,10 +5,11 @@ let
     kubectl
   ]);
 in {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Android
     unstable.android-studio 
     gradle
+
     # Infrastructure
     docker
     docker-compose
@@ -30,6 +31,4 @@ in {
     postgresql 
     confluent-platform 
   ];
-
-  virtualisation.docker.enable = true;
 }

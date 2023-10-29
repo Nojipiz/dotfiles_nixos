@@ -2,8 +2,9 @@
   imports = [
     ../server
 
-    ./lunarvim
-    ./alacritty
     ./android
+    ./development
+    ./lunarvim
+    ./terminal
   ];
 }

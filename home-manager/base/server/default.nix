@@ -1,8 +1,8 @@
-{}:
 {
   imports = [
-    ./terminal
-    ./zellij
     ./core
+    ./terminal
+    ./virtualization
+    ./zellij
   ];
 }

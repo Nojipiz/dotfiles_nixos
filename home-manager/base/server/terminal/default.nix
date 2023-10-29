@@ -14,5 +14,4 @@
   };
 
   programs.nix-index.enableFishIntegration = true;
-  console.font = "Lat2-Terminus16";
 }

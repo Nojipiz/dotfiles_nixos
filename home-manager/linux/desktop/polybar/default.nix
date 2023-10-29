@@ -1,6 +1,7 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [ ethtool ];
+
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
