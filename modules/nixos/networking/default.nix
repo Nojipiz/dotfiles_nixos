@@ -7,7 +7,10 @@
 
     networking.firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 19000 3000 8090 ];
+      allowedTCPPorts = [ 80 443 19000 3000 8090];
+      allowedTCPPortRanges = [
+      { from = 30000 ; to = 46000; }
+      ];
     };
   };
 }
