@@ -27,8 +27,12 @@ in {
     unstable.coursier
     unstable.metals
 
+    # Elm
+    elmPackages.elm
+
     # DB
     postgresql 
+    mariadb
     confluent-platform 
   ];
 }
