@@ -10,7 +10,7 @@ lvim.builtin.nvimtree.setup.renderer.group_empty = true
 lvim.builtin.nvimtree.setup.view.width = "30%"
 
 -- Config for Neovide GUI
-vim.o.guifont = "Fira Code:h9"
+vim.opt.guifont = "monospace:h10" 
 
 -- My own fast theme change function
 lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr> "

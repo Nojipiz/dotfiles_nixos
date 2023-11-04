@@ -65,6 +65,7 @@ let
 in
 {
   home.packages = [
+    pkgs.neovide
     pkgs.nodePackages.neovim
     pkgs.sumneko-lua-language-server
     pkgs.nodePackages_latest.typescript-language-server
@@ -75,6 +76,13 @@ in
   ];
 
   home.sessionVariables = env;
+
+  home.file.".local/bin/nvim-gui" = {
+    text = '' 
+    exec ${pkgs.neovide}/bin/neovide --multigrid -- -u "$LUNARVIM_BASE_DIR/init.lua" "$@"
+    '';
+    executable = true;
+  };
 
   programs.neovim = {
     enable = true;
