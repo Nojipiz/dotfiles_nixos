@@ -6,9 +6,6 @@ let
   ]);
 in {
   environment.systemPackages = with pkgs; [
-    # Vim Info 
-    vimPlugins.nvim-treesitter.withAllGrammars
-
     # Android
     unstable.android-studio 
     gradle
@@ -37,5 +34,8 @@ in {
     postgresql 
     mariadb
     confluent-platform 
+
+    # API Testing
+    postman
   ];
 }

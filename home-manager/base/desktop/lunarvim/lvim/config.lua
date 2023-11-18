@@ -68,6 +68,21 @@ lvim.plugins = {
     end,
   },
   {
+    -- Copilot
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+  },
+  {
+    -- Copilot Completion
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+      require("user.copilot").setup()
+    end,
+  },
+  {
     -- Orgmode Support
     "nvim-orgmode/orgmode",
     config = function()

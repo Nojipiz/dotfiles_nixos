@@ -3,7 +3,7 @@
 --
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
-lvim.builtin.terminal.shell = "/bin/fish"
+-- lvim.builtin.terminal.shell = "/bin/fish"
 lvim.builtin.terminal.open_mapping = [[<c-t>]]
 
 function _G.set_terminal_keymaps()
