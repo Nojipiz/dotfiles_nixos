@@ -68,6 +68,8 @@
           ./modules/nixos/ui
           ./modules/nixos/user
 
+          ./modules/wsl
+
           home-manager.nixosModules.home-manager
           {
             home-manager = {
