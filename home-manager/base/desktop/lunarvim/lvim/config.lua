@@ -68,6 +68,21 @@ lvim.plugins = {
     end,
   },
   {
+    "tzachar/cmp-tabnine",
+    run = "./install.sh",
+    requires = "hrsh7th/nvim-cmp",
+    config = function()
+      local tabnine = require "cmp_tabnine.config"
+      tabnine:setup {
+        max_lines = 1000,
+        max_num_results = 10,
+        sort = true,
+      }
+    end,
+    opt = true,
+    event = "InsertEnter",
+  },
+  {
     -- Orgmode Support
     "nvim-orgmode/orgmode",
     config = function()

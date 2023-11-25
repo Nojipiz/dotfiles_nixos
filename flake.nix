@@ -52,6 +52,33 @@
           }
         ];
       };
+      WSL = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ( 
+            { config, pkgs, ... }: { 
+              nixpkgs.overlays = [ overlay-unstable ]; 
+            }
+          )
+          ./modules/nixos/browser
+          ./modules/nixos/controllers
+          ./modules/nixos/development
+          ./modules/nixos/networking
+          ./modules/nixos/nix
+          ./modules/nixos/ui
+          ./modules/nixos/user
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useUserPackages = true;
+              useGlobalPkgs = true;
+              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
+            };
+          }
+        ];
+      };
+
     };
   };
 }

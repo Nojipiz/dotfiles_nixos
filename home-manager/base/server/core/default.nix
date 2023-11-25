@@ -17,5 +17,6 @@
     p7zip
     unzip
     wget
+    btop
   ];
 }
