@@ -36,6 +36,6 @@ in {
     confluent-platform 
 
     # API Testing
-    postman
+    # postman
   ];
 }
