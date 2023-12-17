@@ -1,7 +1,13 @@
-# NixOS Configuration
+# Nojipiz NixOS Configuration
 
+To run the config, download and install Nix and then run for your system:
 
-Run
-
+- NixOs
+```bash
 sudo nixos-rebuild switch --flake "./nix-config#OLap"
-sudo nixos-rebuild switch --flake "./nix-config#WSL"
+```
+
+- Windows Subsystem for Linux (aka WSL)
+```bash
+sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
+```
