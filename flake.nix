@@ -2,10 +2,10 @@
   description = "Nojipiz's system configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
+    nixpkgs.url = "nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -38,9 +38,11 @@
           ./modules/nixos/games
           ./modules/nixos/hardware
           ./modules/nixos/networking
-          ./modules/nixos/nix
           ./modules/nixos/ui
           ./modules/nixos/user
+
+          # Architecture
+          ./modules/nixos/nix
 
           home-manager.nixosModules.home-manager
           {
@@ -67,6 +69,7 @@
           ./modules/nixos/ui
           ./modules/nixos/user
 
+          # Architecture
           ./modules/wsl
 
           home-manager.nixosModules.home-manager

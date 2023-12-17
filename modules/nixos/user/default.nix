@@ -12,7 +12,7 @@
     BROWSER = "chromium";
     TERMINAL = "alacritty";
     SBT_OPTS="-Xmx5G -XX:+UseConcMarkSweepGC -XX:+IgnoreUnrecognizedVMOptions -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=3G -Xss2M  -Duser.timezone=GMT";
-    JAVA_OPTS="-Xmx5G";
+    JAVA_OPTS="-Xmx10G";
     COMPOSER_MEMORY_LIMIT="-1";
   };
 }
