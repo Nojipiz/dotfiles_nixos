@@ -13,6 +13,7 @@ in {
     # Infrastructure
     docker
     docker-compose
+    packer
     unstable.opentofu 
     gdk
     # Javascript
@@ -34,8 +35,5 @@ in {
     postgresql 
     mariadb
     confluent-platform 
-
-    # API Testing
-    # postman
   ];
 }
