@@ -17,9 +17,9 @@ in {
     gdk
     # Javascript
     nodejs
-    # JVM
+    # VM
     jdk17_headless
-    graalvm17-ce
+    graalvm-ce
 
     # Scala
     scalafmt

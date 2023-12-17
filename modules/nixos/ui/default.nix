@@ -21,7 +21,7 @@ in {
     libinput.enable = true;
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     roboto
       fira-code
       fira-code-symbols
