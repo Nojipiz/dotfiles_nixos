@@ -14,10 +14,14 @@ in {
     docker
     docker-compose
     packer
+    qemu
     unstable.opentofu 
     gdk
+    openssl
+
     # Javascript
     nodejs
+
     # VM
     jdk17_headless
     graalvm-ce
@@ -35,5 +39,8 @@ in {
     postgresql 
     mariadb
     confluent-platform 
+
+    # GCC
+    gcc
   ];
 }
