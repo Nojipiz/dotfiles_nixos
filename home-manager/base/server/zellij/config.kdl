@@ -121,6 +121,7 @@ default_layout "compact"
 // Default: false
 //
 // mirror_session true
+session_serialization false
 
 // The folder in which Zellij will look for layouts
 //
