@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   users = {
     users.nojipiz = {

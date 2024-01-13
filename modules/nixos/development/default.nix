@@ -14,8 +14,8 @@ in {
     docker
     docker-compose
     packer
-    qemu
     unstable.opentofu 
+    qemu
     gdk
     openssl
 
