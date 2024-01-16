@@ -61,6 +61,14 @@ lvim.plugins = {
     end,
   },
   {
+    -- Flutter Support
+    "akinsho/flutter-tools.nvim",
+    config = function()
+      require("user.flutter").setup()
+    end
+  }
+  {
+    -- Http Testing
     "rest-nvim/rest.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
