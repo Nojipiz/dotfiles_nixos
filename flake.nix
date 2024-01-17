@@ -66,7 +66,6 @@
           ./modules/nixos/controllers
           ./modules/nixos/development
           ./modules/nixos/networking
-          ./modules/nixos/ui
           ./modules/nixos/user
 
           # Architecture

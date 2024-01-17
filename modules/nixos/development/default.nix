@@ -34,6 +34,7 @@ in {
 
     # Elm
     elmPackages.elm
+    elmPackages.elm-language-server
 
     # DB
     postgresql 
