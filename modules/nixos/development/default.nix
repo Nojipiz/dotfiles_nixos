@@ -31,15 +31,15 @@ in {
     unstable.sbt
     unstable.coursier
     unstable.metals
+    websocat
 
     # Elm
     elmPackages.elm
     elmPackages.elm-language-server
 
-    # DB
-    postgresql 
-    mariadb
-    confluent-platform 
+    # Specialization Data
+    dbeaver
+    oracle-instantclient
 
     # GCC
     gcc
