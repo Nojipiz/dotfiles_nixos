@@ -31,6 +31,7 @@ in {
     unstable.sbt
     unstable.coursier
     unstable.metals
+    unstable.mill
     websocat
 
     # Elm
@@ -40,6 +41,10 @@ in {
     # Specialization Data
     dbeaver
     oracle-instantclient
+    mariadb
+
+    #Gimp 
+    gimp
 
     # GCC
     gcc
