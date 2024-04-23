@@ -13,7 +13,7 @@
     cmake
     gnumake
     libtool
-    gcc
+    gcc-unwrapped
       
     openvpn
     networkmanager-openvpn

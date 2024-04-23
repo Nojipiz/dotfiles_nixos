@@ -72,6 +72,7 @@ in
     pkgs.nil
     pkgs.xclip
     pkgs.terraform-ls
+    pkgs.nodePackages.pyright
     lunarvimDrv
   ];
 

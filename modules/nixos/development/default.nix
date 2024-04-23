@@ -45,8 +45,6 @@ in {
 
     #Gimp 
     gimp
-
-    # GCC
-    gcc
+    freecad
   ];
 }
