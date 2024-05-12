@@ -3,7 +3,7 @@
   users = {
     users.nojipiz = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker"];
+      extraGroups = [ "wheel" "video" "audio" "networkmanager" "input" "docker" "vboxusers"];
       initialPassword = "password";
     };
   };

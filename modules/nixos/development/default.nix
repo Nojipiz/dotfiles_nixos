@@ -8,6 +8,7 @@ in {
   environment.systemPackages = with pkgs; [
     # Android
     unstable.android-studio 
+    jetbrains.idea-community
     gradle
 
     # Infrastructure
@@ -28,10 +29,10 @@ in {
 
     # Scala
     scalafmt
+    unstable.scala-cli
     unstable.sbt
     unstable.coursier
     unstable.metals
-    unstable.mill
     websocat
 
     # Elm
