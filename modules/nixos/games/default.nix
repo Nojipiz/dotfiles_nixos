@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    prismlauncher
+    # prismlauncher
   ];
 
   programs.steam = {

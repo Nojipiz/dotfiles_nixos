@@ -8,7 +8,7 @@ in {
   environment.systemPackages = with pkgs; [
     # Android
     unstable.android-studio 
-    jetbrains.idea-community
+    lunarvim
     gradle
 
     # Infrastructure
