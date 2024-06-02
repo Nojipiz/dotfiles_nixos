@@ -9,6 +9,7 @@ in {
     # Android
     unstable.android-studio 
     lunarvim
+    unstable.zed-editor
     gradle
 
     # Infrastructure
@@ -33,11 +34,8 @@ in {
     unstable.sbt
     unstable.coursier
     unstable.metals
-    websocat
 
-    # Elm
-    elmPackages.elm
-    elmPackages.elm-language-server
+    websocat
 
     # Specialization Data
     dbeaver

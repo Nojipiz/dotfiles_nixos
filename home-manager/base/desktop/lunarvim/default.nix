@@ -1,5 +1,10 @@
 { pkgs, ... }:
 {
+
+  home.packages = [
+   pkgs.xclip
+  ];
+
   home.file.".local/bin/nvim-gui" = {
     text = '' 
     exec ${pkgs.neovide}/bin/neovide --multigrid -- -u "$LUNARVIM_BASE_DIR/init.lua" "$@"

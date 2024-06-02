@@ -11,8 +11,8 @@
     DefaultSearchProviderEnabled = true;
     DefaultSearchProviderSearchURL = "https://google.com/search?q={searchTerms}";
     ExtensionInstallForcelist = [
-      "nngceckbapebfimnlniiiahkandclblb" # Bitwarden: Pasword Manger
-        "gighmmpiobklfepjocnamgkkbiglidom" # AdBlock
+        "nngceckbapebfimnlniiiahkandclblb" # Bitwarden: Pasword Manger
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # UBlock
         "eimadpbcbfnmbkopoojfekhnkhdbieeh" # DarkReader
     ];
     HighContrastEnabled = true;
