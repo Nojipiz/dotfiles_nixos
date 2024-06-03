@@ -38,7 +38,7 @@ in {
     websocat
 
     # Specialization Data
-    dbeaver
+    dbeaver-bin
     oracle-instantclient
     mariadb
 

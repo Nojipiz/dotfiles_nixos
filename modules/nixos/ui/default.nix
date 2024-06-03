@@ -9,16 +9,16 @@ let
   ''}";
 
 in {
+  services.libinput.enable = true;
+  services.displayManager.defaultSession = "none+i3";
   services.xserver = {
     enable = true;
-    layout = "latam";
+    xkb.layout = "latam";
     desktopManager.xterm.enable = false;
     displayManager = {
-      defaultSession = "none+i3";
-      sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}" ;
+      sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}";
     };
     windowManager.i3.enable = true;
-    libinput.enable = true;
   };
 
   fonts.packages = with pkgs; [
