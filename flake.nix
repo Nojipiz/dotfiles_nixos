@@ -64,7 +64,7 @@
           )
           ./modules/nixos/browser
           ./modules/nixos/controllers
-          ./modules/nixos/development
+          ./modules/wsl/development
           ./modules/nixos/networking
           ./modules/nixos/user
 

@@ -1,10 +1,5 @@
 { pkgs, ... }:
-let 
-  gdk = pkgs.google-cloud-sdk.withExtraComponents( with pkgs.google-cloud-sdk.components; [
-    gke-gcloud-auth-plugin
-    kubectl
-  ]);
-in {
+{
   environment.systemPackages = with pkgs; [
     lunarvim
     unstable.zed-editor
@@ -14,16 +9,13 @@ in {
     docker
     docker-compose
     packer
-    unstable.opentofu 
-    qemu
-    gdk
     openssl
 
     # Javascript
     nodejs
 
     # VM
-    jdk17_headless
+    jdk11_headless
     graalvm-ce
 
     # Scala
@@ -33,15 +25,9 @@ in {
     unstable.coursier
     unstable.metals
 
-    websocat
-
     # Specialization Data
     dbeaver-bin
     oracle-instantclient
     mariadb
-
-    #Gimp 
-    gimp
-    freecad
   ];
 }
