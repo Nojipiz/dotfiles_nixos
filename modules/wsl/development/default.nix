@@ -8,7 +8,6 @@
     # Infrastructure
     docker
     docker-compose
-    packer
     openssl
 
     # Javascript
