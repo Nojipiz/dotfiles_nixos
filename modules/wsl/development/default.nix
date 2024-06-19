@@ -26,7 +26,6 @@
 
     # Specialization Data
     dbeaver-bin
-    oracle-instantclient
     mariadb
   ];
 }
