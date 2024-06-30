@@ -61,19 +61,18 @@ lvim.plugins = {
     end,
   },
   {
-    -- Http Testing
-    "rest-nvim/rest.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("user.rest").setup()
-    end,
-  },
-  {
     -- Orgmode Support
     "nvim-orgmode/orgmode",
     config = function()
       require("user.orgmode").setup()
     end,
     ft = { "org" },
+  }, 
+  {
+    -- ColorScheme
+    "rebelot/kanagawa.nvim",
+    config = function()
+      require("user.kanagawa").setup()
+    end
   }
 }

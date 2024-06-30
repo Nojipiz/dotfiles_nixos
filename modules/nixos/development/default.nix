@@ -39,6 +39,7 @@ in {
     dbeaver-bin
     oracle-instantclient
     mariadb
+    postgresql
 
     #Gimp 
     gimp
