@@ -22,6 +22,5 @@ M.setup = function()
         light = "lotus"
     },
   })
-  vim.cmd("colorscheme kanagawa")
 end
 return M

@@ -8,8 +8,6 @@ lvim.keys.insert_mode["ii"] = "<Esc>"
 lvim.keys.normal_mode["<S-l>"] = "<cmd> BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = "<cmd> BufferLineCyclePrev<CR>"
 
-lvim.keys.normal_mode['er'] = "<cmd>lua require('rest-nvim').run()<CR>"
-
 require('user.dashboard')
 require('user.visuals')
 require('user.terminal')
@@ -67,7 +65,7 @@ lvim.plugins = {
       require("user.orgmode").setup()
     end,
     ft = { "org" },
-  }, 
+  },
   {
     -- ColorScheme
     "rebelot/kanagawa.nvim",
