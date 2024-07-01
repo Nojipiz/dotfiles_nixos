@@ -22,7 +22,7 @@
     unstable.scala-cli
     unstable.sbt
     unstable.coursier
-    unstable.metals
+    metals
 
     # Specialization Data
     dbeaver-bin
