@@ -31,7 +31,7 @@ in {
     unstable.scala-cli
     unstable.sbt
     unstable.coursier
-    unstable.metals
+    metals
 
     websocat
 
