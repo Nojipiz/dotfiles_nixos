@@ -10,7 +10,7 @@ let
 
 in {
   services.libinput.enable = true;
-  services.displayManager.defaultSession = "none+i3";
+  services.displayManager.defaultSession = "none+sway";
   services.xserver = {
     enable = true;
     xkb.layout = "latam";
@@ -18,7 +18,7 @@ in {
     displayManager = {
       sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}";
     };
-    windowManager.i3.enable = true;
+    windowManager.sway.enable = true;
   };
 
   fonts.packages = with pkgs; [
