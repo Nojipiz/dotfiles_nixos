@@ -24,7 +24,7 @@
   in
   {
     nixosConfigurations = {
-      OLap = nixpkgs.lib.nixosSystem {
+      Linux = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ( 
