@@ -24,6 +24,11 @@ in {
         outer = 2;
       };
 
+      "input *" = {  
+        xkb_layout = "latam";
+      };
+
+
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
         "${mod}+Shift+q" = "kill";
@@ -99,11 +104,6 @@ in {
       startup = [
         {
           command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/wallpaper/base_wallpaper.png";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "~/nix-config/home-manager/linux/desktop/polybar/init_polybar.sh";
           always = true;
           notification = false;
         }

@@ -2,23 +2,22 @@
   pkgs, ...
 }:
 
-let
-  keyboardRemap = "${pkgs.writeText  "xkb-layout" ''
-    remove shift = Shift_R
-    keysym Shift_R = less greater
-  ''}";
-
-in {
+{
   services.libinput.enable = true;
   services.displayManager.defaultSession = "none+sway";
-  services.xserver = {
+  programs.sway = {
     enable = true;
-    xkb.layout = "latam";
-    desktopManager.xterm.enable = false;
-    displayManager = {
-      sessionCommands = "${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardRemap}";
+    wrapperFeatures.gtk = true;
+  };
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_session = {
+        command = "${pkgs.sway}/bin/sway";
+        user = "nojipiz";
+      };
+      default_session = initial_session;
     };
-    windowManager.sway.enable = true;
   };
 
   fonts.packages = with pkgs; [
@@ -29,12 +28,9 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
-    xdg-utils
-    xorg.xmodmap
     redshift
     vlc
     feh 
     rofi
-    polybarFull
   ];
 }
