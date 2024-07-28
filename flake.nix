@@ -49,7 +49,7 @@
             home-manager = {
               useUserPackages = true;
               useGlobalPkgs = true;
-              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
+              users.nojipiz = ./home-manager/linux/desktop-sway.nix;
             };
           }
         ];
@@ -82,6 +82,9 @@
         ];
       };
 
+      Darwin = nixpkgs.lib.nixosSystem {
+        # TODO: Implement this
+      };
     };
   };
 }
