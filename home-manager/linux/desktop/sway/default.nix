@@ -8,7 +8,7 @@ let
 in {
   wayland.windowManager.sway = {
     enable = true;
-    package = pkgs.i3;
+    package = pkgs.sway;
     
     config = {
       modifier = mod;
@@ -24,10 +24,11 @@ in {
         outer = 2;
       };
 
-      "input *" = {  
-        xkb_layout = "latam";
+      input = {
+        "*" = {
+          xkb_layout = "latam";
+        };
       };
-
 
       keybindings = lib.mkOptionDefault {
         "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
@@ -105,17 +106,14 @@ in {
         {
           command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/wallpaper/base_wallpaper.png";
           always = true;
-          notification = false;
         }
         {
           command = "${pkgs.networkmanagerapplet}/bin/nm-applet";
           always = false;
-          notification = false;
         }
         {
           command = "${pkgs.redshift}/bin/redshift-gtk -l 5.5403:-73.3614";
           always = false;
-          notification = false;
         }
       ];
       assigns = {
