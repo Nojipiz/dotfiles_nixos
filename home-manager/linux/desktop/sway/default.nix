@@ -112,7 +112,7 @@ in {
           always = false;
         }
         {
-          command = "${pkgs.redshift}/bin/redshift-gtk -l 5.5403:-73.3614";
+          command = "${pkgs.wlsunset}/bin/wlsunset -l 5.5403:-73.3614";
           always = false;
         }
       ];

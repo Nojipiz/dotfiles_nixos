@@ -24,7 +24,7 @@
   in
   {
     nixosConfigurations = {
-      Linux = nixpkgs.lib.nixosSystem {
+      LinuxWayland = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ( 
@@ -38,7 +38,7 @@
           ./modules/nixos/games
           ./modules/nixos/hardware
           ./modules/nixos/networking
-          ./modules/nixos/ui
+          ./modules/nixos/ui/wayland
           ./modules/nixos/user
 
           # Architecture
@@ -50,6 +50,36 @@
               useUserPackages = true;
               useGlobalPkgs = true;
               users.nojipiz = ./home-manager/linux/desktop-sway.nix;
+            };
+          }
+        ];
+      };
+      LinuxX11 = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ( 
+            { config, pkgs, ... }: { 
+              nixpkgs.overlays = [ overlay-unstable ]; 
+            }
+          )
+          ./modules/nixos/browser
+          ./modules/nixos/controllers
+          ./modules/nixos/development
+          ./modules/nixos/games
+          ./modules/nixos/hardware
+          ./modules/nixos/networking
+          ./modules/nixos/ui/x11
+          ./modules/nixos/user
+
+          # Architecture
+          ./modules/nixos/nix
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useUserPackages = true;
+              useGlobalPkgs = true;
+              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
             };
           }
         ];

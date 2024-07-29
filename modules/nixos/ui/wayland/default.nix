@@ -28,9 +28,10 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    redshift
     vlc
     feh 
     rofi
+    nwg-displays
+    wlsunset
   ];
 }
