@@ -18,7 +18,9 @@ in {
         titlebar = false;
       };
 
-      bars = [];
+      bars = [
+        { command = "${pkgs.waybar}/bin/waybar"; }
+      ];
       gaps = {
         inner = 2;
         outer = 2;

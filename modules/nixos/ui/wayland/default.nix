@@ -28,6 +28,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    waybar
     vlc
     feh 
     rofi

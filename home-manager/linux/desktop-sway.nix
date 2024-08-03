@@ -2,6 +2,7 @@
   imports = [
     ../base/desktop
     ./desktop/sway
+    ./desktop/waybar
   ];
 
   home = {
