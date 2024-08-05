@@ -9,36 +9,30 @@
       target = "graphical-session.target";
     };
     settings = {
-      mainBar = {
+      bottomBar = {
         layer = "top";
-        modules-left = [ "custom/nix" "hyprland/workspaces" "custom/cava-internal"];
-        modules-center = [ "clock" ];
-        modules-right = [ "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "battery" ];
+        position = "bottom";
+        modules-left = [ "memory" "cpu" ];
+        modules-center = [ ];
+        modules-right = [ ];
 
-        "custom/nix" = {
-          "format" = "   ";
-          "tooltip" = false;
-          "on-click" = "sh $HOME/.config/rofi/bin/powermenu";
+        "cpu" = { "format" = "<span color='#b4befe'> </span>{usage}%"; };
+        "memory" = {
+          "interval" = 1;
+          "format" = "<span color='#b4befe'> </span>{used:0.1f}G/{total:0.1f}G";
         };
-        "hyprland/workspaces" = {
+      };
+
+      topBar = {
+        layer = "top";
+        position = "top";
+        modules-left = [ "sway/workspaces" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "pulseaudio" "network" "bluetooth" "battery" ];
+
+        "sway/workspaces" = {
           "format" = "{icon}";
           "all-outputs" = true;
-          "format-icons" = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六"; 
-            "7" = "七"; 
-            "8" = "八"; 
-            "9" = "九"; 
-            "10" = "十";
-          };
-        };
-        "custom/cava-internal" = {
-          "exec" = "sleep 1s && cava-internal";
-          "tooltip" = false;
         };
 
         "clock" = {
@@ -49,16 +43,6 @@
           "on-click-right" = "exec wallpaper_random";
         };
 
-        "cpu" = { "format" = "<span color='#b4befe'> </span>{usage}%"; };
-        "memory" = {
-          "interval" = 1;
-          "format" = "<span color='#b4befe'> </span>{used:0.1f}G/{total:0.1f}G";
-        };
-        "backlight" = {
-          "device" = "intel_backlight";
-          "format" = "<span color='#b4befe'>{icon}</span> {percent}%";
-          "format-icons" = ["" "" "" "" "" "" "" "" ""];
-        };
         "pulseaudio"= {
           "format" = "<span color='#b4befe'>{icon}</span> {volume}%";
           "format-muted" = "";
@@ -87,8 +71,8 @@
         };
         "battery" = {
           "format" = "<span color='#b4befe'>{icon}</span> {capacity}%";
-          "format-icons" =  ["" "" "" "" "" "" "" "" "" ""];
-          "format-charging" = "<span color='#b4befe'></span> {capacity}%";
+          "format-icons" =  ["" "" "" "" ""];
+          "format-charging" = "<span color='#b4befe'> </span> {capacity}%";
           "tooltip" = false;
         };
       };
@@ -100,68 +84,28 @@
         font-family: 'Fira Code', 'Symbols Nerd Font Mono';
         font-size: 16px;
         font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
-        min-height: 45px;
+        min-height: 12px;
       }
 
       window#waybar {
         background: transparent;
       }
 
-      #custom-nix, 
+      #clock, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #workspaces {
+        border-radius: 7px;
+        background-color: #11111b;
+        color: #cdd6f4;
+        padding: 2px 10px;
+        margin: 3px 5px;
+      }
+
       #workspaces {
-        border-radius: 10px;
-        background-color: #11111b;
         color: #b4befe;
-        margin-top: 15px;
-        margin-right: 15px;
-        padding-top: 1px;
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-
-      #custom-nix {
-        font-size: 20px;
-        margin-left: 15px;
-        color: #b4befe;
-      }
-
-      #custom-cava-internal {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 1px;
-        font-family: "Hack Nerd Font";
-        color: #b4befe;
-        background-color: #11111b;
-        margin-top: 15px;
-        border-radius: 10px;
       }
 
       #workspaces button.active {
         background: #11111b;
-        color: #b4befe;
-      }
-
-      #clock, #backlight, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory{
-        border-radius: 10px;
-        background-color: #11111b;
-        color: #cdd6f4;
-        margin-top: 15px;
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-right: 15px;
-      }
-
-      #backlight, #bluetooth {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        padding-right: 5px;
-        margin-right: 0
-      }
-
-      #pulseaudio, #network {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        padding-left: 5px;
+        color: red;
       }
 
       #clock {
