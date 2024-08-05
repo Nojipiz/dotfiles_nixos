@@ -14,6 +14,7 @@
     gnumake
     libtool
     gcc-unwrapped
+    pavucontrol
       
     openvpn
     networkmanager-openvpn

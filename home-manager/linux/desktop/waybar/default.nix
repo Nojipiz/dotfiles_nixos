@@ -46,14 +46,15 @@
 
         "pulseaudio"= {
           "format" = "<span color='#b4befe'>{icon}</span> {volume}%";
-          "format-muted" = "";
+          "format-muted" = " Mute";
           "tooltip" = false;
           "format-icons" = {
             "headphone" = "";
             "default" = ["" "" "󰕾" "󰕾" "󰕾" "" "" ""];
           };
-          "scroll-step" = 1;
-          "on-click" = "pavucontrol";
+          "scroll-step" = 4;
+          "on-click" = "${pkgs.alsa-utils}/bin/amixer set Master toggle";
+          "on-click-right" = "${pkgs.pavucontrol}/bin/pavucontrol";
         };
         "bluetooth" = {
           "format" = "<span color='#b4befe'></span> {status}";
