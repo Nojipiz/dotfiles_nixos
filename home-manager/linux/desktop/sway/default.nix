@@ -23,7 +23,7 @@ in {
       ];
       gaps = {
         inner = 2;
-        outer = 2;
+        outer = 0;
       };
 
       input = {

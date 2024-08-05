@@ -33,6 +33,7 @@
         "sway/workspaces" = {
           "format" = "{icon}";
           "all-outputs" = true;
+          "disable-scroll" = true;
         };
 
         "clock" = {
@@ -70,7 +71,7 @@
           "tooltip" = false;
         };
         "battery" = {
-          "format" = "<span color='#b4befe'>{icon}</span> {capacity}%";
+          "format" = "<span color='#b4befe'>{icon} </span> {capacity}%";
           "format-icons" =  ["" "" "" "" ""];
           "format-charging" = "<span color='#b4befe'> </span> {capacity}%";
           "tooltip" = false;
@@ -95,17 +96,17 @@
         border-radius: 7px;
         background-color: #11111b;
         color: #cdd6f4;
-        padding: 2px 10px;
+        padding: 1px 10px;
         margin: 3px 5px;
       }
 
       #workspaces {
         color: #b4befe;
+        padding: 1px 0;
       }
 
-      #workspaces button.active {
-        background: #11111b;
-        color: red;
+      #workspaces button.focused{
+        color: #cdd6f4;
       }
 
       #clock {
