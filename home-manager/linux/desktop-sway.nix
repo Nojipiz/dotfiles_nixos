@@ -1,4 +1,9 @@
-{
+let 
+  wallpapers = [
+    ../../media/wallpaper_initiald.jpg
+    ../../media/base_wallpaper.png
+  ];
+in {
   imports = [
     ../base/desktop
 
@@ -14,7 +19,7 @@
 
   home.file = { 
     "Images/wallpaper/base_wallpaper.png" = {
-      source = ../../media/base_wallpaper.png;
+      source = builtins.head wallpapers;
     };
   };
 

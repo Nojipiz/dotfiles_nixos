@@ -9,7 +9,12 @@ in {
   wayland.windowManager.sway = {
     enable = true;
     package = pkgs.sway;
-    
+
+    extraConfig = ''
+      set $opacity 0.75
+      for_window [class=".*"] opacity $opacity
+      for_window [app_id=".*"] opacity $opacity
+    ''; 
     config = {
       modifier = mod;
 
@@ -92,7 +97,7 @@ in {
         "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
 
         # Screenshots
-        "Print" = "exec ${pkgs.grim}/bin/grim -g /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
+        "Print" = "exec ${pkgs.grim}/bin/grim ~/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
       };
 
       modes = lib.mkOptionDefault {
@@ -106,7 +111,7 @@ in {
 
       startup = [
         {
-          command = "${pkgs.swaybg}/bin/swaybg -m fill ~/Images/wallpaper/base_wallpaper.png";
+          command = "${pkgs.swaybg}/bin/swaybg -m fill -i ~/Images/wallpaper/base_wallpaper.png";
           always = true;
         }
         {
