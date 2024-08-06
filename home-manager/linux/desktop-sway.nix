@@ -1,6 +1,6 @@
 let 
   wallpapers = [
-    ../../media/wallpaper_initiald.jpg
+    ../../media/wallpaper/initiald.jpg
     ../../media/base_wallpaper.png
   ];
 in {
