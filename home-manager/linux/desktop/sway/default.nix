@@ -11,7 +11,7 @@ in {
     package = pkgs.sway;
 
     extraConfig = ''
-      set $opacity 0.75
+      set $opacity 1
       for_window [class=".*"] opacity $opacity
       for_window [app_id=".*"] opacity $opacity
     ''; 

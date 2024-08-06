@@ -1,5 +1,7 @@
 # Nojipiz NixOS Configuration
 
+![Desktop Preview](https://github.com/nojipiz/dotfiles_nixos/blob/main/media/screenshot/wallpaper.png?raw=true)
+
 To run the config, download and install Nix and then run for your system:
 
 - NixOs
