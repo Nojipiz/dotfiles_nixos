@@ -23,7 +23,7 @@ in {
       ];
       gaps = {
         inner = 2;
-        outer = 0;
+        outer = 2;
       };
 
       input = {
@@ -92,7 +92,7 @@ in {
         "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
 
         # Screenshots
-        "Print" = "exec ${pkgs.scrot}/bin/scrot /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
+        "Print" = "exec ${pkgs.grim}/bin/grim -g /home/nojipiz/Images/`date +%Y-%m-%d_%H:%M:%S`.png";
       };
 
       modes = lib.mkOptionDefault {
@@ -106,7 +106,7 @@ in {
 
       startup = [
         {
-          command = "${pkgs.feh}/bin/feh --bg-scale ~/Images/wallpaper/base_wallpaper.png";
+          command = "${pkgs.swaybg}/bin/swaybg -m fill ~/Images/wallpaper/base_wallpaper.png";
           always = true;
         }
         {

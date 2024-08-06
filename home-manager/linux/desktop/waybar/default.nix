@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true"] ;} );
     systemd = {
-      enable = false;
+      enable = true;
       target = "graphical-session.target";
     };
     settings = {
@@ -13,8 +13,8 @@
         layer = "top";
         position = "bottom";
         modules-left = [ "memory" "cpu" ];
-        modules-center = [ ];
-        modules-right = [ ];
+        modules-center = [ "sway/window" ];
+        modules-right = [ "tray" ];
 
         "cpu" = { "format" = "<span color='#b4befe'> </span>{usage}%"; };
         "memory" = {
@@ -62,13 +62,14 @@
           "format-connected" = "<span color='#b4befe'></span> {num_connections}";
           "tooltip-format" = "{device_enumerate}";
           "tooltip-format-enumerate-connected" = "{device_alias}   {device_address}";
+          "on-click" = "${pkgs.blueman}/bin/blueman-manager";
         };
         "network" = {
-          "interface" = "wlp3s0";
+          "interface" = "wlp3s0f4u1";
           "format" = "{ifname}";
-          "format-wifi" = "<span color='#b4befe'> </span>{essid}";
+          "format-wifi" = "<span color='#b4befe'> </span> {essid}";
           "format-ethernet" = "{ipaddr}/{cidr} ";
-          "format-disconnected" = "<span color='#b4befe'>󰖪 </span>No Network";
+          "format-disconnected" = "<span color='#b4befe'>󰖪 </span> No wifi :c";
           "tooltip" = false;
         };
         "battery" = {
@@ -93,7 +94,7 @@
         background: transparent;
       }
 
-      #clock, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #workspaces {
+      #clock, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #workspaces, #window, #tray {
         border-radius: 7px;
         background-color: #11111b;
         color: #cdd6f4;
@@ -106,10 +107,15 @@
         padding: 1px 0;
       }
 
-      #workspaces button.focused{
+      #workspaces button.focused {
         color: #cdd6f4;
       }
 
+      #workspaces button:hover{
+        background-color: #cdd6f4;
+        color: #11111b;
+      }
+      
       #clock {
         margin-right: 0;
       }
