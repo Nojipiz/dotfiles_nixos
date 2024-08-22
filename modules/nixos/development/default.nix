@@ -37,6 +37,9 @@ in {
 
     # Specialization Data
     dbeaver-bin
+    sqldeveloper
+    file
+
     oracle-instantclient
     mariadb
     postgresql

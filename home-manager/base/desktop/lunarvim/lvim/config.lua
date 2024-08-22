@@ -41,7 +41,9 @@ lvim.plugins = {
       {
         "tpope/vim-dadbod",
       },
+      {
       "kristijanhusak/vim-dadbod-completion"
+      }
     },
     config = function()
       require("user.database").setup()
