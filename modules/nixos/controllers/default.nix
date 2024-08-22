@@ -2,12 +2,12 @@
   config = {
     programs.light.enable = true;
     services.pipewire = {
-      enable = false;
-      # alsa.enable = true;
-      # pulse.enable = true;
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
     };
     hardware = {
-      pulseaudio.enable = true;
+      pulseaudio.enable = false;
       bluetooth.enable = true;
     };
     services.blueman.enable = true;
