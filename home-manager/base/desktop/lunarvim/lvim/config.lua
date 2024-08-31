@@ -70,9 +70,9 @@ lvim.plugins = {
   },
   {
     -- ColorScheme
-    "rebelot/kanagawa.nvim",
+    "NTBBloodbath/doom-one.nvim",
     config = function()
-      require("user.kanagawa").setup()
+      require("user.colorscheme").setup()
     end
   }
 }
