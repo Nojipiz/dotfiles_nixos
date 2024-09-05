@@ -1,6 +1,4 @@
 {
-  # imports = [ ./vpn.nix ];
-
   config = {
     networking = {
       hostName = "OLap"; 
