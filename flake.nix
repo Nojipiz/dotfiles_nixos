@@ -94,9 +94,9 @@
           )
           ./modules/nixos/browser
           ./modules/nixos/controllers
-          ./modules/wsl/development
-          ./modules/nixos/networking
           ./modules/nixos/user
+          ./modules/wsl/development
+          ./modules/wsl/networking
 
           # Architecture
           ./modules/wsl
