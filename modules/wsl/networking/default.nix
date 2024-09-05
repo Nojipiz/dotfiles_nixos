@@ -1,5 +1,16 @@
 { pkgs, ... }:
 {
+  config = {
+    networking = {
+      hostName = "OLap"; 
+      networkmanager.enable = true; 
+    };
+
+    networking.firewall = {
+      enable = true;
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     wsl-vpnkit
   ];
@@ -9,6 +20,7 @@
     vpn-stop = "sudo systemctl stop wsl-vpnkit";
     vpn-status = "systemctl status wsl-vpnkit";
   };
+
   systemd.services.wsl-vpnkit = {
     enable = true;
     description = "wsl-vpnkit";
@@ -17,17 +29,6 @@
       Type = "idle";
       Restart = "always";
       KillMde = "mixed";
-    };
-  };
-
-  config = {
-    networking = {
-      hostName = "OLap"; 
-      networkmanager.enable = true; 
-    };
-
-    networking.firewall = {
-      enable = true;
     };
   };
 }
