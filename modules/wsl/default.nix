@@ -5,6 +5,9 @@
 
   wsl.enable = true;
   wsl.defaultUser = "nojipiz";
+  wsl.usbip = {
+    enable = true;
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes"];
 
