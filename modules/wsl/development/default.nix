@@ -3,7 +3,6 @@
   environment.systemPackages = with pkgs; [
     lunarvim
     unstable.zed-editor
-    wsl-vpnkit
     gradle
 
     # Infrastructure
