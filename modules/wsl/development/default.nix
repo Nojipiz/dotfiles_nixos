@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     lunarvim
     unstable.zed-editor
+    wsl-vpnkit
     gradle
 
     # Infrastructure
@@ -15,7 +16,6 @@
 
     # VM
     jdk11_headless
-    graalvm-ce
 
     # Scala
     scalafmt
@@ -24,8 +24,7 @@
     unstable.coursier
     metals
 
-    # Specialization Data
-    dbeaver-bin
-    mariadb
+    # Database 
+    oracle-instantclient
   ];
 }
