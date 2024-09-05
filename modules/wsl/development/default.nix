@@ -1,13 +1,5 @@
 { pkgs, ... }:
 {
-
-  # Excludes all the flakes, my company don't uses Nix
-  home.file = { 
-    ".git/info/exclude" = {
-      text = "flake.nix";
-    };
-  };
-
   environment.systemPackages = with pkgs; [
     lunarvim
     unstable.zed-editor
