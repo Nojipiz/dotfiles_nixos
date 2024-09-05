@@ -8,4 +8,8 @@
     source = ./project-sessionizer;
     executable = true;
   };
+  home.file.".local/bin/fix-zellij" = {
+    source = ./fix-zellij;
+    executable = true;
+  };
 }

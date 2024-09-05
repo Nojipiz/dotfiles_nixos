@@ -1,0 +1,11 @@
+# Extra validation for Zellij
+# Zellij fails at: https://github.com/zellij-org/zellij/issues/3379
+#
+
+if [ -d "$XDG_RUNTIME_DIR" ]; then
+  echo "the directory $XDG_RUNTIME_DIR already exists, skipping this fix..."
+else 
+  echo "the directory $XDG_RUNTIME_DIR doesn't exists"
+  mkdir $XDG_RUNTIME_DIR
+  chown $USER:$USER $XDG_RUNTIME_DIR
+fi
