@@ -1,14 +1,10 @@
 {
-  imports = [ ./vpn.nix ];
+  # imports = [ ./vpn.nix ];
 
   config = {
     networking = {
       hostName = "OLap"; 
       networkmanager.enable = true; 
-    };
-
-    networking.firewall = {
-      enable = true;
     };
   };
 }
