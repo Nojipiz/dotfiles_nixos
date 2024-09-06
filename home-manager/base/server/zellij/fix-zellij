@@ -5,7 +5,9 @@
 if [ -d "$XDG_RUNTIME_DIR" ]; then
   echo "the directory $XDG_RUNTIME_DIR already exists, skipping this fix..."
 else 
-  echo "the directory $XDG_RUNTIME_DIR doesn't exists"
-  mkdir $XDG_RUNTIME_DIR
+  echo "the directory $XDG_RUNTIME_DIR doesn't exists, creating..."
+  sudo mkdir $XDG_RUNTIME_DIR
+  echo "directory created"
   chown $USER:$USER $XDG_RUNTIME_DIR
+  echo "permissions added"
 fi
