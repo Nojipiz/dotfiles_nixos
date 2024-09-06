@@ -8,6 +8,6 @@ else
   echo "the directory $XDG_RUNTIME_DIR doesn't exists, creating..."
   sudo mkdir $XDG_RUNTIME_DIR
   echo "directory created"
-  chown $USER:$USER $XDG_RUNTIME_DIR
+  sudo chmod 777 $XDG_RUNTIME_DIR
   echo "permissions added"
 fi
