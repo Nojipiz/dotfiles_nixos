@@ -22,9 +22,10 @@ in {
     # Javascript
     nodejs
 
-    # VM
-    jdk17_headless
+    # JVM / VM
+    jdk22_headless
     graalvm-ce
+    visualvm
 
     # Scala
     scalafmt
