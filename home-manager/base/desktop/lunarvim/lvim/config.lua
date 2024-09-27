@@ -75,10 +75,11 @@ lvim.plugins = {
       require("user.kanagawa").setup()
     end
   },
-  { -- Http client
-    "rest-nvim/rest.nvim",
-    config = function()
-      require("user.rest").setup()
-    end,
-  }
+  -- Http client
+  -- { 
+  --   "rest-nvim/rest.nvim",
+  --   config = function()
+  --     require("user.rest").setup()
+  --   end,
+  -- }
 }
