@@ -33,6 +33,7 @@ in {
     unstable.sbt
     unstable.coursier
     metals
+    jetbrains.idea-ultimate
 
     websocat
 

@@ -1,5 +1,6 @@
 {
   config = {
+    programs.adb.enable = true;
     programs.light.enable = true;
     services.pipewire = {
       enable = true;
