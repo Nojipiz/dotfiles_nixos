@@ -5,6 +5,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "nojipiz";
+  wsl.wslConf.network.generateResolvConf = false;
 
   nix.settings.experimental-features = [ "nix-command" "flakes"];
 

@@ -1,8 +1,8 @@
 -- general
 vim.opt.relativenumber = true
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = true
-lvim.format_on_save.pattern = { "*.tsx", "*.ts", '*.js', "*.scala", "*.sbt" }
+lvim.format_on_save.enabled = false
+-- lvim.format_on_save.pattern = { "*.tsx", "*.ts", '*.js', "*.scala", "*.sbt" }
 lvim.leader = "space"
 lvim.keys.insert_mode["ii"] = "<Esc>"
 lvim.keys.normal_mode["<S-l>"] = "<cmd> BufferLineCycleNext<CR>"
