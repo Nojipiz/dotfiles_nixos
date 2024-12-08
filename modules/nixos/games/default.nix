@@ -3,7 +3,6 @@
 {
   environment.systemPackages = with pkgs; [
     prismlauncher
-    cava
   ];
 
   programs.steam = {

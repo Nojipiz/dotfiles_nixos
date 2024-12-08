@@ -4,7 +4,7 @@
   programs.alacritty.enable = true;
   programs.alacritty.package = pkgs.alacritty;
   programs.alacritty.settings = {
-    shell.program = "${pkgs.fish}/bin/fish";
+    terminal.shell.program = "${pkgs.fish}/bin/fish";
     colors.normal.black = "#15161E";
     colors.normal.red = "#f7768e";
     colors.normal.green = "#9ece6a";
@@ -25,6 +25,5 @@
     colors.primary.foreground = "#c0caf5";
     font.normal.family = "Firacode";
     font.size = 8;
-    live_config_reload = true;
   };
 }

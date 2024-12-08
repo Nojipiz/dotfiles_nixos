@@ -7,8 +7,6 @@ let
 in {
   environment.systemPackages = with pkgs; [
     lunarvim
-    unstable.zed-editor
-    gradle
 
     # Infrastructure
     docker
@@ -23,7 +21,7 @@ in {
     nodejs
 
     # JVM / VM
-    jdk22_headless
+    jdk17_headless
     visualvm
 
     # Scala
