@@ -12,7 +12,7 @@
       bluetooth.enable = true;
     };
     services.blueman.enable = true;
-    sound.enable = true;
+    # sound.enable = true;
 
     virtualisation.docker.enable = true;
     virtualisation.libvirtd.enable = true;

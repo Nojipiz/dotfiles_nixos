@@ -24,7 +24,6 @@ in {
 
     # JVM / VM
     jdk22_headless
-    graalvm-ce
     visualvm
 
     # Scala
@@ -33,13 +32,11 @@ in {
     unstable.sbt
     unstable.coursier
     metals
-    jetbrains.idea-ultimate
 
     websocat
 
     # Specialization Data
     dbeaver-bin
-    sqldeveloper
     file
 
     oracle-instantclient

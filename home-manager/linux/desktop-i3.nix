@@ -14,7 +14,7 @@ in {
   home = {
     username = "nojipiz";
     homeDirectory = "/home/nojipiz";
-    stateVersion = "24.05";
+    stateVersion = "24.11";
   };
 
   home.file = { 
