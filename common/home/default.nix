@@ -1,8 +1,8 @@
 {
   imports = [
-    ./core
+    ./jetbrains
+    ./lunarvim
     ./terminal
     ./zellij
   ];
 }
-

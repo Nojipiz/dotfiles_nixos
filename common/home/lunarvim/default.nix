@@ -1,8 +1,9 @@
 { pkgs, ... }:
 {
 
-  home.packages = [
-   pkgs.xclip
+  home.packages = with pkgs; [ 
+    xclip
+    neovim-unwrapped
   ];
 
   home.file.".config/lvim/config.lua" = {

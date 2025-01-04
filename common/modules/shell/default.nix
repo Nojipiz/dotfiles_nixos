@@ -1,5 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, ...}:
 {
+  environment.systemPackages = with pkgs; [
+    starship
+    alacritty # temporal
+  ];
+
   programs.nix-index.enableFishIntegration = true;
   programs.fish = {
     enable = true;
@@ -13,7 +18,6 @@
     shellAliases = {
       g = "lazygit";
       v ="lvim";
-      graalvmjava = "${pkgs.graalvm-ce}/bin/java";
     };
   };
 
@@ -38,4 +42,5 @@
       };
     };
   };
+
 }

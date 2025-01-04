@@ -1,4 +1,4 @@
-# Extra validation for Zellij
+# Extra validation for Zellij at WSL
 # Zellij fails at: https://github.com/zellij-org/zellij/issues/3379
 #
 

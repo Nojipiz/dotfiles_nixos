@@ -1,0 +1,7 @@
+{
+  imports = [
+    ./development 
+    ./shell
+    ./misc
+  ];
+}
