@@ -2,7 +2,6 @@
 {
   environment.systemPackages = with pkgs; [
     starship
-    alacritty # temporal
   ];
 
   programs.nix-index.enableFishIntegration = true;
