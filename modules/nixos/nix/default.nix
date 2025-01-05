@@ -21,7 +21,6 @@
     networkmanagerapplet
     obs-studio
 
-    alacritty
     pcmanfm
     anydesk
     slack
