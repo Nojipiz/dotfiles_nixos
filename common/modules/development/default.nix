@@ -4,6 +4,7 @@
     # TUI 
     lazydocker
     lazygit
+    lunarvim
     skim
 
     # Command line basics
@@ -14,5 +15,14 @@
     killall
     jless
     ripgrep
+    websocat
+    # Building things
+    cmake
+    gnumake
+    gcc-unwrapped
+    libtool
+
+    # Cache for Nix
+    cachix
   ];
 }

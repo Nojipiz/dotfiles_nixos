@@ -1,9 +1,4 @@
-{ pkgs, ...}:
 {
-  home.packages = with pkgs; [ 
-    zellij
-  ];
-
   programs.zellij.enable = true;
 
   home.file.".config/zellij/config.kdl" = {

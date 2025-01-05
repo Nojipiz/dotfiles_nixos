@@ -1,7 +1,0 @@
-{
-  imports = [
-    ./development 
-    ./shell
-    ./misc
-  ];
-}
