@@ -20,7 +20,8 @@
     networkmanager-openvpn
     networkmanagerapplet
     obs-studio
-
+    
+    xterm
     pcmanfm
     anydesk
     slack
