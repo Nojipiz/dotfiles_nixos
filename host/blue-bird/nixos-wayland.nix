@@ -1,6 +1,6 @@
-{ pkgs, system, home-manager, overlay-unstable, nixpkgs,  ... }:
+{ nixpkgs, system, home-manager, overlay-unstable,  ... }:
 let 
-  customModule = {
+  customModule = { pkgs, ... }:{
     environment.systemPackages = with pkgs; [
       obs-studio
       anydesk
@@ -25,16 +25,21 @@ in nixpkgs.lib.nixosSystem {
     ../../common/modules/development/js
     ../../common/modules/development/db
     ../../common/modules/development/cloud
+    ../../common/modules/edition
     ../../common/modules/gaming
+    ../../common/modules/misc
+    ../../common/modules/shell
+    ../../common/modules/virtualization
+
     ../../arch/nixos
-    ../../arch/nixos/controllers
-    ../../arch/nixos/wayland
+    ../../arch/nixos/modules/controllers
+    ../../arch/nixos/modules/wayland
 
     home-manager.nixosModules.home-manager {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = ../../arch/nixos/desktop-sway/default.nix;
+        users.nojipiz = ../../arch/nixos/home/desktop-sway/default.nix;
       };
     }
   ];

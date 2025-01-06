@@ -5,4 +5,6 @@
     ./terminal
     ./zellij
   ];
+
+  programs.home-manager.enable = true;
 }

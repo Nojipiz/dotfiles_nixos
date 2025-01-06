@@ -23,7 +23,6 @@
 
   programs.starship = {
     enable = true;
-    enableFishIntegration = true;
     settings = { 
       gcloud = {
         format = "[$symbol]($style)";

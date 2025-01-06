@@ -1,4 +1,4 @@
-{ pkgs, system, home-manager, overlay-unstable, nixpkgs,  ... }:
+{ nixpkgs, system, home-manager, overlay-unstable,  ... }:
 nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
@@ -16,7 +16,7 @@ nixpkgs.lib.nixosSystem {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = ../../arch/nixos/desktop-i3/default.nix;
+        users.nojipiz = ../../arch/wsl/home/default.nix;
       };
     }
   ];

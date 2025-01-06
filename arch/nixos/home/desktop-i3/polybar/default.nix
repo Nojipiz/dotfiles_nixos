@@ -2,6 +2,12 @@
 {
   home.packages = with pkgs; [ ethtool ];
 
+  home.file = {
+    ".config/polybar/init_polybar.sh" = {
+      source = ./init_polybar.sh;
+    };
+  };
+  
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {

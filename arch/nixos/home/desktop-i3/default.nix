@@ -1,11 +1,11 @@
 let 
   wallpapers = [
-    ../../media/wallpaper/initiald.jpg
-    ../../media/base_wallpaper.png
+    ../../../../media/wallpaper/initiald.jpg
+    ../../../../media/base_wallpaper.png
   ];
 in {
   imports = [
-    ../base/desktop
+    ../../../../common/home
 
     ./i3
     ./polybar
@@ -22,6 +22,4 @@ in {
       source = builtins.head wallpapers;
     };
   };
-
-  programs.home-manager.enable = true;
 }

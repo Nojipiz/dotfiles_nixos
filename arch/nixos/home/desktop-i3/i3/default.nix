@@ -103,7 +103,7 @@ in {
           notification = false;
         }
         {
-          command = "~/nix-config/home-manager/linux/desktop/polybar/init_polybar.sh";
+          command = "~/.config/polybar/init_polybar.sh"; # TODO: Make this variable
           always = true;
           notification = false;
         }
