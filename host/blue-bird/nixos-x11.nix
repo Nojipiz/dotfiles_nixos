@@ -1,7 +1,7 @@
-{ pkgs, system, home-manager, overlay-unstable, nixpkgs,  ... }:
+{ nixpkgs, system, home-manager, overlay-unstable,  ... }:
 let 
   customModule = {
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with nixpkgs; [
       obs-studio
       anydesk
       slack

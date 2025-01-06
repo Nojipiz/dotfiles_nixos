@@ -25,13 +25,13 @@
   {
     nixosConfigurations = {
       NixosWayland = import ./host/blue-bird/nixos-wayland.nix {
-        inherit system home-manager overlay-unstable;
+        inherit nixpkgs system home-manager overlay-unstable;
       };
       NixosX11 = import ./host/blue-bird/nixos-x11.nix {
-        inherit system home-manager overlay-unstable;
+        inherit nixpkgs system home-manager overlay-unstable;
       };
       WSL = import ./host/wolf-sea-lion/default.nix {
-        inherit system home-manager overlay-unstable;
+        inherit nixpkgs system home-manager overlay-unstable;
       };
 
       Darwin = nixpkgs.lib.nixosSystem {
