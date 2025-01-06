@@ -5,7 +5,7 @@
     openssl
   ];
 
-  programs.nix-index.enableFishIntegration = true;
+  # programs.nix-index.enableFishIntegration = true;
   programs.fish = {
     enable = true;
     shellInit = ''
