@@ -8,7 +8,7 @@ nix-darwin.lib.darwinSystem {
     home-manager.darwinModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users.nojipiz = ../../arch/wsl/home/default.nix;
+      home-manager.users.nojipiz = ../../arch/darwin/home/default.nix;
     }
   ];
 }
