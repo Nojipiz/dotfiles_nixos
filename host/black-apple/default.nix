@@ -3,7 +3,11 @@
 nix-darwin.lib.darwinSystem {
   system = "aarch64-darwin";
   modules = [ 
-    ../../arch/darwin/default.nix
+    ../../arch/darwin
+    ../../common/modules/development
+    ../../common/modules/development/jvm
+    ../../common/modules/virtualization
+    ../../common/modules/shell
 
     home-manager.darwinModules.home-manager {
       home-manager.useGlobalPkgs = true;

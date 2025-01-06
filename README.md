@@ -18,3 +18,9 @@ sudo nixos-rebuild switch --flake "./nix-config#NixosWayland"
 ```bash
 sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
 ```
+
+- MacOS
+This is a especial case, the nix flake isn't able to install `homebrew` so it's necesary to run two commands.
+```bash
+sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
+```
