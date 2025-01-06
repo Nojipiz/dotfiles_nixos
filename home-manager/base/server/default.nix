@@ -1,8 +1,0 @@
-{
-  imports = [
-    ./core
-    ./terminal
-    ./zellij
-  ];
-}
-

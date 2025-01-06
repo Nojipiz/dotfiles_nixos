@@ -4,9 +4,14 @@
 
 To run the config, download and install Nix and then run for your system:
 
-- NixOs
+- NixOs (X11 + i3wm)
 ```bash
-sudo nixos-rebuild switch --flake "./nix-config#Linux"
+sudo nixos-rebuild switch --flake "./nix-config#NixosX11"
+```
+
+- NixOs (Wayland + Sway)
+```bash
+sudo nixos-rebuild switch --flake "./nix-config#NixosWayland"
 ```
 
 - Windows Subsystem for Linux (aka WSL)

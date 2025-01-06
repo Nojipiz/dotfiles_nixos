@@ -1,5 +1,5 @@
 {
-  description = "Nojipiz's system configuration";
+  description = "Nojipiz's systems configuration";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.11";
@@ -24,92 +24,14 @@
   in
   {
     nixosConfigurations = {
-      LinuxWayland = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ( 
-            { config, pkgs, ... }: { 
-              nixpkgs.overlays = [ overlay-unstable ]; 
-            }
-          )
-          ./modules/nixos/browser
-          ./modules/nixos/controllers
-          ./modules/nixos/development
-          ./modules/nixos/games
-          ./modules/nixos/hardware
-          ./modules/nixos/networking
-          ./modules/nixos/ui/wayland
-          ./modules/nixos/user
-
-          # Architecture
-          ./modules/nixos/nix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              users.nojipiz = ./home-manager/linux/desktop-sway.nix;
-            };
-          }
-        ];
+      NixosWayland = import ./host/blue-bird/nixos-wayland.nix {
+        inherit nixpkgs system home-manager overlay-unstable;
       };
-      LinuxX11 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ( 
-            { config, pkgs, ... }: { 
-              nixpkgs.overlays = [ overlay-unstable ]; 
-            }
-          )
-          ./modules/nixos/browser
-          ./modules/nixos/controllers
-          ./modules/nixos/development
-          ./modules/nixos/games
-          ./modules/nixos/hardware
-          ./modules/nixos/networking
-          ./modules/nixos/ui/x11
-          ./modules/nixos/user
-
-          # Architecture
-          ./modules/nixos/nix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
-            };
-          }
-        ];
+      NixosX11 = import ./host/blue-bird/nixos-x11.nix {
+        inherit nixpkgs system home-manager overlay-unstable;
       };
-      WSL = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ( 
-            { config, pkgs, ... }: { 
-              nixpkgs.overlays = [ overlay-unstable ]; 
-            }
-          )
-          ./modules/nixos/browser
-          ./modules/nixos/controllers
-          ./modules/nixos/user
-          ./modules/wsl/development
-          ./modules/wsl/networking
-
-          # Architecture
-          ./modules/wsl
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              users.nojipiz = ./home-manager/linux/desktop-i3.nix;
-            };
-          }
-        ];
+      WSL = import ./host/wolf-sea-lion/default.nix {
+        inherit nixpkgs system home-manager overlay-unstable;
       };
 
       Darwin = nixpkgs.lib.nixosSystem {

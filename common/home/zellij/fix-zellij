@@ -1,0 +1,13 @@
+# Extra validation for Zellij at WSL
+# Zellij fails at: https://github.com/zellij-org/zellij/issues/3379
+#
+
+if [ -d "$XDG_RUNTIME_DIR" ]; then
+  echo "the directory $XDG_RUNTIME_DIR already exists, skipping this fix..."
+else 
+  echo "the directory $XDG_RUNTIME_DIR doesn't exists, creating..."
+  sudo mkdir $XDG_RUNTIME_DIR
+  echo "directory created"
+  sudo chmod 777 $XDG_RUNTIME_DIR
+  echo "permissions added"
+fi
