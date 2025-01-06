@@ -39,6 +39,7 @@
         inherit nixpkgs system home-manager overlay-unstable;
       };
     };
+
     darwinConfigurations = {
       Darwin = ./host/black-apple/default.nix {
         inherit nix-darwin home-manager;
