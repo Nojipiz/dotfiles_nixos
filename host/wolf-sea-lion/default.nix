@@ -1,13 +1,5 @@
 { pkgs, system, home-manager, overlay-unstable, nixpkgs,  ... }:
-let 
-  customModule = {
-    environment.systemPackages = with pkgs; [
-      obs-studio
-      anydesk
-      slack
-    ];
-  };
-in nixpkgs.lib.nixosSystem {
+nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
     ( 
@@ -15,10 +7,7 @@ in nixpkgs.lib.nixosSystem {
      nixpkgs.overlays = [ overlay-unstable ];
      }
     )
-    customModule
-    ./hardware
     ./networking
-    ./user
     ../../common/modules/browser
     ../../common/modules/development
     ../../arch/wsl
