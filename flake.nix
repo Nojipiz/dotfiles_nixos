@@ -41,7 +41,7 @@
     };
 
     darwinConfigurations = {
-      Davids-MacBook-Pro = ./host/black-apple/default.nix {
+      Davids-MacBook-Pro = import ./host/black-apple/default.nix {
         inherit nix-darwin home-manager;
       };
     };
