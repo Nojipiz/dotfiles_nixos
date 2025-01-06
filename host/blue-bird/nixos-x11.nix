@@ -21,7 +21,14 @@ in nixpkgs.lib.nixosSystem {
     ./user
     ../../common/modules/browser
     ../../common/modules/development
-    ../../arch/wsl
+    ../../common/modules/development/jvm
+    ../../common/modules/development/js
+    ../../common/modules/development/db
+    ../../common/modules/development/cloud
+    ../../common/modules/gaming
+    ../../arch/nixos
+    ../../arch/nixos/controllers
+    ../../arch/nixos/x11
 
     home-manager.nixosModules.home-manager {
       home-manager = {

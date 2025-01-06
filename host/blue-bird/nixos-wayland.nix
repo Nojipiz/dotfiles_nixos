@@ -21,13 +21,20 @@ in nixpkgs.lib.nixosSystem {
     ./user
     ../../common/modules/browser
     ../../common/modules/development
-    ../../arch/wsl
+    ../../common/modules/development/jvm
+    ../../common/modules/development/js
+    ../../common/modules/development/db
+    ../../common/modules/development/cloud
+    ../../common/modules/gaming
+    ../../arch/nixos
+    ../../arch/nixos/controllers
+    ../../arch/nixos/wayland
 
     home-manager.nixosModules.home-manager {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = ../../arch/nixos/desktop-i3/default.nix;
+        users.nojipiz = ../../arch/nixos/desktop-sway/default.nix;
       };
     }
   ];
