@@ -19,6 +19,7 @@
   users.users.nojipiz.home = "/Users/nojipiz";
   home-manager.backupFileExtension = "backup";
   nix.configureBuildUsers = true;
+  nix.settings.buildUsersGroup = "nixbld";
   nix.useDaemon = true;
 
   system.defaults = {
