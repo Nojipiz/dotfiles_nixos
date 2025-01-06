@@ -5,7 +5,7 @@
     openssl
   ];
 
-  # programs.nix-index.enableFishIntegration = true;
+  programs.nix-index.enableFishIntegration = true; # TODO: Don't work in macos
   programs.fish = {
     enable = true;
     shellInit = ''
@@ -21,7 +21,7 @@
     };
   };
 
-  programs.starship = {
+  programs.starship = { # TODO: Don't work in macos
     enable = true;
     settings = { 
       gcloud = {

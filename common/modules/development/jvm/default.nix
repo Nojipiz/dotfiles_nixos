@@ -7,9 +7,9 @@
 
     # Scala
     scalafmt
-    unstable.scala-cli
-    unstable.sbt
-    unstable.coursier
+    scala-cli
+    sbt
+    coursier
     metals
   ];
 }

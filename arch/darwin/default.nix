@@ -12,9 +12,8 @@
   nix.settings.experimental-features = "nix-command flakes";
   programs.zsh.enable = true;  # default shell on catalina
   # system.configurationRevision = self.rev or self.dirtyRev or null;
-  system.stateVersion = 6;
+  system.stateVersion = 1;
   ids.gids.nixbld = 350; # Does this works? 
-  nixpkgs.hostPlatform = "aarch64-darwin";
   security.pam.enableSudoTouchIdAuth = true;
 
   users.users.nojipiz.home = "/Users/nojipiz";
@@ -22,6 +21,12 @@
   nix.configureBuildUsers = true;
   nix.settings.build-users-group = "nixbld";
   nix.useDaemon = true;
+
+  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowBroken = false;
+  };
 
   system.defaults = {
     dock.autohide = true;

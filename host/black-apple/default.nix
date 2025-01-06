@@ -6,6 +6,7 @@ nix-darwin.lib.darwinSystem {
     ../../arch/darwin
     ../../common/modules/development
     ../../common/modules/development/jvm
+    ../../common/modules/development/js
     ../../common/modules/virtualization
     ../../common/modules/shell
 
