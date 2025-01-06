@@ -9,10 +9,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Darwin 
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    
+    # Minecraft
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-unstable, ... }:
+  outputs = { nixpkgs, nix-darwin, home-manager, nixpkgs-unstable, ... }:
   let
     system = "x86_64-linux";
     overlay-unstable = final: prev: {
@@ -33,9 +38,10 @@
       WSL = import ./host/wolf-sea-lion/default.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-
-      Darwin = nixpkgs.lib.nixosSystem {
-        # TODO: Implement this
+    };
+    darwinConfigurations = {
+      Darwin = ./host/black-apple/default.nix {
+        inherit nix-darwin home-manager;
       };
     };
   };
