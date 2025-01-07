@@ -1,6 +1,7 @@
 {
   imports = [
     ../../../common/home
+    ./aerospace
   ];
 
   home.username = "nojipiz";

@@ -4,23 +4,35 @@
 
 To run the config, download and install Nix and then run for your system:
 
-- NixOs (X11 + i3wm)
+## NixOs
+To install NixOs should be done using the official installer: https://nixos.org/download/
+
+- X11 + i3wm
 ```bash
 sudo nixos-rebuild switch --flake "./nix-config#NixosX11"
 ```
 
-- NixOs (Wayland + Sway)
+- Wayland + Sway
 ```bash
 sudo nixos-rebuild switch --flake "./nix-config#NixosWayland"
 ```
 
-- Windows Subsystem for Linux (aka WSL)
+## WSL
+WSL should be installed, and NixOs should be installed from here: https://github.com/nix-community/NixOS-WSL
+
 ```bash
 sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
 ```
 
-- MacOS
+## MacOs
+Here is recommended to use the installer from DeterminateSystems, can be found here: https://github.com/DeterminateSystems/nix-installer?tab=readme-ov-file#determinate-nix-installer
+
 This is a especial case, the nix flake isn't able to install `homebrew` so it's necesary to run two commands.
+- Installing Homebrew
 ```bash
-sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+```bash
+todo!
 ```

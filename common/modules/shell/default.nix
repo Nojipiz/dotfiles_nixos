@@ -1,45 +1,6 @@
-{ pkgs, ...}:
 {
-  environment.systemPackages = with pkgs; [
-    starship
-    openssl
+  imports = [
+    ./fish.nix
+    ./starship.nix
   ];
-
-  programs.nix-index.enableFishIntegration = true; # TODO: Don't work in macos
-  programs.fish = {
-    enable = true;
-    shellInit = ''
-      set fish_greeting '''
-    '';
-    interactiveShellInit = ''
-      fish_add_path ~/mutable_node_modules/bin
-      fish_add_path ~/.local/bin
-    '';
-    shellAliases = {
-      g = "lazygit";
-      v ="lvim";
-    };
-  };
-
-  programs.starship = { # TODO: Don't work in macos
-    enable = true;
-    settings = { 
-      gcloud = {
-        format = "[$symbol]($style)";
-        symbol = "☁️ ";
-        style = "bold blue";
-      };
-
-      java = {
-        detect_extensions = ["java" "cljs" "cljc"];
-      };
-
-      scala = {
-        format = "[$\{symbol} ($\{version} )]($style)";
-        symbol = "Scala";
-        style = "bold red dimmed";
-      };
-    };
-  };
-
 }
