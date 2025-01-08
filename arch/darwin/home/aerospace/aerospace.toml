@@ -12,10 +12,10 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 cmd-enter = 'exec-and-forget open -n -a Alacritty'
 
 # i3 wraps focus by default
-cmd-l =         'focus --boundaries-action wrap-around-the-workspace left'
+cmd-l =         'focus --boundaries-action wrap-around-the-workspace right'
 cmd-j =         'focus --boundaries-action wrap-around-the-workspace down'
 cmd-k =         'focus --boundaries-action wrap-around-the-workspace up'
-cmd-h =         'focus --boundaries-action wrap-around-the-workspace right'
+cmd-h =         'focus --boundaries-action wrap-around-the-workspace left'
 
 cmd-shift-h = 'move left'
 cmd-shift-j = 'move down'
