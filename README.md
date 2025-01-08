@@ -38,3 +38,10 @@ This is a especial case, the nix flake isn't able to install `homebrew` so it's 
 ```bash
  nix run nix-darwin -- switch --flake ~/Documents/dotfiles_nixos
 ```
+
+Then, there is configuration required for my keyboard (Lily58) to work, just change 'Modifier Keys' and set: 
+
+- Command to Option
+- Option to Command
+
+The mouse is inverted, it's necessary to change 'Natural scrolling' to false. (and probably to increase the tracking speed).
