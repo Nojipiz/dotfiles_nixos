@@ -29,7 +29,6 @@
   };
 
   fonts.packages = with pkgs; [
-    roboto
     fira-code
     fira-code-symbols
     (nerdfonts.override { fonts = [ "FiraCode" ]; })

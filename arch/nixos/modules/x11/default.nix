@@ -25,7 +25,7 @@ in {
     roboto
     fira-code
     fira-code-symbols
-    (nerdfonts.override { fonts = [ "RobotoMono" ]; })
+    (nerdfonts.override { fonts = [ "RobotoMono" "FiraCode"]; })
   ];
 
   environment.systemPackages = with pkgs; [

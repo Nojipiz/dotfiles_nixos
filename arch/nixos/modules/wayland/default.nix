@@ -20,9 +20,9 @@
 
   fonts.packages = with pkgs; [
     roboto
-      fira-code
-      fira-code-symbols
-      (nerdfonts.override { fonts = [ "RobotoMono" ]; })
+    fira-code
+    fira-code-symbols
+    (nerdfonts.override { fonts = [ "RobotoMono" "FiraCode"]; })
   ];
 
   environment.systemPackages = with pkgs; [
