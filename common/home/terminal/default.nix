@@ -4,6 +4,7 @@
   programs.alacritty.enable = true;
   programs.alacritty.package = pkgs.alacritty;
   programs.alacritty.settings = {
+    window.option_as_alt = "Both";
     terminal.shell.program = "${pkgs.fish}/bin/fish";
     colors.normal.black = "#15161E";
     colors.normal.red = "#f7768e";
