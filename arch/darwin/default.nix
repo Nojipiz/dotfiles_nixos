@@ -32,6 +32,6 @@
     roboto
     fira-code
     fira-code-symbols
-    (nerdfonts.override { fonts = [ "RobotoMono" ]; })
+    (nerdfonts.override { fonts = [ "Fira Code" ]; })
   ];
 }

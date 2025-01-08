@@ -23,7 +23,7 @@
     colors.bright.white = "#c0caf5";
     colors.primary.background = "#1a1b26";
     colors.primary.foreground = "#c0caf5";
-    font.normal.family = "Firacode";
+    font.normal.family = "Fira Code";
     font.size = 12;
   };
 }
