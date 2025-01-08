@@ -13,7 +13,6 @@
     "$HOME/.nix-profile/bin"
   ];
 
-  programs.home-manager.enable = true;
   programs.zsh = {
     enable = true;
     initExtra = ''

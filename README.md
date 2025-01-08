@@ -36,5 +36,5 @@ This is a especial case, the nix flake isn't able to install `homebrew` so it's 
 
 - Running the flake
 ```bash
-todo!
+ nix run nix-darwin -- switch --flake ~/Documents/dotfiles_nixos
 ```

@@ -24,6 +24,6 @@
     colors.primary.background = "#1a1b26";
     colors.primary.foreground = "#c0caf5";
     font.normal.family = "Firacode";
-    font.size = 8;
+    font.size = 12;
   };
 }
