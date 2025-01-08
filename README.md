@@ -20,6 +20,7 @@ sudo nixos-rebuild switch --flake "./nix-config#NixosWayland"
 ## WSL
 WSL should be installed, and NixOs should be installed from here: https://github.com/nix-community/NixOS-WSL
 
+- Running the flake
 ```bash
 sudo nixos-rebuild switch --flake "./nix-config#WSL" --impure
 ```
@@ -33,6 +34,7 @@ This is a especial case, the nix flake isn't able to install `homebrew` so it's 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+- Running the flake
 ```bash
 todo!
 ```
