@@ -45,3 +45,5 @@ Then, there is configuration required for my keyboard (Lily58) to work, just cha
 - Option to Command
 
 The mouse is inverted, it's necessary to change 'Natural scrolling' to false. (and probably to increase the tracking speed).
+
+There is more config, like Chrome windows that require modified shortcuts (still don't know if those are available here).
