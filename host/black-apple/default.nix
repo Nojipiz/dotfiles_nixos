@@ -8,7 +8,6 @@ nix-darwin.lib.darwinSystem {
     ../../common/modules/development
     ../../common/modules/development/jvm
     ../../common/modules/development/js
-    ../../common/modules/virtualization
     ../../common/modules/shell/fish.nix
 
     home-manager.darwinModules.home-manager {
