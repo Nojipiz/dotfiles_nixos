@@ -2,6 +2,8 @@
 {  
   environment.systemPackages = with pkgs; [
     chromium
+    firefox
+    tor-browser
     pcmanfm
   ];
   programs.chromium.enable = true;

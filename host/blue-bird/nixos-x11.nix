@@ -34,6 +34,7 @@ in nixpkgs.lib.nixosSystem {
     ../../arch/nixos
     ../../arch/nixos/modules/controllers
     ../../arch/nixos/modules/x11
+    ../../arch/nixos/modules/development
 
     home-manager.nixosModules.home-manager {
       home-manager = {
