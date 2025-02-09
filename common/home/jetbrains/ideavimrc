@@ -19,9 +19,6 @@ let mapleader=" "
 nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
 
 """ Navigation
-nnoremap <c-\> :action SplitVertically<CR>
-nnoremap <c--> :action SplitHorizontally<CR>
-nnoremap <c-=> :action Unsplit<CR>
 nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
 sethandler <c-j> a:vim
 sethandler <c-k> a:vim
@@ -59,9 +56,9 @@ nnoremap <leader>w :write<CR>
 
 """ Searching and Source Code Navigation
 set incsearch
-nnoremap <leader>sf :action SearchEverywhere<CR>
+nnoremap <leader>sf :action GotoFile<CR>
+nnoremap <leader>st :action SearchEverywhere<CR>
 nnoremap <leader>u :action FindUsages<CR>
-nnoremap <leader>s :action GotoRelated<CR>
 nnoremap <leader>h :action CallHierarchy<CR>
 nnoremap <leader>b :action ShowNavBar<CR>
 nnoremap <c-s> :action FileStructurePopup<CR>
@@ -70,6 +67,7 @@ nnoremap <leader>e :NERDTreeToggle<CR>
 """ Tool windows
 nnoremap <c-p> :action JumpToLastWindow<CR>
 nnoremap <c-x> :action HideAllWindows<CR>
+nmap <leader>gg :action ActivateTerminalToolWindow<CR>
 
 """ Running and Debugging
 nnoremap ,r :action ContextRun<CR>
@@ -86,3 +84,6 @@ set visualbell
 set noerrorbells
 
 imap ii <Esc>
+
+""" Removing g strange mapping
+map gg g
