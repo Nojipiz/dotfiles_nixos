@@ -85,5 +85,3 @@ set noerrorbells
 
 imap ii <Esc>
 
-""" Removing g strange mapping
-map gg g

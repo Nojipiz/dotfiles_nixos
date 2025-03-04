@@ -8,7 +8,7 @@
 
   services.zerotierone = {
     enable = true;
-    joinNetworks = [ ];
+    joinNetworks = [];
   };
   networking = {
     hostName = "OLap"; 
@@ -19,7 +19,10 @@
     enable = true;
     allowedTCPPorts = [ 80 443 19000 ];
     allowedTCPPortRanges = [
-    { from = 1000 ; to = 9000; }
+      { from = 1000 ; to = 9000; }
+    ];
+    allowedUDPPortRanges = [
+      { from = 19000; to = 20000; }
     ];
   };
 }
