@@ -4,8 +4,10 @@
     # TUI 
     lazydocker
     lazygit
-    lunarvim
     skim
+
+    # Editors
+    lunarvim 
 
     # Command line basics
     git
