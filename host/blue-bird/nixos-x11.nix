@@ -1,4 +1,4 @@
-{ nixpkgs, system, home-manager, overlay-unstable,  ... }:
+{ nixpkgs, system, home-manager, overlay-unstable, ... }:
 let 
   customModule = { pkgs, ... }:{
     environment.systemPackages = with pkgs; [
