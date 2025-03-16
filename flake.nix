@@ -15,6 +15,9 @@
     
     # Minecraft
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
+
+    # Doom Emacs
+    nix-doom-emacs-unstraightened.url = "github:marienz/nix-doom-emacs-unstraightened";
   };
 
   outputs = { nixpkgs, nix-darwin, home-manager, nixpkgs-unstable, ... }:

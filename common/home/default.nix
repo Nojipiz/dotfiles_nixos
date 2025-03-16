@@ -2,7 +2,6 @@
   imports = [
     ./jetbrains
     ./lunarvim
-    ./doom-emacs
     ./terminal
     ./zellij
   ];
