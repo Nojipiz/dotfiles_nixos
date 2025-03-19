@@ -5,6 +5,6 @@
   ];
   
   home.file.".config/zed" = {
-    source = ./config;
+    source = config/zed;
   };
 }

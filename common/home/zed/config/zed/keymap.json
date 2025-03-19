@@ -40,6 +40,8 @@
       "space l r": "editor::Rename",
       "space e": "workspace::ToggleLeftDock",
       "g r": "editor::GoToDeclaration"
+      "ctrl-d": "vim::ScrollDown",
+      "ctrl-u": "vim::ScrollUp"
     }
   },
   {
