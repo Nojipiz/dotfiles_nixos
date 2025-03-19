@@ -1,10 +1,11 @@
 {
   imports = [
+    ./emacs
     ./jetbrains
     ./lunarvim
     ./terminal
+    ./zed
     ./zellij
-    ./emacs
   ];
 
   programs.home-manager.enable = true;
