@@ -21,11 +21,10 @@
   {
     "context": "Terminal",
     "bindings": {
-      "shift-h": "pane::ActivatePreviousItem",
-      "shift-l": "pane::ActivateNextItem",
       "ctrl-t": "workspace::NewCenterTerminal"
     }
   },
+  /* Menus */
   {
     "context": "menu || Picker",
     "bindings": {
@@ -33,26 +32,34 @@
       "ctrl-j": ["workspace::SendKeystrokes", "down"]
     }
   },
-  // Put key bindings here if you want them to work in normal & visual mode.
+  /* Normal + Visual Vim modes */
   {
     "context": "VimControl && !menu",
     "bindings": {
-      /* Start: Pane movements */
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-j": "workspace::ActivatePaneDown",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      /* End: Pane movements */
+      "space w": "workspace::Save",
+      "space l a": "editor::ToggleCodeActions",
+      "space c": "pane::CloseActiveItem",
+      "space q": "pane::CloseActiveItem",
+      "space /": "vim::ToggleComments"
+    }
+  },
+  /* Normal + Visual Vim or Terminal */
+  {
+    "context": "(VimControl && !menu) || Terminal",
+    "bindings": {
       /* Start: Item movements */
       "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
       /* End: Item movements */
-      "space w": "workspace::Save",
-      "space l a": "editor::ToggleCodeActions",
-      "space c": "pane::CloseActiveItem",
-      "space q": "pane::CloseActiveItem"
+      /* Start: Pane movements */
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp"
+      /* End: Pane movements */
     }
   },
+  /* Normal Vim mode */
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
@@ -70,34 +77,13 @@
       "i i": "vim::NormalBefore"
     }
   },
+  /* Other screens */
   {
     "context": "EmptyPane || SharedScreen || (VimControl && !menu)",
     "bindings": {
       "space s f": "file_finder::Toggle",
       "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
-      "space g g": "git_panel::ToggleFocus"
-    }
-  },
-  /* Git Panel */
-  {
-    "context": "GitPanel",
-    "bindings": {
-      "esc": "workspace::ToggleLeftDock",
-      "q": "workspace::ToggleLeftDock",
-      "p": "git::Pull",
-      "P": "git::Push",
-      "c": "git::Commit",
-      "a": "git::StageAll"
-    }
-  },
-  {
-    "context": "GitPanel > Editor",
-    "bindings": {
-      "q": null,
-      "p": null,
-      "P": null,
-      "c": null,
-      "a": null
+      "space g g": "workspace::NewCenterTerminal"
     }
   }
 ]
