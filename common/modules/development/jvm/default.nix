@@ -10,6 +10,5 @@
     scala-cli
     sbt
     coursier
-    metals
   ];
 }

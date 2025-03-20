@@ -21,6 +21,7 @@ in nixpkgs.lib.nixosSystem {
     ./user
     ../../common/modules/browser
     ../../common/modules/development
+    ../../common/modules/development/lsp
     ../../common/modules/development/jvm
     ../../common/modules/development/js
     ../../common/modules/development/db

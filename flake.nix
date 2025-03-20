@@ -9,10 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Darwin 
+    # Darwin
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    
     # Minecraft
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
   };
@@ -47,4 +46,3 @@
     };
   };
 }
-
