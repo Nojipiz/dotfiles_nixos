@@ -1,9 +1,16 @@
 [
   /* Global Editor */
   {
-    "context": "Editor",
+    "context": "Editor || Terminal",
     "bindings": {
-      "ctrl-t": "workspace::NewCenterTerminal"
+      "ctrl-t": "workspace::NewCenterTerminal",
+
+      /* Start: Pane movements */
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp"
+      /* End: Pane movements */
     }
   },
   /* Tree Explorer */
@@ -15,13 +22,6 @@
       "d": "project_panel::Delete",
       "x": "project_panel::Cut",
       "c": "project_panel::Copy"
-    }
-  },
-  /* Terminal */
-  {
-    "context": "Terminal",
-    "bindings": {
-      "ctrl-t": "workspace::NewCenterTerminal"
     }
   },
   /* Menus */
@@ -49,14 +49,8 @@
     "bindings": {
       /* Start: Item movements */
       "shift-h": "pane::ActivatePreviousItem",
-      "shift-l": "pane::ActivateNextItem",
+      "shift-l": "pane::ActivateNextItem"
       /* End: Item movements */
-      /* Start: Pane movements */
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-j": "workspace::ActivatePaneDown",
-      "ctrl-k": "workspace::ActivatePaneUp"
-      /* End: Pane movements */
     }
   },
   /* Normal Vim mode */
