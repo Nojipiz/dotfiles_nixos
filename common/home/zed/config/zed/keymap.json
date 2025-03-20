@@ -14,11 +14,11 @@
     }
   },
   {
-      "context": "menu",
-      "bindings": {
-        "ctrl-j": [ "workspace::SendKeystrokes", "down"],
-        "ctrl-k": [ "workspace::SendKeystrokes", "up"]
-      }
+    "context": "menu",
+    "bindings": {
+      "ctrl-j": ["workspace::SendKeystrokes", "down"],
+      "ctrl-k": ["workspace::SendKeystrokes", "up"]
+    }
   },
   {
     "context": "VimControl && !menu",
@@ -28,8 +28,10 @@
       "shift-h": "pane::ActivatePrevItem",
       "shift-l": "pane::ActivateNextItem",
       "space c": "pane::CloseActiveItem",
-      "space f": "file_finder::Toggle",
-      "space l a": "editor::ToggleCodeActions"
+      "space s f": "file_finder::Toggle",
+      "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
+      "space l a": "editor::ToggleCodeActions",
+      "space g g": "editor::ToggleCodeActions"
       //"space q": "workspace::CloseWindow"
     }
   },
@@ -39,7 +41,7 @@
       // "shift-y": ["workspace::SendKeystrokes", "y $"] // Use neovim's yank behavior: yank to end of line.
       "space l r": "editor::Rename",
       "space e": "workspace::ToggleLeftDock",
-      "g r": "editor::GoToDeclaration"
+      "g r": "editor::GoToDeclaration",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp"
     }
