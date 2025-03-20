@@ -2,16 +2,17 @@
   "base_keymap": "JetBrains",
   "theme": "Ayu Mirage",
   "telemetry": {
-    "metrics": false
+    "metrics": true
   },
   "tab_size": 2,
+  "relative_line_numbers": true,
   "vim_mode": true,
   "ui_font_size": 16,
   "buffer_font_size": 16,
   "lsp": {
     "metals": {
       "binary": {
-        "path": "/run/current-system/sw/bin/metals",
+        "path": "/run/current-system/sw/bin/metals"
       },
       "settings": {
         "inlayHints": {
