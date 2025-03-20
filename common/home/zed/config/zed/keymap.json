@@ -1,63 +1,95 @@
 [
+  /* Global Editor */
   {
-    "context": "ProjectPanel && not_editing", // Tree Explorer Stuff
+    "context": "Editor",
     "bindings": {
-      "space e": "workspace::ToggleLeftDock",
-      "a": "project_panel::NewFile"
+      "ctrl-t": "workspace::NewCenterTerminal"
     }
   },
+  /* Tree Explorer */
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock",
+      "a": "project_panel::NewFile",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy"
+    }
+  },
+  /* Terminal */
   {
     "context": "Terminal",
     "bindings": {
-      "shift-h": "pane::ActivatePrevItem",
-      "shift-l": "pane::ActivateNextItem"
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+      "ctrl-t": "workspace::NewCenterTerminal"
     }
   },
   {
-    "context": "menu",
+    "context": "menu || Picker",
     "bindings": {
-      "ctrl-j": ["workspace::SendKeystrokes", "down"],
-      "ctrl-k": ["workspace::SendKeystrokes", "up"]
+      "ctrl-k": ["workspace::SendKeystrokes", "up"],
+      "ctrl-j": ["workspace::SendKeystrokes", "down"]
     }
   },
+  // Put key bindings here if you want them to work in normal & visual mode.
   {
     "context": "VimControl && !menu",
     "bindings": {
-      // Put key bindings here if you want them to work in normal & visual mode.
-      "space w": "workspace::Save",
-      "shift-h": "pane::ActivatePrevItem",
+      /* Start: Pane movements */
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      /* End: Pane movements */
+      /* Start: Item movements */
+      "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
-      "space c": "pane::CloseActiveItem",
-      "space s f": "file_finder::Toggle",
-      "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
+      /* End: Item movements */
+      "space w": "workspace::Save",
       "space l a": "editor::ToggleCodeActions",
-      "space g g": "editor::ToggleCodeActions"
-      //"space q": "workspace::CloseWindow"
+      "space c": "pane::CloseActiveItem",
+      "space q": "pane::CloseActiveItem"
     }
   },
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
-      // "shift-y": ["workspace::SendKeystrokes", "y $"] // Use neovim's yank behavior: yank to end of line.
       "space l r": "editor::Rename",
-      "space e": "workspace::ToggleLeftDock",
+      "space e": "project_panel::ToggleFocus",
       "g r": "editor::GoToDeclaration",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp"
     }
   },
+  /* Insert Vim mode */
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "i i": "vim::NormalBefore" // In insert mode, make jk escape to normal mode.
+      "i i": "vim::NormalBefore"
     }
   },
   {
-    "context": "EmptyPane || SharedScreen",
+    "context": "EmptyPane || SharedScreen || (VimControl && !menu)",
     "bindings": {
-      // Put key bindings here (in addition to the context above) if you want them to
-      // work when no editor exists.
-      // "space f": "file_finder::Toggle"
+      "space s f": "file_finder::Toggle",
+      "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
+      "space g g": "git_panel::ToggleFocus"
+    }
+  },
+  /* Git Panel */
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "esc": "workspace::ToggleLeftDock",
+      "q": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "GitPanel > Editor",
+    "bindings": {
+      "q": null
     }
   }
 ]

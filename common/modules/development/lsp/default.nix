@@ -6,8 +6,10 @@
 
     # Elixir
     elixir-ls
+    elixir_1_18
 
     # Go
     gopls
+    go
   ];
 }
