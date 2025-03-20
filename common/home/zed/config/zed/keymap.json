@@ -79,5 +79,12 @@
       "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
       "space g g": "workspace::NewCenterTerminal"
     }
+  },
+  /* Global search window */
+  {
+    "context": "ProjectSearchBar",
+    "bindings": {
+      "escape": "pane::CloseActiveItem"
+    }
   }
 ]
