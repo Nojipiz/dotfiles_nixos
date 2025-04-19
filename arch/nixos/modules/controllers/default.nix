@@ -12,7 +12,6 @@
     bluetooth.enable = true;
   };
   services.blueman.enable = true;
-  # sound.enable = true;
 
   environment.systemPackages = with pkgs; [
     blueman # Bluetooth 

@@ -28,7 +28,7 @@
   in
   {
     nixosConfigurations = {
-      NixosWayland = import ./host/blue-bird/nixos-wayland.nix {
+      NixosWayland = import ./host/hp-victus/nixos-wayland.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
       NixosX11 = import ./host/blue-bird/nixos-x11.nix {
