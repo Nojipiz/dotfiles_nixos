@@ -31,16 +31,16 @@
       NixosWayland = import ./host/hp-victus/nixos-wayland.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-      NixosX11 = import ./host/blue-bird/nixos-x11.nix {
+      NixosX11 = import ./host/asus-vivobook/nixos-x11.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-      WSL = import ./host/wolf-sea-lion/default.nix {
+      WSL = import ./host/windows-ten-plus/default.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
     };
 
     darwinConfigurations = {
-      Davids-MacBook-Pro = import ./host/black-apple/default.nix {
+      Davids-MacBook-Pro = import ./host/apple-silicon/default.nix {
         inherit nix-darwin home-manager;
       };
     };

@@ -11,8 +11,8 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  # DO NOT downgrade, a kernel older than 6.13 will 
-  # throw some issues with kworkers. :)
+  # DON'T DOWNGRADE, a kernel older than 6.13 will throw some issues with 
+  # kworkers and set one cpu to 100% usage all the time :)
   boot.kernelPackages = pkgs.linuxPackages_6_13;
 
   # Use the systemd-boot EFI boot loader. 
