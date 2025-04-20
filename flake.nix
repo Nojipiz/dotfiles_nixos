@@ -28,21 +28,32 @@
   in
   {
     nixosConfigurations = {
-      NixosWayland = import ./host/hp-victus/nixos-wayland.nix {
+      NixosWayland = import ./host/victus/nixos-wayland.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-      NixosX11 = import ./host/asus-vivobook/nixos-x11.nix {
+      NixosX11 = import ./host/vivobook/nixos-x11.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-      WSL = import ./host/windows-ten-plus/default.nix {
+      WSL = import ./host/any-windows/default.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
     };
 
     darwinConfigurations = {
-      Davids-MacBook-Pro = import ./host/apple-silicon/default.nix {
+      Davids-MacBook-Pro = import ./host/any-silicon/default.nix {
         inherit nix-darwin home-manager;
       };
+    };
+
+    # Standalone home-manager configuration entry point.
+    # (To rebuild home-manager only)
+    homeConfigurations = {
+      ${username}@${hostname} = 
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsFor system;
+          extraSpecialArgs = { inherit username inputs; };
+          modules = [ (import ./arch/nixos/home/desktop-sway/default.nix) ];
+        }
     };
   };
 }
