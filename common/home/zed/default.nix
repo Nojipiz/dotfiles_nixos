@@ -1,7 +1,7 @@
 {pkgs, ...}:
 {
   home.packages = with pkgs; [
-    unstable.zed-editor
+    zed-editor
   ];
 
   home.file.".config/zed" = {

@@ -48,12 +48,11 @@
     # Standalone home-manager configuration entry point.
     # (To rebuild home-manager only)
     homeConfigurations = {
-      ${username}@${hostname} = 
+      desktopSway = 
         home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgsFor system;
-          extraSpecialArgs = { inherit username inputs; };
+          pkgs = nixpkgs.legacyPackages.${system};
           modules = [ (import ./arch/nixos/home/desktop-sway/default.nix) ];
-        }
+        };
     };
   };
 }

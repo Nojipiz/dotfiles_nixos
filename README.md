@@ -42,3 +42,10 @@ This is a especial case, the nix flake isn't able to install `homebrew` so it's 
 The mouse is inverted, it's necessary to change 'Natural scrolling' to false. (and probably to increase the tracking speed).
 
 There is more config, like Chrome windows that require modified shortcuts (still don't know if those are available here).
+
+## home-manager standalone module.
+To build **just** your home-manager config, you can use this module.
+TODO: Add home-manager as standalone too to all configs.
+```bash
+home-manager switch --flake "./nix-config#desktopSway"
+```

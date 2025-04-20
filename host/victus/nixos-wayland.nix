@@ -1,10 +1,11 @@
 { nixpkgs, system, home-manager, overlay-unstable,  ... }:
 let 
-  customModule = { pkgs, ... }:{
-    environment.systemPackages = with pkgs; [
-      obs-studio
-      anydesk
-      slack
+  extrasModule = { pkgs, ... }:{
+    environment.systemPackages = [
+      pkgs.home-manager
+      pkgs.obs-studio
+      pkgs.anydesk
+      pkgs.slack
     ];
   };
 in nixpkgs.lib.nixosSystem {
@@ -15,7 +16,7 @@ in nixpkgs.lib.nixosSystem {
      nixpkgs.overlays = [ overlay-unstable ];
      }
     )
-    customModule
+    extrasModule 
     ./hardware
     # ./hardware/nvidia.nix
     ./networking
