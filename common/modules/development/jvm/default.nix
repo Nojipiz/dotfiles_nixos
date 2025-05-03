@@ -9,6 +9,7 @@
     scalafmt
     scala-cli
     sbt
-    coursier
+    coursier 
+    metals
   ];
 }

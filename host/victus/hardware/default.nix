@@ -13,7 +13,7 @@
 
   # DON'T DOWNGRADE, a kernel older than 6.13 will throw some issues with 
   # kworkers and set one cpu to 100% usage all the time :)
-  boot.kernelPackages = pkgs.linuxPackages_6_13;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Use the systemd-boot EFI boot loader. 
   boot.loader.systemd-boot.enable = true;

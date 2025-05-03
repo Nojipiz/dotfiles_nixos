@@ -48,9 +48,20 @@
     # Standalone home-manager configuration entry point.
     # (To rebuild home-manager only)
     homeConfigurations = {
-      desktopSway = 
+      desktopSway =
         home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            system = system;
+            overlays = [
+              (final: prev: {
+                unstable = import nixpkgs-unstable {
+                  system = system;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+            config.allowUnfree = true;
+          };
           modules = [ (import ./arch/nixos/home/desktop-sway/default.nix) ];
         };
     };

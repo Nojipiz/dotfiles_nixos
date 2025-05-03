@@ -16,7 +16,9 @@
         modules-center = [ "sway/window" ];
         modules-right = [ "tray" ];
 
-        "cpu" = { "format" = "<span color='#b4befe'> </span>{usage}%"; };
+        "cpu" = { 
+          "format" = "<span color='#b4befe'> </span>{usage}%"; 
+        };
         "memory" = {
           "interval" = 1;
           "format" = "<span color='#b4befe'> </span>{used:0.1f}G/{total:0.1f}G";
@@ -61,16 +63,17 @@
           "format-disabled" = "";
           "format-connected" = "<span color='#b4befe'></span> {num_connections}";
           "tooltip-format" = "{device_enumerate}";
-          "tooltip-format-enumerate-connected" = "{device_alias}   {device_address}";
+          "tooltip-format-enumerate-connected" = "{device_alias}";
           "on-click" = "${pkgs.blueman}/bin/blueman-manager";
         };
         "network" = {
-          "interface" = "wlp3s0f4u1";
+          "interface" = "wlo1";
           "format" = "{ifname}";
           "format-wifi" = "<span color='#b4befe'> </span> {essid}";
           "format-ethernet" = "{ipaddr}/{cidr} ";
           "format-disconnected" = "<span color='#b4befe'>󰖪 </span> No wifi :c";
           "tooltip" = false;
+          "on-click" = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
         };
         "battery" = {
           "format" = "<span color='#b4befe'>{icon} </span> {capacity}%";
@@ -103,12 +106,16 @@
       }
 
       #workspaces {
-        color: #b4befe;
         padding: 1px 0;
+      }
+
+      #workspaces button {
+        color: #858b9f;
       }
 
       #workspaces button.focused {
         color: #cdd6f4;
+        font-weight: bold;
       }
 
       #workspaces button:hover{

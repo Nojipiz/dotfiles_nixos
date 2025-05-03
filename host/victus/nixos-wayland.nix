@@ -26,7 +26,7 @@ in nixpkgs.lib.nixosSystem {
     ../../common/modules/development/jvm
     ../../common/modules/development/js
     ../../common/modules/development/db
-    #../../common/modules/development/cloud
+    ../../common/modules/development/cloud
     ../../common/modules/edition
     ../../common/modules/gaming
     ../../common/modules/misc
