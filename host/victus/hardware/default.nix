@@ -8,6 +8,8 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
+  # Note: This Victus laptop have a problem with the usb ports, seems isn't compatible yet.
+  boot.blacklistedKernelModules = [ "ucsi_acpi" "usbcore" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
