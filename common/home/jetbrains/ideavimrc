@@ -57,7 +57,7 @@ nnoremap <leader>w :write<CR>
 """ Searching and Source Code Navigation
 set incsearch
 nnoremap <leader>sf :action GotoFile<CR>
-nnoremap <leader>st :action SearchEverywhere<CR>
+nnoremap <leader>st :action FindInPath<CR>
 nnoremap <leader>u :action FindUsages<CR>
 nnoremap <leader>h :action CallHierarchy<CR>
 nnoremap <leader>b :action ShowNavBar<CR>
@@ -84,4 +84,3 @@ set visualbell
 set noerrorbells
 
 imap ii <Esc>
-

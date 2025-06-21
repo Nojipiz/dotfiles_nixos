@@ -7,6 +7,11 @@ let
       pkgs.anydesk
       pkgs.slack
     ];
+    environment.loginShellInit = ''
+      if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+          sway --unsupported-gpu -V > .sway-log 2>&1
+      fi
+    '';
   };
 in nixpkgs.lib.nixosSystem {
   inherit system;
@@ -18,7 +23,7 @@ in nixpkgs.lib.nixosSystem {
     )
     extrasModule 
     ./hardware
-    # ./hardware/nvidia.nix
+    ./hardware/nvidia.nix
     ./networking
     ./user
     ../../common/modules/browser
