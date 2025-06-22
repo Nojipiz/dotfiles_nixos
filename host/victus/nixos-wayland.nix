@@ -32,6 +32,7 @@ in nixpkgs.lib.nixosSystem {
     ../../common/modules/development/js
     ../../common/modules/development/db
     ../../common/modules/development/cloud
+    ../../common/modules/development/haskell
     ../../common/modules/edition
     ../../common/modules/gaming
     ../../common/modules/misc
