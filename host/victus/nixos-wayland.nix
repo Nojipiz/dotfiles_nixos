@@ -1,9 +1,8 @@
 { nixpkgs, system, home-manager, overlay-unstable,  ... }:
-let 
+let
   extrasModule = { pkgs, ... }:{
     environment.systemPackages = [
       pkgs.home-manager
-      pkgs.obs-studio
       pkgs.anydesk
       pkgs.slack
     ];
@@ -16,12 +15,12 @@ let
 in nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
-    ( 
+    (
      { config, pkgs, ... }: {
      nixpkgs.overlays = [ overlay-unstable ];
      }
     )
-    extrasModule 
+    extrasModule
     ./hardware
     ./hardware/nvidia.nix
     ./networking

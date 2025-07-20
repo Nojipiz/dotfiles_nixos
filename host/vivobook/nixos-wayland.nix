@@ -1,8 +1,7 @@
 { nixpkgs, system, home-manager, overlay-unstable,  ... }:
-let 
+let
   customModule = { pkgs, ... }:{
     environment.systemPackages = with pkgs; [
-      obs-studio
       anydesk
       slack
     ];
@@ -10,7 +9,7 @@ let
 in nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
-    ( 
+    (
      { config, pkgs, ... }: {
      nixpkgs.overlays = [ overlay-unstable ];
      }

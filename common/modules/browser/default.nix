@@ -11,9 +11,16 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    firefox
     pcmanfm
   ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+    ];
+  };
 
   programs.firefox = {
     enable = true;
@@ -69,7 +76,7 @@ in
 
       /* ---- PREFERENCES ---- */
       # Check about:config for options.
-      Preferences = { 
+      Preferences = {
         "browser.contentblocking.category" = { Value = "strict"; Status = "locked"; };
         "extensions.pocket.enabled" = lock-false;
         "extensions.screenshots.disabled" = lock-true;
@@ -91,6 +98,5 @@ in
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
       };
     };
-  }; 
+  };
 }
-

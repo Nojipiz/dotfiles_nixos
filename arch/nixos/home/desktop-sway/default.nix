@@ -1,4 +1,4 @@
-let 
+let
   wallpapers = [
     ../../../../media/wallpaper/initiald.jpg
     ../../../../media/base_wallpaper.png
@@ -17,7 +17,7 @@ in {
     stateVersion = "24.11";
   };
 
-  home.file = { 
+  home.file = {
     "Images/wallpaper/base_wallpaper.png" = {
       source = builtins.head wallpapers;
     };

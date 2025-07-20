@@ -78,7 +78,10 @@
       "space s f": "file_finder::Toggle",
       "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
       "space s p": "projects::OpenRecent",
-      "space g g": "workspace::NewCenterTerminal"
+      "space g g": [
+        "task::Spawn",
+        { "task_name": "start lazygit", "reveal_target": "center" }
+      ]
     }
   },
   /* Global search window */

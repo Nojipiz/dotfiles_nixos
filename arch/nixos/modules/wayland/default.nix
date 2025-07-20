@@ -18,11 +18,6 @@
     };
   };
 
-  xdg.portal = pkgs.lib.mkForce{
-    enable = false;
-    extraPortals = [ ];
-  };
-
   fonts.packages = with pkgs; [
     roboto
     fira-code
@@ -32,7 +27,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    xdg-desktop-portal-wlr
     waybar
     vlc
     feh
