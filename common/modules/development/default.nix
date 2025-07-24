@@ -1,13 +1,13 @@
 { pkgs, ...}:
 {
   environment.systemPackages = with pkgs; [
-    # TUI 
+    # TUI
     lazydocker
     lazygit
     skim
 
     # Editors
-    lunarvim 
+    lunarvim
 
     # Command line basics
     git
@@ -15,7 +15,7 @@
     unzip
     wget
     killall
-    jless
+    jless # json manipulation
     ripgrep
     websocat
     openssl

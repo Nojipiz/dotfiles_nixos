@@ -50,7 +50,7 @@ in
       # Valid strings for installation_mode are "allowed", "blocked",
       # "force_installed" and "normal_installed".
       ExtensionSettings = {
-        "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
+        "*".installation_mode = "allowed"; # blocks all addons except the ones specified below
 
         # uBlock Origin:
         "uBlock0@raymondhill.net" = {
@@ -70,6 +70,11 @@ in
         # Blocksite:
         "{dd3d7613-0246-469d-bc65-2a3cc1668adc}" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/blocksite/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # Multi Account Containers:
+        "{e571ac9f-001e-41d1-af71-1bdbee85b5e8}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4494279/multi_account_containers-8.3.0.xpi";
           installation_mode = "force_installed";
         };
       };
