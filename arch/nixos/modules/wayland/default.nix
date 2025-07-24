@@ -5,7 +5,7 @@
   services.displayManager.defaultSession = "none+sway";
   programs.sway = {
     enable = true;
-    wrapperFeatures.gtk = true;
+    wrapperFeatures.gtk = false;
   };
   services.greetd = {
     enable = true;

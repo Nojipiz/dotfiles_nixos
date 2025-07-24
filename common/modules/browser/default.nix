@@ -16,9 +16,8 @@ in
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
+    extraPortals = pkgs.lib.mkForce [
+      pkgs.xdg-desktop-portal-wlr
     ];
   };
 
