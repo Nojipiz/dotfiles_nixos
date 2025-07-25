@@ -13,11 +13,12 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  # DON'T DOWNGRADE, a kernel older than 6.13 will throw some issues with 
+  # DON'T DOWNGRADE, a kernel older than 6.13 will throw some issues with
   # kworkers and set one cpu to 100% usage all the time :)
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Update to 6_15 at Nix 25.11 update
+  boot.kernelPackages = pkgs.linuxPackages_6_13;
 
-  # Use the systemd-boot EFI boot loader. 
+  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 

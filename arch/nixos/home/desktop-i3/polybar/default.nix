@@ -7,7 +7,7 @@
       source = ./init_polybar.sh;
     };
   };
-  
+
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {

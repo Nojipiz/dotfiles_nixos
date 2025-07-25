@@ -16,8 +16,8 @@
         modules-center = [ "sway/window" ];
         modules-right = [ "tray" ];
 
-        "cpu" = { 
-          "format" = "<span color='#b4befe'> </span>{usage}%"; 
+        "cpu" = {
+          "format" = "<span color='#b4befe'> </span>{usage}%";
         };
         "memory" = {
           "interval" = 1;
@@ -122,7 +122,7 @@
         background-color: #cdd6f4;
         color: #11111b;
       }
-      
+
       #clock {
         margin-right: 0;
       }
