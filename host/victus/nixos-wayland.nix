@@ -1,10 +1,11 @@
 { nixpkgs, system, home-manager, overlay-unstable,  ... }:
 let
   extrasModule = { pkgs, ... }:{
-    environment.systemPackages = [
-      pkgs.home-manager
-      pkgs.anydesk
-      pkgs.slack
+    environment.systemPackages = with pkgs; [
+      home-manager
+      wdisplays
+      anydesk
+      slack
     ];
     environment.loginShellInit = ''
       if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then

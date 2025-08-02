@@ -4,6 +4,7 @@
     "context": "Editor || Terminal",
     "bindings": {
       "ctrl-t": "workspace::NewCenterTerminal",
+      "ctrl-i": "agent::ToggleFocus",
 
       /* Start: Pane movements */
       "ctrl-l": "workspace::ActivatePaneRight",
