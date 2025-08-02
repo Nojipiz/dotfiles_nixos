@@ -3,7 +3,7 @@
 {
   services.libinput.enable = true;
   services.displayManager.defaultSession = "none+sway";
-  programs.sway = {
+  programs.hyprland = {
     enable = true;
     wrapperFeatures.gtk = false;
   };
@@ -33,5 +33,6 @@
     rofi
     nwg-displays
     wlsunset
+    kitty
   ];
 }

@@ -3,7 +3,6 @@ let
   extrasModule = { pkgs, ... }:{
     environment.systemPackages = with pkgs; [
       home-manager
-      wdisplays
       anydesk
       slack
     ];
