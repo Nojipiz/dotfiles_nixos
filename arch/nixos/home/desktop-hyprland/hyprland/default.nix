@@ -39,11 +39,11 @@ in {
       # Autostart
       exec-once = ${pkgs.swaybg}/bin/swaybg -m fill -i ~/Images/wallpaper/base_wallpaper.png
       exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet
-      exec-once = ${pkgs.wlsunset}/bin/wlsunset -l 5.5403 -L -73.3614
 
       # Window rules
-      windowrulev2 = workspace ${workspaceOne},class:^(Chromium)$
+      windowrulev2 = workspace ${workspaceOne},class:^(firefox)$
       windowrulev2 = workspace ${workspaceTwo},class:^(jetbrains-studio)$
+      windowrulev2 = workspace ${workspaceTwo},class:^(zed)$
 
       # Keybindings
       bind = ${mod}, Return, exec, ${pkgs.alacritty}/bin/alacritty
@@ -52,7 +52,6 @@ in {
       bind = ${mod}, F, fullscreen,
       bind = ${mod} SHIFT, SPACE, togglefloating,
       bind = ${mod}, SPACE, togglesplit,
-      bind = ${mod} SHIFT, C, exec, hyprctl reload
       bind = ${mod} SHIFT, R, exec, hyprctl reload
       bind = ${mod}, R, submap, resize
       bind = ${mod} SHIFT, E, exec, hyprctl dispatch exit
@@ -78,8 +77,8 @@ in {
       bind = ${mod} SHIFT, 3, movetoworkspace, ${workspaceThree}
 
       # Brightness (using light)
-      bind = ,XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10
-      bind = ,XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10
+      # bind = ,XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10
+      # bind = ,XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10
 
       # Screenshot
       bind = ,Print, exec, ${pkgs.grim}/bin/grim ~/Images/$(date +%Y-%m-%d_%H:%M:%S).png

@@ -33,11 +33,10 @@
         modules-right = [ "pulseaudio" "network" "bluetooth" "battery" ];
 
         "hyprland/workspaces" = {
-          "format" = "{icon}";
+          "format" = "{name}";
           "all-outputs" = true;
           "disable-scroll" = true;
         };
-
         "clock" = {
           "format" = "<span color='#b4befe'> </span>{:%H:%M}";
           "tooltip" = true;
@@ -45,7 +44,6 @@
           "on-click-middle" = "exec default_wallpaper";
           "on-click-right" = "exec wallpaper_random";
         };
-
         "pulseaudio"= {
           "format" = "<span color='#b4befe'>{icon}</span> {volume}%";
           "format-muted" = " Mute";

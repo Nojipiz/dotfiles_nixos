@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     fastfetch
     btop
-    fd
+    anydesk
+    slack
   ];
 }

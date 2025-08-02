@@ -1,16 +1,8 @@
 { nixpkgs, system, home-manager, overlay-unstable,  ... }:
 let
   extrasModule = { pkgs, ... }:{
-    environment.systemPackages = with pkgs; [
-      home-manager
-      anydesk
-      slack
-    ];
-    environment.loginShellInit = ''
-      if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-          sway --unsupported-gpu -V > .sway-log 2>&1
-      fi
-    '';
+    # One - liner to add home-manager support, nothing else should be added here.
+    environment.systemPackages = with pkgs; [ home-manager ];
   };
 in nixpkgs.lib.nixosSystem {
   inherit system;

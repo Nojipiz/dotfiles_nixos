@@ -26,12 +26,8 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    waybar
     vlc
-    feh
     rofi
     nwg-displays
-    wlsunset
-    kitty
   ];
 }
