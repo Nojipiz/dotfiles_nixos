@@ -46,7 +46,7 @@ in nixpkgs.lib.nixosSystem {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = ../../arch/nixos/home/desktop-sway/default.nix;
+        users.nojipiz = ../../arch/nixos/home/desktop-hyprland/default.nix;
       };
     }
   ];

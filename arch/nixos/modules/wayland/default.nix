@@ -2,16 +2,15 @@
 
 {
   services.libinput.enable = true;
-  services.displayManager.defaultSession = "none+sway";
+  services.displayManager.defaultSession = "none+hyprland";
   programs.hyprland = {
     enable = true;
-    wrapperFeatures.gtk = false;
   };
   services.greetd = {
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.sway}/bin/sway";
+        command = "${pkgs.hyprland}/bin/hyprland";
         user = "nojipiz";
       };
       default_session = initial_session;
