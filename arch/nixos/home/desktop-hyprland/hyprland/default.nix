@@ -9,7 +9,7 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = ''
-      # Monitor configuration (you may adjust to your actual monitor)
+      # Monitor configuration
       monitor=,preferred,auto,1
 
       # Input config
