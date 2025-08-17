@@ -48,7 +48,7 @@
     # Standalone home-manager configuration entry point.
     # (To rebuild home-manager only)
     homeConfigurations = {
-      desktopSway =
+      desktopHyprland =
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = system;
@@ -62,7 +62,7 @@
             ];
             config.allowUnfree = true;
           };
-          modules = [ (import ./arch/nixos/home/desktop-sway/default.nix) ];
+          modules = [ (import ./arch/nixos/home/desktop-hyprland/default.nix) ];
         };
     };
   };
