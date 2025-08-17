@@ -1,20 +1,30 @@
 [
-  /* Global Editor */
+  /* Workspace panes navigation */
   {
-    "context": "Editor || Terminal",
+    "context": "Editor || Terminal || Dock || KeyContextView",
     "bindings": {
-      "ctrl-t": "workspace::NewCenterTerminal",
-      "ctrl-i": "agent::ToggleFocus",
-
-      /* Start: Pane movements */
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-j": "workspace::ActivatePaneDown",
       "ctrl-k": "workspace::ActivatePaneUp"
-      /* End: Pane movements */
     }
   },
-  /* Tree Explorer */
+  /* Editor panes navigation */
+  {
+    "context": "(VimControl && !menu) || Terminal",
+    "bindings": {
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem"
+    }
+  },
+  /* Terminal openning */
+  {
+    "context": "Editor || Terminal || Dock || KeyContextView",
+    "bindings": {
+      "ctrl-t": "workspace::NewCenterTerminal"
+    }
+  },
+  /* -- START Tree explorer operations -- */
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
@@ -22,10 +32,19 @@
       "a": "project_panel::NewFile",
       "d": "project_panel::Delete",
       "x": "project_panel::Cut",
-      "c": "project_panel::Copy"
+      "c": "project_panel::Copy",
+      "r": "project_panel::Rename"
     }
   },
-  /* Menus */
+  {
+    // close tree exporer in editor.
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock"
+    }
+  },
+  /* -- END Tree explorer operations -- */
+  /* Menus up and downs */
   {
     "context": "menu || Picker",
     "bindings": {
@@ -33,7 +52,7 @@
       "ctrl-j": ["workspace::SendKeystrokes", "down"]
     }
   },
-  /* Normal + Visual Vim modes */
+  /* Pane management in editor */
   {
     "context": "VimControl && !menu",
     "bindings": {
@@ -44,22 +63,11 @@
       "space /": "vim::ToggleComments"
     }
   },
-  /* Normal + Visual Vim or Terminal */
-  {
-    "context": "(VimControl && !menu) || Terminal",
-    "bindings": {
-      /* Start: Item movements */
-      "shift-h": "pane::ActivatePreviousItem",
-      "shift-l": "pane::ActivateNextItem"
-      /* End: Item movements */
-    }
-  },
-  /* Normal Vim mode */
+  /* Editor code interaction */
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
       "space l r": "editor::Rename",
-      "space e": "project_panel::ToggleFocus",
       "g r": "editor::GoToDeclaration",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp"
@@ -85,11 +93,26 @@
       ]
     }
   },
-  /* Global search window */
+  /* Close global search window */
   {
     "context": "ProjectSearchBar",
     "bindings": {
       "escape": "pane::CloseActiveItem"
     }
+  },
+  /* -- START Agent Panel bindings  -- */
+  {
+    "context": "Editor || Terminal || Dock || KeyContextView",
+    "bindings": {
+      "ctrl-i": "agent::ToggleFocus"
+    }
+  },
+  {
+    // Close the agent panel.
+    "context": "AgentPanel > Editor",
+    "bindings": {
+      "ctrl-i": "workspace::CloseActiveDock"
+    }
   }
+  /* -- END Agent Panel bindings  -- */
 ]
