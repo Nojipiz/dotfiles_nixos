@@ -58,6 +58,7 @@ nnoremap <leader>w :write<CR>
 set incsearch
 nnoremap <leader>sf :action GotoFile<CR>
 nnoremap <leader>st :action FindInPath<CR>
+nnoremap <leader>sp :action ManageRecentProjects<CR>
 nnoremap <leader>u :action FindUsages<CR>
 nnoremap <leader>h :action CallHierarchy<CR>
 nnoremap <leader>b :action ShowNavBar<CR>

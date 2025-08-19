@@ -49,3 +49,6 @@ TODO: Add home-manager as standalone too to all configs.
 ```bash
 home-manager switch --flake "./nix-config#desktopHyprland"
 ```
+
+## Lily58 keyboard.
+My configuration for the keyboard is stored at  `lily58_layout.json`, can be applied using [VIA](https://www.usevia.app/)

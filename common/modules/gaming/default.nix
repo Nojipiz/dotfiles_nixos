@@ -14,7 +14,12 @@
 
   # Logitech G29 config
   hardware.new-lg4ff.enable = true;
-  services.udev.packages = with pkgs; [ oversteer ];
+  services.udev.packages = with pkgs; [
+    oversteer
+    # Enable them if via is required.
+    # qmk-udev-rules
+    # via
+  ];
 
   programs.steam = {
     enable = true;

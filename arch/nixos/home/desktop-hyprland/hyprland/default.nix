@@ -77,8 +77,8 @@ in {
       bind = ${mod} SHIFT, 3, movetoworkspace, ${workspaceThree}
 
       # Brightness (using light)
-      # bind = ,XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10
-      # bind = ,XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10
+      bind = ,XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10
+      bind = ,XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10
 
       # Screenshot
       bind = ,Print, exec, ${pkgs.grim}/bin/grim ~/Images/$(date +%Y-%m-%d_%H:%M:%S).png
