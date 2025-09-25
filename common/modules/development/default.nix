@@ -7,7 +7,9 @@
     skim
 
     # Editors
-    lunarvim
+    xclip
+    nvim
+    unstable.helix
 
     # Command line basics
     git
