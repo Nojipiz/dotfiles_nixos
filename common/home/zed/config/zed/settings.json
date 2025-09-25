@@ -10,6 +10,17 @@
   "vim_mode": true,
   "ui_font_size": 16,
   "buffer_font_size": 14,
+
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true,
+    "show_background": false,
+    "edit_debounce_ms": 700,
+    "scroll_debounce_ms": 50
+  },
+
   "lsp": {
     "deno": {
       "settings": {
@@ -20,11 +31,24 @@
     },
     "metals": {
       "binary": {
-        "path": "/run/current-system/sw/bin/metals"
+        "path": "/run/current-system/sw/bin/metals",
+        "arguments": ["-Dmetals.http=on"]
       },
       "settings": {
         "inlayHints": {
           "inferredTypes": {
+            "enable": true
+          },
+          "implicitArguments": {
+            "enable": true
+          },
+          "implicitConversions": {
+            "enable": true
+          },
+          "typeParameters": {
+            "enable": true
+          },
+          "hintsInPatternMatch": {
             "enable": true
           }
         }

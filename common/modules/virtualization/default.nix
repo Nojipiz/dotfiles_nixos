@@ -7,7 +7,15 @@
     qemu
   ];
 
-  virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.virtualbox.host.enable = true;
+
+
+  # Docker Settings
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      restart = "no";
+    };
+  };
 }

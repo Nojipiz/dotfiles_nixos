@@ -10,6 +10,7 @@
     scalafmt
     scala-cli
     sbt
+    mill
     coursier
     metals
   ];

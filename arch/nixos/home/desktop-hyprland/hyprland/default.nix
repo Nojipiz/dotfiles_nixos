@@ -5,6 +5,7 @@ let
   workspaceOne = "1";
   workspaceTwo = "2";
   workspaceThree = "3";
+  workspaceFourth = "4";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -40,11 +41,6 @@ in {
       exec-once = ${pkgs.swaybg}/bin/swaybg -m fill -i ~/Images/wallpaper/base_wallpaper.png
       exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet
 
-      # Window rules
-      windowrulev2 = workspace ${workspaceOne},class:^(firefox)$
-      windowrulev2 = workspace ${workspaceTwo},class:^(jetbrains-studio)$
-      windowrulev2 = workspace ${workspaceTwo},class:^(zed)$
-
       # Keybindings
       bind = ${mod}, Return, exec, ${pkgs.alacritty}/bin/alacritty
       bind = ${mod} SHIFT, Q, killactive,
@@ -72,9 +68,13 @@ in {
       bind = ${mod}, 1, workspace, ${workspaceOne}
       bind = ${mod}, 2, workspace, ${workspaceTwo}
       bind = ${mod}, 3, workspace, ${workspaceThree}
+      bind = ${mod}, 4, workspace, ${workspaceFourth}
+      bind = ${mod}, 5, workspace, 5
       bind = ${mod} SHIFT, 1, movetoworkspace, ${workspaceOne}
       bind = ${mod} SHIFT, 2, movetoworkspace, ${workspaceTwo}
       bind = ${mod} SHIFT, 3, movetoworkspace, ${workspaceThree}
+      bind = ${mod} SHIFT, 4, movetoworkspace, ${workspaceFourth}
+      bind = ${mod} SHIFT, 5, movetoworkspace, 5
 
       # Brightness (using light)
       bind = ,XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10

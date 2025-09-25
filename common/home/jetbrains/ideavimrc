@@ -1,5 +1,5 @@
 """ Basic Things
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 set clipboard+=ideaput
 set ignorecase smartcase
 set NERDTree

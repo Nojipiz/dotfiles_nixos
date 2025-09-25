@@ -9,13 +9,13 @@
     winetricks
 
     # For steering wheels
-    oversteer
+    # oversteer
   ];
 
   # Logitech G29 config
-  hardware.new-lg4ff.enable = true;
+  # hardware.new-lg4ff.enable = true;
   services.udev.packages = with pkgs; [
-    oversteer
+    # oversteer
     # Enable them if via is required.
     # qmk-udev-rules
     # via
