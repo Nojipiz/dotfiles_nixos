@@ -10,6 +10,6 @@
   };
 
   home.file.".config/niri" = {
-     source = config;
+     source = config/niri;
    };
 }
