@@ -1,4 +1,3 @@
-
 let
   wallpapers = [
     ../../../../media/wallpaper/initiald.jpg

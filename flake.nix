@@ -1,6 +1,17 @@
 {
   description = "Nojipiz's systems configuration";
 
+  nixConfig = {
+    # Configuration for Cachix to avoid redundand rebuilds
+    # https://app.cachix.org/
+    extra-substituters = [
+      "https://niri.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -12,18 +23,25 @@
     # Darwin
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # Minecraft
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
-  };
 
-  outputs = { nixpkgs, nix-darwin, home-manager, nixpkgs-unstable, ... }:
+    # Niri WM
+    niri-flake = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+  outputs = { nixpkgs, nix-darwin, home-manager, nixpkgs-unstable, niri-flake, ... }:
+
   let
     system = "x86_64-linux";
     overlay-unstable = final: prev: {
-        unstable = import nixpkgs-unstable {
-           inherit system;
-           config.allowUnfree = true;
-        };
+      unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     };
   in
   {
@@ -32,7 +50,7 @@
         inherit nixpkgs system home-manager overlay-unstable;
       };
       NixosWaylandNiri = import ./host/victus/nixos-niri.nix {
-        inherit nixpkgs system home-manager overlay-unstable;
+        inherit nixpkgs system home-manager overlay-unstable niri-flake;
       };
       WSL = import ./host/any-windows/default.nix {
         inherit nixpkgs system home-manager overlay-unstable;

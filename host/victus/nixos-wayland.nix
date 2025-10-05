@@ -9,7 +9,7 @@ in nixpkgs.lib.nixosSystem {
   modules = [
     (
      { config, pkgs, ... }: {
-     nixpkgs.overlays = [ overlay-unstable ];
+       nixpkgs.overlays = [ overlay-unstable ];
      }
     )
     extrasModule
