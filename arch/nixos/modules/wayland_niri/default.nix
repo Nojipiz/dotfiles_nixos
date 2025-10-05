@@ -24,6 +24,6 @@
 
   environment.systemPackages = with pkgs; [
     vlc
-    rofi
+    fuzzel
   ];
 }

@@ -8,4 +8,8 @@
     enable = true;
     package = pkgs.niri-stable;
   };
+
+  home.file.".config/niri" = {
+     source = config;
+   };
 }
