@@ -1,7 +1,6 @@
 {
   imports = [
     ./jetbrains
-    ./lunarvim
     ./terminal
     ./zed
     ./zellij

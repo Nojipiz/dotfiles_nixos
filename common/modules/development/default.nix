@@ -8,7 +8,7 @@
 
     # Editors
     xclip
-    nvim
+    neovim
     unstable.helix
 
     # Command line basics

@@ -7,7 +7,7 @@ MULTIPLEXER="zellij"
 MULTIPLEXER_CREATE_SESSION="-s"
 MULTIPLEXER_ATTACH_SESSION="a"
 
-projects_folders=(~/Projects/*  ~/Wyg/*)
+projects_folders=(~/Projects/*  ~/Wyg/* ~/Contribly/*)
 selected_project=`printf '%s\n' "${projects_folders[@]}" | ${FUZZY_FINDER}`
 
 if [[ -z $selected_project ]]; then

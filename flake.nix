@@ -31,7 +31,7 @@
       NixosWayland = import ./host/victus/nixos-wayland.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
-      NixosX11 = import ./host/vivobook/nixos-x11.nix {
+      NixosWaylandNiri = import ./host/victus/nixos-niri.nix {
         inherit nixpkgs system home-manager overlay-unstable;
       };
       WSL = import ./host/any-windows/default.nix {
@@ -39,6 +39,7 @@
       };
     };
 
+    # Configurations for darwin (MacOS) Nix package manager.
     darwinConfigurations = {
       Davids-MacBook-Pro = import ./host/any-silicon/default.nix {
         inherit nix-darwin home-manager;

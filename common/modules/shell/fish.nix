@@ -10,7 +10,7 @@
     '';
     shellAliases = {
       g = "lazygit";
-      v ="lvim";
+      v ="nvim";
     };
   };
 }
