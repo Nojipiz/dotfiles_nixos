@@ -13,7 +13,7 @@
         layer = "top";
         position = "bottom";
         modules-left = [ "memory" "cpu" ];
-        modules-center = [ "hyprland/window" ];
+        modules-center = [ "niri/window" ];
         modules-right = [ "tray" ];
 
         "cpu" = {
@@ -28,12 +28,12 @@
       topBar = {
         layer = "top";
         position = "top";
-        modules-left = [ "hyprland/workspaces" ];
+        modules-left = [ "niri/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [ "pulseaudio" "network" "bluetooth" "battery" ];
 
-        "hyprland/workspaces" = {
-          "format" = "{name}";
+        "niri/workspaces" = {
+          "format" = "{value}";
           "all-outputs" = true;
           "disable-scroll" = true;
         };

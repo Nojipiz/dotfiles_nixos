@@ -14,11 +14,13 @@ in
     pcmanfm
   ];
 
+  # Portal configuration for screenshare.
   xdg.portal = {
     enable = true;
     extraPortals = pkgs.lib.mkForce [
       pkgs.xdg-desktop-portal-wlr
     ];
+    xdgOpenUsePortal = true;
   };
 
   programs.firefox = {

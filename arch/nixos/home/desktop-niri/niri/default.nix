@@ -9,7 +9,8 @@
     package = pkgs.niri-stable;
   };
 
+  # Copies the niri config directory as read-only.
   home.file.".config/niri" = {
-     source = config/niri;
-   };
+    source = config/niri;
+  };
 }

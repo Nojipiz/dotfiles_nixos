@@ -7,7 +7,7 @@
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.niri-stable}/bin/niri";
+        command = "${pkgs.niri-stable}/bin/niri --session";
         user = "nojipiz";
       };
       default_session = initial_session;
@@ -25,5 +25,6 @@
   environment.systemPackages = with pkgs; [
     vlc
     fuzzel
+    swaybg
   ];
 }
