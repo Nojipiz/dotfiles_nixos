@@ -7,6 +7,10 @@
   programs.niri = {
     enable = true;
     package = pkgs.niri-stable;
+    settings.xwayland-satellite = {
+      enable = true;
+      path = "${pkgs.xwayland-satellite-unstable}/bin/xwayland-satellite";
+    };
   };
 
   # Configuration for portals.

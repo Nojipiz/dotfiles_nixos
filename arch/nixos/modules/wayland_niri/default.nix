@@ -26,6 +26,6 @@
     vlc
     fuzzel
     swaybg
-    unstable.xwayland-satellite
+    xwayland-satellite-unstable
   ];
 }
