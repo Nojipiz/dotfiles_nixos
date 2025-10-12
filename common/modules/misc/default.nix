@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     fastfetch
     btop
-    nvtopPackages.full
+    nvtopPackages.nvidia
     anydesk
     slack
   ];
