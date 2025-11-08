@@ -16,7 +16,7 @@
   # DON'T DOWNGRADE, a kernel older than 6.13 will throw some issues with
   # kworkers and set one cpu to 100% usage all the time :)
   # Remove "unstable" tag at NixOs 25.11
-  boot.kernelPackages = pkgs.unstable.linuxPackages_6_15;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

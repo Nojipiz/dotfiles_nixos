@@ -39,12 +39,6 @@
           "inferredTypes": {
             "enable": true
           },
-          "implicitArguments": {
-            "enable": true
-          },
-          "implicitConversions": {
-            "enable": true
-          },
           "typeParameters": {
             "enable": true
           },

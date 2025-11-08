@@ -12,7 +12,6 @@ in
 {
   environment.systemPackages = with pkgs; [
     pcmanfm
-    firefox-devedition
   ];
 
   # Portal configuration for screenshare.
