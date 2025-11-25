@@ -24,6 +24,16 @@ in
   programs.firefox = {
     enable = true;
     wrapperConfig.pipewireSupport = true;
+    # package = pkgs.firefox-devedition;
+    # profiles = {
+    #   default = {
+    #     id = 0;
+    #   };
+    #   work = {
+        # id = 1;
+      # };
+    # };
+
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
@@ -69,11 +79,6 @@ in
         # Blocksite:
         "{dd3d7613-0246-469d-bc65-2a3cc1668adc}" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/blocksite/latest.xpi";
-          installation_mode = "force_installed";
-        };
-        # Multi Account Containers:
-        "{e571ac9f-001e-41d1-af71-1bdbee85b5e8}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/file/4494279/multi_account_containers-8.3.0.xpi";
           installation_mode = "force_installed";
         };
       };

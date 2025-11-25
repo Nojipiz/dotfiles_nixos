@@ -11,7 +11,7 @@
     scalafmt
     scala-cli
     sbt
-    mill
+    unstable.mill
     coursier
     metals
   ];

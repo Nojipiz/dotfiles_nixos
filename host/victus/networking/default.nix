@@ -11,8 +11,8 @@
     joinNetworks = [];
   };
   networking = {
-    hostName = "OLap"; 
-    networkmanager.enable = true; 
+    hostName = "OLap";
+    networkmanager.enable = true;
   };
 
   networking.firewall = {

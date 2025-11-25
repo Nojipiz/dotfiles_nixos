@@ -9,7 +9,6 @@
     # Editors
     xclip
     neovim
-    unstable.helix
 
     # Command line basics
     git
@@ -26,6 +25,10 @@
     gnumake
     gcc-unwrapped
     libtool
+
+    # Nix lsp
+    nixd
+    nil
 
     # Cache for Nix
     cachix
