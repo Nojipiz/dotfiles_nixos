@@ -9,6 +9,7 @@ in {
 
     ./niri
     ./waybar
+    ./fuzzel
   ];
 
   home = {
