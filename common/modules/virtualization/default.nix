@@ -1,4 +1,4 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     docker
@@ -10,10 +10,10 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.virtualbox.host.enable = true;
 
-
   # Docker Settings
   virtualisation.docker = {
     enable = true;
+    # Don't start containers on startup
     daemon.settings = {
       restart = "no";
     };

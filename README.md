@@ -47,7 +47,7 @@ There is more config, like Chrome windows that require modified shortcuts (still
 To build **just** your home-manager config, you can use this module.
 TODO: Add home-manager as standalone too to all configs.
 ```bash
-home-manager switch --flake "./nix-config#desktopHyprland"
+home-manager switch --flake "./nix-config#desktopNiri"
 ```
 
 ## Lily58 keyboard.

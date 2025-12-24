@@ -1,15 +1,27 @@
-{ nixpkgs, system, home-manager, overlay-unstable, niri-flake, ... }:
+{
+  nixpkgs,
+  system,
+  home-manager,
+  overlay-unstable,
+  niri-flake,
+  ...
+}:
 let
-  extrasModule = { pkgs, ... }:{
+  extrasModule = {
     # One - liner to add home-manager support, nothing else should be added here.
-    environment.systemPackages = with pkgs; [ home-manager ];
+    environment.systemPackages = [ home-manager ];
   };
-in nixpkgs.lib.nixosSystem {
+in
+nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
     (
-      { pkgs, config, ... }: {
-        nixpkgs.overlays = [ overlay-unstable niri-flake.overlays.niri ];
+      { ... }:
+      {
+        nixpkgs.overlays = [
+          overlay-unstable
+          niri-flake.overlays.niri
+        ];
       }
     )
     extrasModule
@@ -35,7 +47,8 @@ in nixpkgs.lib.nixosSystem {
     ../../arch/nixos/modules/controllers
     ../../arch/nixos/modules/wayland_niri
 
-    home-manager.nixosModules.home-manager {
+    home-manager.nixosModules.home-manager
+    {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
