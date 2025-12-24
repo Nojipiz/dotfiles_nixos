@@ -1,4 +1,8 @@
-{ niri-flake, config, pkgs, ... }:
+{
+  niri-flake,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Import the Niri Home Manager module
@@ -16,7 +20,7 @@
   # Configuration for portals.
   # Implementations should be consistent with other xdg.portal references.
   xdg.portal.config.niri = {
-    default = ["wlr"];
+    default = [ "wlr" ];
     "org.freedesktop.impl.portal.Access" = "wlr";
     "org.freedesktop.impl.portal.Notification" = "wlr";
     "org.freedesktop.impl.portal.Secret" = "gnome-keyring";

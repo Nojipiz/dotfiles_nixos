@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    jetbrains.idea-ultimate
+    jetbrains.idea
     # JVM / VM
     jdk17
     jdk11 # Not headless because some Play code requires
