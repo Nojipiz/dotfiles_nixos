@@ -1,4 +1,4 @@
-{ pkgs , ...}:
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     openvpn
@@ -6,10 +6,10 @@
     networkmanagerapplet
   ];
 
-  services.zerotierone = {
-    enable = true;
-    joinNetworks = [];
-  };
+  # services.zerotierone = {
+  #   enable = true;
+  #   joinNetworks = [];
+  # };
   networking = {
     hostName = "OLap";
     networkmanager.enable = true;
@@ -17,12 +17,22 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 19000 ];
+    allowedTCPPorts = [
+      80
+      443
+      19000
+    ];
     allowedTCPPortRanges = [
-      { from = 1000 ; to = 9000; }
+      {
+        from = 1000;
+        to = 9000;
+      }
     ];
     allowedUDPPortRanges = [
-      { from = 19000; to = 20000; }
+      {
+        from = 19000;
+        to = 20000;
+      }
     ];
   };
 }
