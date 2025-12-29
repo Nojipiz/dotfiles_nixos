@@ -1,13 +1,19 @@
 { pkgs, ... }:
 
 {
+  # Enabling niri
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
+
   services.libinput.enable = true;
   services.displayManager.defaultSession = "none+niri";
   services.greetd = {
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.niri-stable}/bin/niri-session";
+        command = "${pkgs.niri}/bin/niri-session";
         user = "nojipiz";
       };
       default_session = initial_session;
@@ -26,6 +32,6 @@
     vlc
     fuzzel
     swaybg
-    xwayland-satellite-unstable
+    xwayland-satellite
   ];
 }

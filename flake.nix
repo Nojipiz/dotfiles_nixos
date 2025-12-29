@@ -4,12 +4,8 @@
   nixConfig = {
     # Configuration for Cachix to avoid redundand rebuilds
     # https://app.cachix.org/
-    extra-substituters = [
-      "https://niri.cachix.org"
-      "https://nix-community.cachix.org"
-    ];
+    extra-substituters = [ "https://nix-community.cachix.org" ];
     extra-trusted-public-keys = [
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
@@ -23,17 +19,11 @@
     };
 
     # Darwin
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Minecraft
-    prismlauncher.url = "github:PrismLauncher/PrismLauncher";
-
-    # Niri WM Flake
-    niri-flake = {
-      url = "github:sodiboo/niri-flake";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     # Noctalia Flake: https://docs.noctalia.dev/getting-started/nixos/
     # noctalia-flake = {
     #   url = "github:noctalia-dev/noctalia-shell";
@@ -46,7 +36,6 @@
       nix-darwin,
       home-manager,
       nixpkgs-unstable,
-      niri-flake,
       ...
     }:
 
@@ -67,7 +56,6 @@
             system
             home-manager
             overlay-unstable
-            niri-flake
             ;
         };
         WSL = import ./host/any-windows/default.nix {

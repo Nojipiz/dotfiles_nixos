@@ -3,7 +3,6 @@
   system,
   home-manager,
   overlay-unstable,
-  niri-flake,
   ...
 }:
 let
@@ -20,7 +19,6 @@ nixpkgs.lib.nixosSystem {
       {
         nixpkgs.overlays = [
           overlay-unstable
-          niri-flake.overlays.niri
         ];
       }
     )
@@ -53,7 +51,6 @@ nixpkgs.lib.nixosSystem {
         useUserPackages = true;
         useGlobalPkgs = true;
         users.nojipiz = ../../arch/nixos/home/desktop-niri/default.nix;
-        extraSpecialArgs = { inherit niri-flake; };
       };
     }
   ];

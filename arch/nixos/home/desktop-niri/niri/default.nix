@@ -1,22 +1,8 @@
 {
-  niri-flake,
   pkgs,
   ...
 }:
 {
-  imports = [
-    # Import the Niri Home Manager module
-    niri-flake.homeModules.niri
-  ];
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri-stable;
-    settings.xwayland-satellite = {
-      enable = true;
-      path = "${pkgs.xwayland-satellite-unstable}/bin/xwayland-satellite";
-    };
-  };
-
   # Configuration for portals.
   # Implementations should be consistent with other xdg.portal references.
   xdg.portal.config.niri = {
