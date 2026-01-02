@@ -1,28 +1,16 @@
 {
+  inputs,
   nixpkgs,
   system,
   home-manager,
   overlay-unstable,
   ...
 }:
-let
-  extrasModule = {
-    # One - liner to add home-manager support, nothing else should be added here.
-    environment.systemPackages = [ home-manager ];
-  };
-in
 nixpkgs.lib.nixosSystem {
   inherit system;
+  specialArgs = { inherit inputs; };
   modules = [
-    (
-      { ... }:
-      {
-        nixpkgs.overlays = [
-          overlay-unstable
-        ];
-      }
-    )
-    extrasModule
+    { nixpkgs.overlays = [ overlay-unstable ]; }
     ./hardware
     ./hardware/nvidia.nix
     ./networking
@@ -47,10 +35,13 @@ nixpkgs.lib.nixosSystem {
 
     home-manager.nixosModules.home-manager
     {
+      environment.systemPackages = [ home-manager ];
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = ../../arch/nixos/home/desktop-niri/default.nix;
+        users.nojipiz = import ../../arch/nixos/home/desktop-niri/default.nix {
+          noctalia-flake = inputs.noctalia-flake;
+        };
       };
     }
   ];

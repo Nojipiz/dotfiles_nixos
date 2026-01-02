@@ -2,7 +2,7 @@
 
 nix-darwin.lib.darwinSystem {
   system = "aarch64-darwin";
-  modules = [ 
+  modules = [
     ./user
     ../../arch/darwin
     ../../common/modules/development
@@ -10,7 +10,8 @@ nix-darwin.lib.darwinSystem {
     ../../common/modules/development/js
     ../../common/modules/shell/fish.nix
 
-    home-manager.darwinModules.home-manager {
+    home-manager.darwinModules.home-manager
+    {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.nojipiz = ../../arch/darwin/home/default.nix;

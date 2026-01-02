@@ -1,18 +1,28 @@
-{ config, lib, pkgs, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.waybar = {
-    enable = true;
-    package = pkgs.waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true"] ;} );
+    enable = false;
+    package = pkgs.waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    });
     systemd = {
-      enable = true;
+      enable = false;
       target = "graphical-session.target";
     };
     settings = {
       bottomBar = {
         layer = "top";
         position = "bottom";
-        modules-left = [ "memory" "cpu" ];
+        modules-left = [
+          "memory"
+          "cpu"
+        ];
         modules-center = [ "niri/window" ];
         modules-right = [ "tray" ];
 
@@ -30,7 +40,12 @@
         position = "top";
         modules-left = [ "niri/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "bluetooth" "battery" ];
+        modules-right = [
+          "pulseaudio"
+          "network"
+          "bluetooth"
+          "battery"
+        ];
 
         "niri/workspaces" = {
           "format" = "{value}";
@@ -44,13 +59,22 @@
           "on-click-middle" = "exec default_wallpaper";
           "on-click-right" = "exec wallpaper_random";
         };
-        "pulseaudio"= {
+        "pulseaudio" = {
           "format" = "<span color='#b4befe'>{icon}</span> {volume}%";
           "format-muted" = " Mute";
           "tooltip" = false;
           "format-icons" = {
             "headphone" = "";
-            "default" = ["" "" "󰕾" "󰕾" "󰕾" "" "" ""];
+            "default" = [
+              ""
+              ""
+              "󰕾"
+              "󰕾"
+              "󰕾"
+              ""
+              ""
+              ""
+            ];
           };
           "scroll-step" = 4;
           "on-click" = "${pkgs.alsa-utils}/bin/amixer set Master toggle";
@@ -75,7 +99,13 @@
         };
         "battery" = {
           "format" = "<span color='#b4befe'>{icon} </span> {capacity}%";
-          "format-icons" =  ["" "" "" "" ""];
+          "format-icons" = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
           "format-charging" = "<span color='#b4befe'> </span> {capacity}%";
           "tooltip" = false;
         };
@@ -124,6 +154,6 @@
       #clock {
         margin-right: 0;
       }
-  '';
+    '';
   };
 }

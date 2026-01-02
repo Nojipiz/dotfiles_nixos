@@ -1,15 +1,17 @@
+{ noctalia-flake }:
 let
   wallpapers = [
     ../../../../media/wallpaper/initiald.jpg
     ../../../../media/base_wallpaper.png
   ];
-in {
+in
+{
   imports = [
+    noctalia-flake.homeModules.default
     ../../../../common/home
-
     ./niri
-    ./waybar
     ./fuzzel
+    ./noctalia
   ];
 
   home = {

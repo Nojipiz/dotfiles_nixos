@@ -25,13 +25,13 @@
     };
 
     # Noctalia Flake: https://docs.noctalia.dev/getting-started/nixos/
-    # noctalia-flake = {
-    #   url = "github:noctalia-dev/noctalia-shell";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    noctalia-flake = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
-    {
+    inputs@{
       nixpkgs,
       nix-darwin,
       home-manager,
@@ -52,6 +52,7 @@
       nixosConfigurations = {
         NixosWaylandNiri = import ./host/victus/nixos-niri.nix {
           inherit
+            inputs
             nixpkgs
             system
             home-manager

@@ -8,12 +8,7 @@
 nixpkgs.lib.nixosSystem {
   inherit system;
   modules = [
-    (
-      { config, pkgs, ... }:
-      {
-        nixpkgs.overlays = [ overlay-unstable ];
-      }
-    )
+    { nixpkgs.overlays = [ overlay-unstable ]; }
     ./networking
     ../../common/modules/browser
     ../../common/modules/development
