@@ -4,13 +4,19 @@
   system,
   home-manager,
   overlay-unstable,
+  niri-flake,
   ...
 }:
 nixpkgs.lib.nixosSystem {
   inherit system;
   specialArgs = { inherit inputs; };
   modules = [
-    { nixpkgs.overlays = [ overlay-unstable ]; }
+    {
+      nixpkgs.overlays = [
+        overlay-unstable
+        niri-flake.overlays.niri
+      ];
+    }
     ./hardware
     ./hardware/nvidia.nix
     ./networking
@@ -42,6 +48,7 @@ nixpkgs.lib.nixosSystem {
         users.nojipiz = import ../../arch/nixos/home/desktop-niri/default.nix {
           noctalia-flake = inputs.noctalia-flake;
         };
+        extraSpecialArgs = { inherit niri-flake; };
       };
     }
   ];

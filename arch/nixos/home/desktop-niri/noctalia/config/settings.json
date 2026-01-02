@@ -178,7 +178,7 @@
   "appLauncher": {
     "enableClipboardHistory": false,
     "enableClipPreview": true,
-    "position": "center",
+    "position": "Top center",
     "pinnedExecs": [],
     "useApp2Unit": false,
     "sortByMostUsed": true,
