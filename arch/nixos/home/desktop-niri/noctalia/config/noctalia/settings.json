@@ -376,8 +376,8 @@
     "enableDdcSupport": false
   },
   "colorSchemes": {
-    "useWallpaperColors": true,
-    "predefinedScheme": "TokyoNight",
+    "useWallpaperColors": false,
+    "predefinedScheme": "Solarized",
     "darkMode": true,
     "schedulingMode": "off",
     "manualSunrise": "06:30",
