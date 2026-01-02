@@ -261,6 +261,9 @@ spawn-at-startup "noctalia-shell"
 // For background
 // spawn-sh-at-startup "swaybg -m fill -i ~/Images/wallpaper/base_wallpaper.png"
 
+// Disabling applications client decorators
+prefer-no-csd
+
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
