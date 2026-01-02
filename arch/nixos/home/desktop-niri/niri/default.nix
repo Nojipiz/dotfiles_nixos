@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ ... }:
 {
   # Configuration for portals.
   # Implementations should be consistent with other xdg.portal references.

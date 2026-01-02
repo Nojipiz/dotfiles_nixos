@@ -19,7 +19,7 @@
         {
           "icon": "rocket",
           "id": "CustomButton",
-          "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle"
+          "leftClickExec": "noctalia-shell ipc call launcher toggle"
         },
         {
           "id": "Clock",
@@ -76,7 +76,7 @@
     "boxRadiusRatio": 1,
     "screenRadiusRatio": 1,
     "animationSpeed": 1,
-    "animationDisabled": false,
+    "animationDisabled": true,
     "compactLockScreen": false,
     "lockOnSuspend": true,
     "showSessionButtonsOnLockScreen": true,
@@ -89,9 +89,9 @@
     "allowPanelsOnScreenWithoutBar": true
   },
   "ui": {
-    "fontDefault": "",
+    "fontDefault": "Fira Code",
     "fontFixed": "",
-    "fontDefaultScale": 1,
+    "fontDefaultScale": 1.2,
     "fontFixedScale": 1,
     "tooltipsEnabled": true,
     "panelBackgroundOpacity": 1,

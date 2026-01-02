@@ -30,7 +30,6 @@
 
   environment.systemPackages = with pkgs; [
     vlc
-    fuzzel
     xwayland-satellite
   ];
 }
