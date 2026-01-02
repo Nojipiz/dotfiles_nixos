@@ -54,9 +54,6 @@
           "id": "Volume"
         },
         {
-          "id": "Wifi"
-        },
-        {
           "id": "Brightness"
         },
         {
@@ -379,8 +376,8 @@
     "enableDdcSupport": false
   },
   "colorSchemes": {
-    "useWallpaperColors": false,
-    "predefinedScheme": "Nord",
+    "useWallpaperColors": true,
+    "predefinedScheme": "TokyoNight",
     "darkMode": true,
     "schedulingMode": "off",
     "manualSunrise": "06:30",
