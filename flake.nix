@@ -29,6 +29,7 @@
     };
 
     # Niri WM Flake
+    # I depend on this until screensharing is possible without xwayland-satellite.
     niri-flake = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";

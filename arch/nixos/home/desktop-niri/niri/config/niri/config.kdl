@@ -255,7 +255,7 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
+// This line starts noctalia-shell, see https://docs.noctalia.dev/getting-started/faq/#configuration
 spawn-at-startup "noctalia-shell"
 
 // For background
@@ -292,7 +292,7 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    slowdown 0.5
+    slowdown 0.4
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -307,6 +307,25 @@ window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
 }
+
+// ============================================ START Noctalia custom ============================================
+// see https://docs.noctalia.dev/getting-started/compositor-settings/niri/#_top
+window-rule {
+  // Rounded corners for a modern look.
+  geometry-corner-radius 20
+
+  // Clips window contents to the rounded corner boundaries.
+  clip-to-geometry true
+}
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
+}
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
+// ============================================ END Noctalia custom ============================================
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)

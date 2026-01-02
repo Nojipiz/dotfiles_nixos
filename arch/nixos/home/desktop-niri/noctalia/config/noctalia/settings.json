@@ -42,9 +42,6 @@
       ],
       "right": [
         {
-          "id": "ScreenRecorder"
-        },
-        {
           "id": "Tray"
         },
         {
@@ -55,6 +52,9 @@
         },
         {
           "id": "Volume"
+        },
+        {
+          "id": "Wifi"
         },
         {
           "id": "Brightness"
