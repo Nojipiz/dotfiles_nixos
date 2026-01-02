@@ -1,7 +1,5 @@
-{ noctalia-flake }:
 {
   imports = [
-    noctalia-flake.homeModules.default
     ../../../../common/home
     ./niri
     ./noctalia

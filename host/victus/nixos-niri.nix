@@ -45,9 +45,7 @@ nixpkgs.lib.nixosSystem {
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;
-        users.nojipiz = import ../../arch/nixos/home/desktop-niri/default.nix {
-          noctalia-flake = inputs.noctalia-flake;
-        };
+        users.nojipiz = import ../../arch/nixos/home/desktop-niri/default.nix;
         extraSpecialArgs = { inherit niri-flake; };
       };
     }

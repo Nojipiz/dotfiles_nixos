@@ -24,6 +24,7 @@
 
   environment.systemPackages = with pkgs; [
     vlc
+    unstable.noctalia-shell
     xwayland-satellite-unstable
   ];
 }

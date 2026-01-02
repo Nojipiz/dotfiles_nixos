@@ -5,9 +5,9 @@ let
   ];
 in
 {
-  programs.noctalia-shell = {
-    enable = true;
-    settings = ./config/settings.json;
+  # Noctalia config.
+  home.file.".config/noctalia" = {
+    source = config/noctalia;
   };
 
   # Wallpaper config
