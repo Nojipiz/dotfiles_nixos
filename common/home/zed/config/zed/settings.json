@@ -3,10 +3,10 @@
   "theme": "Tokyo Night Storm",
   "icon_theme": "Material Icon Theme",
   "telemetry": {
-    "metrics": true
+    "metrics": true,
   },
   "tab_size": 2,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "vim_mode": true,
   "ui_font_size": 16,
   "buffer_font_size": 14,
@@ -18,36 +18,40 @@
     "show_other_hints": true,
     "show_background": false,
     "edit_debounce_ms": 700,
-    "scroll_debounce_ms": 50
+    "scroll_debounce_ms": 50,
   },
 
   "lsp": {
     "deno": {
       "settings": {
         "deno": {
-          "enable": true
-        }
-      }
+          "enable": true,
+        },
+      },
     },
     "metals": {
       "binary": {
         "path": "/run/current-system/sw/bin/metals",
-        "arguments": ["-Dmetals.http=on"]
+        "arguments": ["-Dmetals.http=on"],
       },
+      "initialization_options": { "isHttpEnabled": true },
       "settings": {
         "inlayHints": {
           "inferredTypes": {
-            "enable": true
+            "enable": true,
           },
           "typeParameters": {
-            "enable": true
+            "enable": true,
+          },
+          "implicitArguments": {
+            "enable": true,
           },
           "hintsInPatternMatch": {
-            "enable": true
-          }
-        }
-      }
-    }
+            "enable": true,
+          },
+        },
+      },
+    },
   },
 
   "languages": {
@@ -56,27 +60,27 @@
         "deno",
         "!typescript-language-server",
         "!vtsls",
-        "!eslint"
+        "!eslint",
       ],
-      "formatter": "language_server"
+      "formatter": "language_server",
     },
     "TypeScript": {
       "language_servers": [
         "deno",
         "!typescript-language-server",
         "!vtsls",
-        "!eslint"
+        "!eslint",
       ],
-      "formatter": "language_server"
+      "formatter": "language_server",
     },
     "TSX": {
       "language_servers": [
         "deno",
         "!typescript-language-server",
         "!vtsls",
-        "!eslint"
+        "!eslint",
       ],
-      "formatter": "language_server"
-    }
-  }
+      "formatter": "language_server",
+    },
+  },
 }

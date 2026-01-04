@@ -364,7 +364,7 @@
   "audio": {
     "volumeStep": 5,
     "volumeOverdrive": false,
-    "cavaFrameRate": 30,
+    "cavaFrameRate": 20,
     "visualizerType": "linear",
     "mprisBlacklist": [],
     "preferredPlayer": "",
@@ -377,7 +377,7 @@
   },
   "colorSchemes": {
     "useWallpaperColors": false,
-    "predefinedScheme": "Solarized",
+    "predefinedScheme": "",
     "darkMode": true,
     "schedulingMode": "off",
     "manualSunrise": "06:30",
