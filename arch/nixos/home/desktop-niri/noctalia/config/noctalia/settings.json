@@ -272,7 +272,7 @@
     "externalMonitor": "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center"
   },
   "dock": {
-    "enabled": true,
+    "enabled": false,
     "displayMode": "auto_hide",
     "backgroundOpacity": 1,
     "floatingRatio": 1,
