@@ -11,7 +11,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    lxqt.pcmanfm-qt # Wayland version of pcmanfm.
+    nemo
   ];
 
   # Portal configuration for screenshare.

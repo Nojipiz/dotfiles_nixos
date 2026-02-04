@@ -20,15 +20,8 @@
     "edit_debounce_ms": 700,
     "scroll_debounce_ms": 50,
   },
-
+  "format_on_save": "off",
   "lsp": {
-    "deno": {
-      "settings": {
-        "deno": {
-          "enable": true,
-        },
-      },
-    },
     "metals": {
       "binary": {
         "path": "/run/current-system/sw/bin/metals",
@@ -49,6 +42,13 @@
           "hintsInPatternMatch": {
             "enable": true,
           },
+        },
+      },
+    },
+    "deno": {
+      "settings": {
+        "deno": {
+          "enable": true,
         },
       },
     },
