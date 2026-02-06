@@ -11,7 +11,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    nemo
+    pcmanfm-qt
   ];
 
   # Portal configuration for screenshare.
