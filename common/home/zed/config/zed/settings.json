@@ -8,8 +8,8 @@
   "tab_size": 2,
   "relative_line_numbers": "enabled",
   "vim_mode": true,
-  "ui_font_size": 16,
-  "buffer_font_size": 14,
+  "ui_font_size": 14,
+  "buffer_font_size": 12,
 
   "inlay_hints": {
     "enabled": true,
@@ -21,6 +21,12 @@
     "scroll_debounce_ms": 50,
   },
   "format_on_save": "off",
+  "terminal": {
+    "shell":  {
+      // Make sure to change this code if pkgs.fish is removed.
+      "program": "/run/current-system/sw/bin/fish"
+    }
+  },
   "lsp": {
     "metals": {
       "binary": {

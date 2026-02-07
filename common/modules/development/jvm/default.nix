@@ -13,6 +13,6 @@
     sbt
     unstable.mill
     coursier
-    metals
+    unstable.metals
   ];
 }
