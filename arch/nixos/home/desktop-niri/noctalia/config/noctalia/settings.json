@@ -22,8 +22,7 @@
           "leftClickExec": "noctalia-shell ipc call launcher toggle"
         },
         {
-          "id": "Clock",
-          "usePrimaryColor": false
+          "id": "Workspace"
         },
         {
           "id": "SystemMonitor"
@@ -37,12 +36,16 @@
       ],
       "center": [
         {
-          "id": "Workspace"
+          "id": "Clock",
+          "usePrimaryColor": false
         }
       ],
       "right": [
         {
           "id": "Tray"
+        },
+        {
+          "id": "Network"
         },
         {
           "id": "NotificationHistory"

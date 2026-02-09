@@ -11,7 +11,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    pcmanfm-qt
+    pcmanfm
   ];
 
   # Portal configuration for screenshare.
