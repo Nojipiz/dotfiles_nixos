@@ -10,6 +10,9 @@
     xclip
     neovim
 
+    # AI
+    opencode
+
     # Command line basics
     git
     p7zip
