@@ -90,6 +90,10 @@
       "space g g": [
         "task::Spawn",
         { "task_name": "start lazygit", "reveal_target": "center" }
+      ],
+      "ctrl-i": [
+        "task::Spawn",
+        { "task_name": "start opencode", "reveal_target": "center" }
       ]
     }
   },
@@ -100,13 +104,13 @@
       "escape": "pane::CloseActiveItem"
     }
   },
-  /* -- START Agent Panel bindings  -- */
-  {
-    "context": "Editor || Terminal || Dock || KeyContextView",
-    "bindings": {
-      "ctrl-i": "agent::ToggleFocus"
-    }
-  },
+  /* -- START Zed Agent Panel bindings  -- */
+  // {
+  //   "context": "Editor || Terminal || Dock || KeyContextView",
+  //   "bindings": {
+  //     "ctrl-i": "agent::ToggleFocus"
+  //   }
+  // },
   {
     // Close the agent panel.
     "context": "AgentPanel > Editor",

@@ -7,14 +7,9 @@ To run the config, download and install Nix and then run for your system:
 ## NixOs
 To install NixOs should be done using the official installer: https://nixos.org/download/
 
-- X11 + i3wm (deprecated)
+- Niri on Wayland 
 ```bash
-sudo nixos-rebuild switch --flake "./nix-config#NixosX11"
-```
-
-- Wayland + Sway
-```bash
-sudo nixos-rebuild switch --flake "./nix-config#NixosWayland"
+sudo nixos-rebuild switch --flake "./nix-config#NixosNiri"
 ```
 
 ## WSL

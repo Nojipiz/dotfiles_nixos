@@ -33,8 +33,15 @@
         "path": "/run/current-system/sw/bin/metals",
         "arguments": ["-Dmetals.http=on"],
       },
+
+
       "initialization_options": { "isHttpEnabled": true },
       "settings": {
+        // Best effort for Scala 3 projects
+        "enableBestEffort": true,
+        // Using SBT sbt instead of bloop
+        "defaultBspToBuildTool": true,
+
         "inlayHints": {
           "inferredTypes": {
             "enable": true,

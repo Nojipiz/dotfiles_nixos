@@ -56,7 +56,7 @@
     in
     {
       nixosConfigurations = {
-        NixosWaylandNiri = import ./host/victus/nixos-niri.nix {
+        NixosNiri = import ./host/victus/nixos-niri.nix {
           inherit
             inputs
             nixpkgs
