@@ -23,6 +23,7 @@
     ripgrep
     websocat
     openssl
+
     # Building things
     cmake
     gnumake

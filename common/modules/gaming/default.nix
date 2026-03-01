@@ -5,8 +5,8 @@
     prismlauncher
 
     # Wine packages
-    wineWowPackages.waylandFull
-    winetricks
+    # wineWowPackages.waylandFull
+    # winetricks
     # (heroic.override{ extraPkgs = pkgs: [ pkgs.gamescope ]; })
 
     # For steering wheels
