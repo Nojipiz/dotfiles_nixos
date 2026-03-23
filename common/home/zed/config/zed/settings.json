@@ -17,7 +17,7 @@
     "show_parameter_hints": true,
     "show_other_hints": true,
     "show_background": false,
-    "edit_debounce_ms": 700,
+    "edit_debounce_ms": 1500,
     "scroll_debounce_ms": 50,
   },
   "format_on_save": "off",
@@ -32,15 +32,13 @@
       "binary": {
         "path": "/run/current-system/sw/bin/metals",
         "arguments": ["-Dmetals.http=on", "-Xmx15G"],
-
       },
-
 
       "initialization_options": { "isHttpEnabled": true },
       "settings": {
         // Best effort for Scala 3 projects
         "enableBestEffort": true,
-        // Using SBT sbt instead of bloop
+        // Using SBT/Mill bsp servers instead of bloop
         "defaultBspToBuildTool": true,
 
         "inlayHints": {
@@ -58,43 +56,6 @@
           },
         },
       },
-    },
-    "deno": {
-      "settings": {
-        "deno": {
-          "enable": true,
-        },
-      },
-    },
-  },
-
-  "languages": {
-    "JavaScript": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
-      "formatter": "language_server",
-    },
-    "TypeScript": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
-      "formatter": "language_server",
-    },
-    "TSX": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
-      "formatter": "language_server",
     },
   },
 }
