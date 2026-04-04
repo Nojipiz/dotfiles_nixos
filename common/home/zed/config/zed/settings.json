@@ -31,7 +31,6 @@
     "metals": {
       "binary": {
         "path": "/run/current-system/sw/bin/metals",
-        "arguments": ["-Dmetals.http=on", "-Xmx15G"],
       },
 
       "initialization_options": { "isHttpEnabled": true },
