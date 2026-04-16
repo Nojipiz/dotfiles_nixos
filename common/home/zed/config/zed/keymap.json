@@ -69,6 +69,7 @@
     "bindings": {
       "space l r": "editor::Rename",
       "g r": "editor::GoToDeclaration",
+      "g i": "editor::GoToImplementation",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp"
     }

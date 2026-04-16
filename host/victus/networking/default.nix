@@ -4,12 +4,18 @@
     openvpn
     networkmanager-openvpn
     networkmanagerapplet
+
+    # Cloudflare
+    # cloudflare-warp
   ];
+
+  # services.cloudflare-warp.enable = true;
 
   # services.zerotierone = {
   #   enable = true;
   #   joinNetworks = [];
   # };
+
   networking = {
     hostName = "OLap";
     networkmanager.enable = true;
