@@ -1,10 +1,11 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    unstable.zed-editor
-  ];
-
-  home.file.".config/zed" = {
-    source = config/zed;
+  home = {
+    file.".config/zed" = {
+      source = config/zed;
+    };
+    packages = with pkgs; [
+      unstable.zed-editor
+    ];
   };
 }

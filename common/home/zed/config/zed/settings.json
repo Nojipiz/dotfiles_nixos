@@ -9,7 +9,9 @@
   "relative_line_numbers": "enabled",
   "vim_mode": true,
   "ui_font_size": 14,
+  "ui_font_family": "JetBrains Mono",
   "buffer_font_size": 12,
+  "buffer_font_family": "JetBrains Mono",
 
   "inlay_hints": {
     "enabled": true,
@@ -17,7 +19,7 @@
     "show_parameter_hints": true,
     "show_other_hints": true,
     "show_background": false,
-    "edit_debounce_ms": 1500,
+    "edit_debounce_ms": 1600,
     "scroll_debounce_ms": 50,
   },
   "format_on_save": "off",

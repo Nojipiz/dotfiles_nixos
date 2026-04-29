@@ -20,6 +20,7 @@
     fira-code-symbols
     nerd-fonts.roboto-mono
     nerd-fonts.fira-code
+    jetbrains-mono
   ];
 
   environment.systemPackages = with pkgs; [
