@@ -9,5 +9,6 @@ in {
     unstable.opentofu
     googleCloud
     docker-credential-gcr
+    sops
   ];
 }

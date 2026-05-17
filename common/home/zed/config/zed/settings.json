@@ -22,6 +22,10 @@
     "edit_debounce_ms": 1600,
     "scroll_debounce_ms": 50,
   },
+  "project_panel": {
+    "dock": "left"
+  },
+
   "format_on_save": "off",
   "terminal": {
     "shell":  {

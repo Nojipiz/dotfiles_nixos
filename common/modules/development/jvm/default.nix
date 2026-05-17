@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     jetbrains.idea
     # JVM / VM
+    jdk25
     jdk17
     jdk11 # Not headless because some Play code requires
     visualvm

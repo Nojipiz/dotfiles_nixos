@@ -28,7 +28,7 @@
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
-      "space e": "workspace::ToggleLeftDock",
+      "space e": "project_panel::Toggle",
       "a": "project_panel::NewFile",
       "d": "project_panel::Delete",
       "x": "project_panel::Cut",
