@@ -11,7 +11,7 @@
     neovim
 
     # AI
-    opencode
+    unstable.opencode
 
     # Command line basics
     git

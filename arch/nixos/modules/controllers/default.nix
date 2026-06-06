@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
-  programs.adb.enable = true;
-  programs.light.enable = true;
+  # programs.light.enable = true; hardware.acpilight or brightnessctl
   services.pipewire = {
     enable = true;
     pulse.enable = true;
