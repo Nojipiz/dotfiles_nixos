@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  # programs.light.enable = true; hardware.acpilight or brightnessctl
+  hardware.acpilight.enable = true;
   services.pipewire = {
     enable = true;
     pulse.enable = true;
