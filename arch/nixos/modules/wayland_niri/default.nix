@@ -2,7 +2,6 @@
 
 {
   services.libinput.enable = true;
-  services.displayManager.defaultSession = "none+niri";
   services.greetd = {
     enable = true;
     settings = rec {

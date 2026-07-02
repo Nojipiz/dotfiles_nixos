@@ -5,7 +5,7 @@
     fastfetch
     btop
     nvtopPackages.full
-    anydesk
+    # anydesk
     slack
   ];
 }

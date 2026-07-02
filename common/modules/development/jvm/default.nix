@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    jetbrains.idea
+    # jetbrains.idea
     # JVM / VM
     jdk25
     jdk17
