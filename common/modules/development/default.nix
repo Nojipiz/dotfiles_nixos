@@ -12,6 +12,7 @@
 
     # AI
     unstable.opencode
+    unstable.pi-coding-agent
 
     # Command line basics
     git

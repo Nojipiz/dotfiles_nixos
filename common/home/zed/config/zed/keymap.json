@@ -1,15 +1,17 @@
 [
-  /* Workspace panes navigation */
+  /* All locations */
   {
     "context": "Editor || Terminal || Dock || KeyContextView",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-j": "workspace::ActivatePaneDown",
-      "ctrl-k": "workspace::ActivatePaneUp"
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-t": "workspace::NewCenterTerminal",
+      "shift-.": "command_palette::Toggle"
     }
   },
-  /* Editor panes navigation */
+  /* Panes navigation */
   {
     "context": "(VimControl && !menu) || Terminal",
     "bindings": {
@@ -17,14 +19,7 @@
       "shift-l": "pane::ActivateNextItem"
     }
   },
-  /* Terminal openning */
-  {
-    "context": "Editor || Terminal || Dock || KeyContextView",
-    "bindings": {
-      "ctrl-t": "workspace::NewCenterTerminal"
-    }
-  },
-  /* -- START Tree explorer operations -- */
+  /* File tree */
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
@@ -36,14 +31,6 @@
       "r": "project_panel::Rename"
     }
   },
-  {
-    // close tree exporer in editor.
-    "context": "vim_mode == normal && !menu",
-    "bindings": {
-      "space e": "workspace::ToggleLeftDock"
-    }
-  },
-  /* -- END Tree explorer operations -- */
   /* Menus up and downs */
   {
     "context": "menu || Picker",
@@ -63,22 +50,17 @@
       "space /": "vim::ToggleComments"
     }
   },
-  /* Editor code interaction */
+  /* Vim normal mode, not menu */
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
+      "i": "vim::SwitchToInsertMode",
       "space l r": "editor::Rename",
       "g r": "editor::GoToDeclaration",
       "g i": "editor::GoToImplementation",
       "ctrl-d": "vim::ScrollDown",
-      "ctrl-u": "vim::ScrollUp"
-    }
-  },
-  /* Insert Vim mode */
-  {
-    "context": "vim_mode == insert",
-    "bindings": {
-      "i i": "vim::NormalBefore"
+      "ctrl-u": "vim::ScrollUp",
+      "space e": "workspace::ToggleLeftDock"
     }
   },
   /* Other screens */
@@ -98,26 +80,11 @@
       ]
     }
   },
-  /* Close global search window */
+  /* ProjectSearchBar */
   {
     "context": "ProjectSearchBar",
     "bindings": {
       "escape": "pane::CloseActiveItem"
     }
-  },
-  /* -- START Zed Agent Panel bindings  -- */
-  // {
-  //   "context": "Editor || Terminal || Dock || KeyContextView",
-  //   "bindings": {
-  //     "ctrl-i": "agent::ToggleFocus"
-  //   }
-  // },
-  {
-    // Close the agent panel.
-    "context": "AgentPanel > Editor",
-    "bindings": {
-      "ctrl-i": "workspace::CloseActiveDock"
-    }
   }
-  /* -- END Agent Panel bindings  -- */
 ]

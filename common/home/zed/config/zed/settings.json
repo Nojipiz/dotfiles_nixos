@@ -1,5 +1,5 @@
 {
-  "base_keymap": "JetBrains",
+  "base_keymap": "None",
   "theme": "One Dark Pro",
   "icon_theme": "Material Icon Theme",
   "telemetry": {
@@ -29,13 +29,14 @@
   "format_on_save": "off",
   "terminal": {
     "shell":  {
-      // Make sure to change this code if pkgs.fish is removed.
+      // fish should be installed.
       "program": "/run/current-system/sw/bin/fish"
     }
   },
   "lsp": {
     "metals": {
       "binary": {
+        // metals should be installed.
         "path": "/run/current-system/sw/bin/metals",
       },
 
