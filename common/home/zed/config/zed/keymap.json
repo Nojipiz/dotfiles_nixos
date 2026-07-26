@@ -1,7 +1,7 @@
 [
-  /* Pane bindings */
+  /* Pane and Dock bindings */
   {
-    "context": "Editor || Terminal || MarkdownPreview || Dock || KeyContextView",
+    "context": "Pane || Dock",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
@@ -11,9 +11,9 @@
       "shift-.": "command_palette::Toggle",
     },
   },
-  /* Panes navigation */
+  /* Pane bindings WITHOUT menus */
   {
-    "context": "(VimControl && !menu) || Terminal",
+    "context": "(VimControl && !menu) || Pane",
     "bindings": {
       "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
@@ -55,11 +55,11 @@
     "context": "vim_mode == normal && !menu",
     "bindings": {
       "i": "vim::SwitchToInsertMode",
-      "space l r": "editor::Rename",
       "g r": "editor::GoToDeclaration",
       "g i": "editor::GoToImplementation",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp",
+      "space l r": "editor::Rename",
       "space e": "workspace::ToggleLeftDock",
     },
   },
@@ -78,13 +78,6 @@
         "task::Spawn",
         { "task_name": "start opencode", "reveal_target": "center" },
       ],
-    },
-  },
-  /* ProjectSearchBar */
-  {
-    "context": "ProjectSearchBar",
-    "bindings": {
-      "escape": "pane::CloseActiveItem",
     },
   },
 ]
