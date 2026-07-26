@@ -1,23 +1,23 @@
 [
-  /* All locations */
+  /* Pane bindings */
   {
-    "context": "Editor || Terminal || Dock || KeyContextView",
+    "context": "Editor || Terminal || MarkdownPreview|| Dock || KeyContextView",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-j": "workspace::ActivatePaneDown",
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-t": "workspace::NewCenterTerminal",
-      "shift-.": "command_palette::Toggle"
-    }
+      "shift-.": "command_palette::Toggle",
+    },
   },
   /* Panes navigation */
   {
     "context": "(VimControl && !menu) || Terminal",
     "bindings": {
       "shift-h": "pane::ActivatePreviousItem",
-      "shift-l": "pane::ActivateNextItem"
-    }
+      "shift-l": "pane::ActivateNextItem",
+    },
   },
   /* File tree */
   {
@@ -28,16 +28,16 @@
       "d": "project_panel::Delete",
       "x": "project_panel::Cut",
       "c": "project_panel::Copy",
-      "r": "project_panel::Rename"
-    }
+      "r": "project_panel::Rename",
+    },
   },
   /* Menus up and downs */
   {
     "context": "menu || Picker",
     "bindings": {
       "ctrl-k": ["workspace::SendKeystrokes", "up"],
-      "ctrl-j": ["workspace::SendKeystrokes", "down"]
-    }
+      "ctrl-j": ["workspace::SendKeystrokes", "down"],
+    },
   },
   /* Pane management in editor */
   {
@@ -47,8 +47,8 @@
       "space l a": "editor::ToggleCodeActions",
       "space c": "pane::CloseActiveItem",
       "space q": "pane::CloseActiveItem",
-      "space /": "vim::ToggleComments"
-    }
+      "space /": "vim::ToggleComments",
+    },
   },
   /* Vim normal mode, not menu */
   {
@@ -60,8 +60,8 @@
       "g i": "editor::GoToImplementation",
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp",
-      "space e": "workspace::ToggleLeftDock"
-    }
+      "space e": "workspace::ToggleLeftDock",
+    },
   },
   /* Other screens */
   {
@@ -72,19 +72,19 @@
       "space s p": "projects::OpenRecent",
       "space g g": [
         "task::Spawn",
-        { "task_name": "start lazygit", "reveal_target": "center" }
+        { "task_name": "start lazygit", "reveal_target": "center" },
       ],
       "ctrl-i": [
         "task::Spawn",
-        { "task_name": "start opencode", "reveal_target": "center" }
-      ]
-    }
+        { "task_name": "start opencode", "reveal_target": "center" },
+      ],
+    },
   },
   /* ProjectSearchBar */
   {
     "context": "ProjectSearchBar",
     "bindings": {
-      "escape": "pane::CloseActiveItem"
-    }
-  }
+      "escape": "pane::CloseActiveItem",
+    },
+  },
 ]

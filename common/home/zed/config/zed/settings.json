@@ -1,5 +1,6 @@
 {
-  "base_keymap": "None",
+  /* VSCode is the most lightweight 'base_keymap'. */
+  "base_keymap": "VSCode",
   "theme": "One Dark Pro",
   "icon_theme": "Material Icon Theme",
   "telemetry": {
