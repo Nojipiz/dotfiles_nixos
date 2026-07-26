@@ -1,7 +1,7 @@
 [
   /* Pane bindings */
   {
-    "context": "Editor || Terminal || MarkdownPreview|| Dock || KeyContextView",
+    "context": "Editor || Terminal || MarkdownPreview || Dock || KeyContextView",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
