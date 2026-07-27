@@ -25,6 +25,7 @@
   "buffer_font_family": "JetBrains Mono",
   "project_panel": {
     "dock": "left",
+    "indent_size": 10,
   },
   "active_pane_modifiers": {
     "border_size": 3.0,
