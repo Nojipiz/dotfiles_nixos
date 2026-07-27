@@ -27,7 +27,7 @@
     "dock": "left",
   },
   "active_pane_modifiers": {
-    "border_size": 3.5,
+    "border_size": 3.0,
     "inactive_opacity": 0.8,
   },
   "toolbar": {

@@ -1,6 +1,6 @@
 [
-  /* Pane and Dock bindings */
   {
+    /* Pane and Dock bindings */
     "context": "Pane || Dock",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
@@ -11,9 +11,9 @@
       "shift-.": "command_palette::Toggle",
     },
   },
-  /* File tree bindings (ProjectPanel) */
   {
-    "context": "ProjectPanel && not_editing",
+    /*           File tree    BUT NOT  editing there       */
+    "context": "ProjectPanel    &&      not_editing",
     "bindings": {
       "space e": "project_panel::Toggle",
       "space c": "project_panel::Toggle",
@@ -24,17 +24,17 @@
       "r": "project_panel::Rename",
     },
   },
-  /* Menus up and downs */
   {
-    "context": "menu || Picker",
+    /*          Menu   OR   Picker */
+    "context": "menu   ||   Picker",
     "bindings": {
       "ctrl-k": ["workspace::SendKeystrokes", "up"],
       "ctrl-j": ["workspace::SendKeystrokes", "down"],
     },
   },
-  /* Pane management in editor */
   {
-    "context": "vim_mode != insert && Pane && !menu",
+    /*      (Editor without Vim insert)   OR   (Any other pane)     */
+    "context": "(VimControl && !menu)     ||   (Pane && !Editor)",
     "bindings": {
       "space w": "workspace::Save",
       "space l a": "editor::ToggleCodeActions",
@@ -43,33 +43,6 @@
       "space /": "vim::ToggleComments",
       "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
-    },
-  },
-  /* Vim normal mode, not menu */
-  {
-    "context": "vim_mode == normal && !menu",
-    "bindings": {
-      "i": "vim::SwitchToInsertMode",
-      "g r": "editor::GoToDeclaration",
-      "g i": "editor::GoToImplementation",
-      "space l r": "editor::Rename",
-      "space e": "workspace::ToggleLeftDock",
-      "ctrl-d": "vim::ScrollDown",
-      "ctrl-u": "vim::ScrollUp",
-    },
-  },
-  /* Markdown */
-  {
-    "context": "MarkdownPreview",
-    "bindings": {
-      "j": "markdown::ScrollDown",
-      "k": "markdown::ScrollUp",
-    },
-  },
-  /* Other screens TODO: Refine */
-  {
-    "context": "EmptyPane || Dock || (VimControl && !menu)",
-    "bindings": {
       "space s f": "file_finder::Toggle",
       "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
       "space s p": "projects::OpenRecent",
@@ -81,6 +54,29 @@
         "task::Spawn",
         { "task_name": "start opencode", "reveal_target": "center" },
       ],
+    },
+  },
+  {
+    /*            Vim normal mode    AND  NOT menu */
+    "context": "vim_mode == normal   &&    !menu",
+    "bindings": {
+      "i": "vim::SwitchToInsertMode",
+      "g r": "editor::GoToDeclaration",
+      "g i": "editor::GoToImplementation",
+      "space l r": "editor::Rename",
+      "space e": "workspace::ToggleLeftDock",
+      "ctrl-d": "vim::ScrollDown",
+      "ctrl-u": "vim::ScrollUp",
+    },
+  },
+  /* MarkdownPreview */
+  {
+    "context": "MarkdownPreview",
+    "bindings": {
+      "j": "markdown::ScrollDown",
+      "k": "markdown::ScrollUp",
+      "ctrl-d": "markdown::ScrollPageDown",
+      "ctrl-u": "markdown::ScrollPageUp",
     },
   },
 
@@ -106,7 +102,10 @@
       ], // editor.action.moveSelectionToPreviousFindMatch
       "ctrl-k ctrl-i": "editor::Hover",
       "ctrl-k ctrl-b": "editor::BlameHover",
-      "ctrl-k ctrl-c": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-k ctrl-c": [
+        "editor::ToggleComments",
+        { "advance_downwards": false },
+      ],
       "ctrl-k ctrl-/": "editor::ToggleBlockComments",
       "ctrl-k ctrl-l": "editor::ToggleFold",
       "ctrl-k ctrl-[": "editor::FoldRecursive",
