@@ -1,19 +1,44 @@
 {
   /* VSCode is the most lightweight 'base_keymap'. */
   "base_keymap": "VSCode",
-  "theme": "One Dark Pro",
-  "icon_theme": "Material Icon Theme",
   "telemetry": {
     "metrics": true,
   },
   "tab_size": 2,
   "relative_line_numbers": "enabled",
   "vim_mode": true,
+  "format_on_save": "off",
+  "terminal": {
+    "shell": {
+      /* fish should be installed. */
+      "program": "/run/current-system/sw/bin/fish",
+    },
+  },
+  "disable_ai": true,
+
+  /* UI */
+  "theme": "One Dark Pro",
+  "icon_theme": "Material Icon Theme",
   "ui_font_size": 14,
   "ui_font_family": "JetBrains Mono",
   "buffer_font_size": 12,
   "buffer_font_family": "JetBrains Mono",
+  "project_panel": {
+    "dock": "left",
+  },
+  "active_pane_modifiers": {
+    "border_size": 3.5,
+    "inactive_opacity": 0.8,
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": true,
+    "selections_menu": true,
+    "agent_review": false,
+    "code_actions": true,
+  },
 
+  /* Completion */
   "inlay_hints": {
     "enabled": true,
     "show_type_hints": true,
@@ -23,17 +48,7 @@
     "edit_debounce_ms": 1600,
     "scroll_debounce_ms": 50,
   },
-  "project_panel": {
-    "dock": "left"
-  },
 
-  "format_on_save": "off",
-  "terminal": {
-    "shell":  {
-      // fish should be installed.
-      "program": "/run/current-system/sw/bin/fish"
-    }
-  },
   "lsp": {
     "metals": {
       "binary": {

@@ -34,7 +34,7 @@
   },
   /* Pane management in editor */
   {
-    "context": "Pane && vim_mode != normal && !menu",
+    "context": "vim_mode != insert && Pane && !menu",
     "bindings": {
       "space w": "workspace::Save",
       "space l a": "editor::ToggleCodeActions",
