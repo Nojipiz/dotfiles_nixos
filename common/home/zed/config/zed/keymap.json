@@ -33,22 +33,15 @@
     },
   },
   {
-    /*      (Editor without Vim insert)   OR   (Any other pane)     */
+    "context": "Terminal",
+    "bindings": {
+      "space c c": "pane::CloseActiveItem",
+    }
+  },
+  {
+    /*      (Editor without Vim insert)   OR   (Any other pane but editor)     */
     "context": "(VimControl && !menu)     ||   (Pane && !Editor)",
     "bindings": {
-      "space w": "workspace::Save",
-      "space l a": "editor::ToggleCodeActions",
-      "space c": "pane::CloseActiveItem",
-      "space q": "pane::CloseActiveItem",
-      "space /": "vim::ToggleComments",
-      "space s f": "file_finder::Toggle",
-      "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
-      "space s p": [
-        "projects::OpenRecent",
-        {
-          "create_new_window": true,
-        },
-      ],
       "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
 
@@ -63,14 +56,27 @@
     },
   },
   {
-    /*            Vim normal mode    AND  NOT menu */
-    "context": "vim_mode == normal   &&    !menu",
+    /*      (Editor without Vim insert)   OR   (Any other pane but Editor or Terminal)     */
+    "context": "(VimControl && !menu)     ||   (Pane && !Editor && !Terminal)",
     "bindings": {
-      "i": "vim::SwitchToInsertMode",
       "g r": "editor::GoToDeclaration",
       "g i": "editor::GoToImplementation",
+      "space w": "workspace::Save",
+      "space l a": "editor::ToggleCodeActions",
       "space l r": "editor::Rename",
       "space e": "workspace::ToggleLeftDock",
+      "space c": "pane::CloseActiveItem",
+      "space q": "pane::CloseActiveItem",
+      "space /": "vim::ToggleComments",
+      "space s f": "file_finder::Toggle",
+      "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
+      "space s p": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": true,
+        },
+      ],
+
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp",
     },
@@ -187,6 +193,8 @@
       "ctrl-k m": "language_selector::Toggle",
       "ctrl-k ctrl-m": "toolchain::AddToolchain",
       "ctrl-t": "project_symbols::Toggle",
+      "ctrl-p": "file_finder::Toggle",
+      "ctrl-w": "workspace::CloseActiveDock",
     },
   },
   {
