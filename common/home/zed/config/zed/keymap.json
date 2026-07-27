@@ -6,6 +6,7 @@
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-t": "workspace::NewCenterTerminal",
       "shift-.": "command_palette::Toggle",
     },
@@ -33,14 +34,13 @@
   },
   /* Pane management in editor */
   {
-    "context": "(VimControl || MarkdownPreview) && !menu",
+    "context": "Pane && vim_mode != normal && !menu",
     "bindings": {
       "space w": "workspace::Save",
       "space l a": "editor::ToggleCodeActions",
       "space c": "pane::CloseActiveItem",
       "space q": "pane::CloseActiveItem",
       "space /": "vim::ToggleComments",
-
       "shift-h": "pane::ActivatePreviousItem",
       "shift-l": "pane::ActivateNextItem",
     },
@@ -60,11 +60,11 @@
   },
   /* Markdown */
   {
-    "context": "MardownPreview",
+    "context": "MarkdownPreview",
     "bindings": {
-      "ctrl-d": "vim::ScrollDown",
-      "ctrl-u": "vim::ScrollUp",
-    }
+      "j": "markdown::ScrollDown",
+      "k": "markdown::ScrollUp",
+    },
   },
   /* Other screens TODO: Refine */
   {
@@ -84,23 +84,115 @@
     },
   },
 
-  /*  ============== Unbindings ============== */
+  /*  ============================ UNBINDINGS ============================ */
   {
     "context": "Editor && mode == full",
     "unbind": {
       "ctrl-h": "buffer_search::DeployReplace",
+      "ctrl-k ctrl-z": "editor::ToggleSoftWrap",
+      "ctrl-k z": "editor::ToggleSoftWrap",
     },
   },
   {
     "context": "Editor",
     "unbind": {
       "ctrl-l": "editor::SelectLine",
+      "ctrl-k ctrl-q": "editor::Rewrap",
+      "ctrl-k q": "editor::Rewrap",
+      "ctrl-k ctrl-d": ["editor::SelectNext", { "replace_newest": true }], // editor.action.moveSelectionToNextFindMatch  / find_under_expand_skip
+      "ctrl-k ctrl-shift-d": [
+        "editor::SelectPrevious",
+        { "replace_newest": true },
+      ], // editor.action.moveSelectionToPreviousFindMatch
+      "ctrl-k ctrl-i": "editor::Hover",
+      "ctrl-k ctrl-b": "editor::BlameHover",
+      "ctrl-k ctrl-c": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-k ctrl-/": "editor::ToggleBlockComments",
+      "ctrl-k ctrl-l": "editor::ToggleFold",
+      "ctrl-k ctrl-[": "editor::FoldRecursive",
+      "ctrl-k ctrl-]": "editor::UnfoldRecursive",
+      "ctrl-k ctrl-1": "editor::FoldAtLevel_1",
+      "ctrl-k ctrl-2": "editor::FoldAtLevel_2",
+      "ctrl-k ctrl-3": "editor::FoldAtLevel_3",
+      "ctrl-k ctrl-4": "editor::FoldAtLevel_4",
+      "ctrl-k ctrl-5": "editor::FoldAtLevel_5",
+      "ctrl-k ctrl-6": "editor::FoldAtLevel_6",
+      "ctrl-k ctrl-7": "editor::FoldAtLevel_7",
+      "ctrl-k ctrl-8": "editor::FoldAtLevel_8",
+      "ctrl-k ctrl-9": "editor::FoldAtLevel_9",
+      "ctrl-k ctrl-0": "editor::FoldAll",
+      "ctrl-k ctrl-j": "editor::UnfoldAll",
+      "ctrl-k r": "editor::RevealInFileManager",
+      "ctrl-k p": "editor::CopyPath",
+    },
+  },
+  {
+    "context": "Editor && extension == md",
+    "unbind": {
+      "ctrl-k v": "markdown::OpenPreviewToTheSide",
+    },
+  },
+  {
+    "context": "Editor && extension == svg",
+    "unbind": {
+      "ctrl-k v": "svg::OpenPreviewToTheSide",
+    },
+  },
+  {
+    "context": "Editor && !agent_diff",
+    "unbind": {
+      "ctrl-k ctrl-r": "git::Restore",
     },
   },
   {
     "context": "VimControl && !menu",
     "unbind": {
       "ctrl-j": "vim::Down",
+      "ctrl-k": "vim::Down",
+      "shift-h": "vim::WindowTop",
+      "shift-l": "vim::WindowBottom",
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "ctrl-s": "workspace::Save",
+      "ctrl-k s": "workspace::SaveWithoutFormat",
+      "ctrl-k ctrl-p": "workspace::ReopenLastPicker",
+      "ctrl-k ctrl-s": "zed::OpenKeymap",
+      "ctrl-k ctrl-t": "theme_selector::Toggle",
+      "ctrl-k ctrl-shift-t": "theme::ToggleMode",
+      "ctrl-k ctrl-left": "workspace::ActivatePaneLeft",
+      "ctrl-k ctrl-right": "workspace::ActivatePaneRight",
+      "ctrl-k ctrl-up": "workspace::ActivatePaneUp",
+      "ctrl-k ctrl-down": "workspace::ActivatePaneDown",
+      "ctrl-k shift-left": "workspace::SwapPaneLeft",
+      "ctrl-k shift-right": "workspace::SwapPaneRight",
+      "ctrl-k shift-up": "workspace::SwapPaneUp",
+      "ctrl-k shift-down": "workspace::SwapPaneDown",
+      "ctrl-k n": "encoding_selector::Toggle",
+      "ctrl-k m": "language_selector::Toggle",
+      "ctrl-k ctrl-m": "toolchain::AddToolchain",
+    },
+  },
+  {
+    "context": "Pane",
+    "unbind": {
+      "ctrl-k up": "pane::SplitUp",
+      "ctrl-k down": "pane::SplitDown",
+      "ctrl-k left": "pane::SplitLeft",
+      "ctrl-k right": "pane::SplitRight",
+      "ctrl-k e": ["pane::CloseItemsToTheLeft", { "close_pinned": false }],
+      "ctrl-k t": ["pane::CloseItemsToTheRight", { "close_pinned": false }],
+      "ctrl-k u": ["pane::CloseCleanItems", { "close_pinned": false }],
+      "ctrl-k w": ["pane::CloseAllItems", { "close_pinned": false }],
+      "ctrl-k ctrl-w": "workspace::CloseAllItemsAndPanes",
+      "ctrl-k shift-enter": "pane::TogglePinTab",
+    },
+  },
+  {
+    "unbind": {
+      "ctrl-k ctrl-o": "workspace::Open",
     },
   },
 ]
