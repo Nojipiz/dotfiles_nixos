@@ -45,7 +45,12 @@
       "shift-l": "pane::ActivateNextItem",
       "space s f": "file_finder::Toggle",
       "space s t": ["workspace::SendKeystrokes", "ctrl-shift-f"],
-      "space s p": "projects::OpenRecent",
+      "space s p": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": true,
+        },
+      ],
       "space g g": [
         "task::Spawn",
         { "task_name": "start lazygit", "reveal_target": "center" },
@@ -69,8 +74,8 @@
       "ctrl-u": "vim::ScrollUp",
     },
   },
-  /* MarkdownPreview */
   {
+    /* MarkdownPreview */
     "context": "MarkdownPreview",
     "bindings": {
       "j": "markdown::ScrollDown",
@@ -80,7 +85,14 @@
     },
   },
 
-  /*  ============================ UNBINDINGS ============================ */
+  /* ==================================== UNBINDINGS ==================================== */
+  /* from: https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-linux.json */
+  {
+    "context": "RecentProjects || (RecentProjects > Picker > Editor)",
+    "unbind": {
+      "ctrl-k": "recent_projects::ToggleActionsMenu",
+    },
+  },
   {
     "context": "Editor && mode == full",
     "unbind": {
