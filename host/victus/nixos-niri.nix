@@ -46,7 +46,7 @@ nixpkgs.lib.nixosSystem {
         useUserPackages = true;
         useGlobalPkgs = true;
         users.nojipiz = import ../../arch/nixos/home/desktop-niri/default.nix;
-        extraSpecialArgs = { inherit niri-flake; };
+        extraSpecialArgs = { inherit niri-flake; inherit (inputs) handy; };
       };
     }
   ];

@@ -34,6 +34,9 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Handy
+    handy.url = "github:cjpais/Handy";
   };
   outputs =
     inputs@{
@@ -42,7 +45,8 @@
       home-manager,
       nixpkgs-unstable,
       niri-flake,
-      ...
+      handy,
+    ...
     }:
 
     let
@@ -64,6 +68,7 @@
             home-manager
             overlay-unstable
             niri-flake
+            handy
             ;
         };
         WSL = import ./host/any-windows/default.nix {

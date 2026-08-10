@@ -1,6 +1,12 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
+  # Handy (text to speech)
+  imports = [
+    inputs.handy.nixosModules.default
+  ];
+  programs.handy.enable = true;
+
   services.libinput.enable = true;
   services.greetd = {
     enable = true;
