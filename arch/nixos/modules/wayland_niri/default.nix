@@ -6,6 +6,13 @@
     inputs.handy.nixosModules.default
   ];
   programs.handy.enable = true;
+  environment.systemPackages = with pkgs; [
+    wtype # To allow Handy direct type
+
+    vlc
+    unstable.noctalia-shell
+    xwayland-satellite-unstable
+  ];
 
   services.libinput.enable = true;
   services.greetd = {
@@ -26,11 +33,5 @@
     nerd-fonts.roboto-mono
     nerd-fonts.fira-code
     jetbrains-mono
-  ];
-
-  environment.systemPackages = with pkgs; [
-    vlc
-    unstable.noctalia-shell
-    xwayland-satellite-unstable
   ];
 }
