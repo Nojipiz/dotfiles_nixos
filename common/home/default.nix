@@ -1,6 +1,7 @@
 {
   imports = [
     ./jetbrains
+    ./opencode
     ./terminal
     ./zed
     ./zellij
