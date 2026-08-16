@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  opencodeConfig =  {
+  opencodeConfig = {
     "$schema" = "https://opencode.ai/config.json";
     "permission" = {
       "bash" = {
@@ -42,6 +42,9 @@ in
   home = {
     file.".config/opencode/opencode.json" = {
       text = builtins.toJSON opencodeConfig;
+    };
+    file.".config/opencode/skills/poet" = {
+      source = skills/poet;
     };
     packages = with pkgs; [
       unstable.opencode
