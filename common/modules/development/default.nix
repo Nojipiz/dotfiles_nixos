@@ -10,10 +10,6 @@
     xclip
     neovim
 
-    # AI
-    unstable.opencode
-    unstable.pi-coding-agent
-
     # Command line basics
     git
     p7zip
