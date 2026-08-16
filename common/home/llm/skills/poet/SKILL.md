@@ -1,228 +1,121 @@
 ---
 name: poet
-description: Enforces readable, self-explanatory code. Load for code review OR new code creation. Minimal comments, expressive naming, natural language-like structure.
+description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, no redundant comments, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, or renaming code, or when the user mentions readability, naming, comments, or clean structure.
 compatibility: opencode, claude, pi
 ---
 
-## Core Philosophy
+Code must read like natural language flowing top-to-bottom. Prefer names, extracted functions, and types over comments. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, …) vs multi-paradigm (TypeScript, Python, …). Poet wins over local idiom.
+es
+When the target is Scala, Read [reference/scala.md](reference/scala.md). When the target is TypeScript, Read [reference/typescript.md](reference/typescript.md).
 
-Code must read like natural language flowing top-to-bottom. A comment block is almost always a code smell—prefer expressive names and extracted functions. The AI must act as a lens, applying universal grammar rules to all languages, while automatically adapting control flow and side-effect handling based on whether the target language is functional or multi-paradigm.
+## Grammar & Naming
 
-
-## Universal Grammar & Naming Rules (All Languages)
-
-These rules apply universally, regardless of the language paradigm.
-
-### No unnecessary comments
-Comments are forbidden when code can express the same intent. Exception: links to external resources that provide context impossible to express in code (specs, RFCs, bug reports).
+### Comments
+Forbidden when code can express the same intent. Allowed: irreducible *why*, compiler/library workarounds, safety or performance invariants, and links to specs/RFCs/bugs.
 ```scala
-// bad: comment restates code
-val increment = value + 1 // add one to value
+val incrementedValue = value + 1 // <- No comment here, explicit via code.
 
-// good: name expresses intent
-val incrementedValue = value + 1
-
-// good: external link adds context the code cannot
 def calculateRetryDelay(attempt: Int): Int =
   // @see: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
   math.min(baseDelay * math.pow(2, attempt).toInt, maxDelay)
 ```
 
-### Ubiquitous Language (No Synonyms)
-
-Code must exactly mirror domain terminology. If the business calls it a `Subscriber`, the code cannot call it a `User`, `Client`, or `Account`.
-
+### Ubiquitous language
+Mirror domain terms exactly. No synonyms. If the business says `Subscriber`, the code cannot say `User`, `Client`, or `Account`.
 ```scala
-// bad: mixing terms for the same concept
-def chargeClient(user: Customer): Unit = ???
-
-// good: consistent domain vocabulary
 def chargeSubscriber(subscriber: Subscriber): Unit = ???
 ```
 
-### Full names, never abbreviate
+### Names
+- Full words. Never abbreviate (`userAuthenticationToken`, not `uat`).
+- Functions answer "what does this do?"; values answer "what is this?"
+- Booleans use `is`/`has`/`can`/`should` and are framed positively (`isVisible`, never `isNotHidden`).
+- Name type parameters for what they represent (`Value`, `Error`, `Item`), not `T`/`E`/`A`.
+- Collections are plural; lookups are `byX` (`subscribersById`).
 
-Use complete descriptive names. Boilerplate is acceptable.
-
+### Extract magic values & compound predicates
+Name domain literals and complex conditions. Leave `0`, `1`, `""`, `None`/`null` alone.
 ```scala
-// bad
-val uat = getToken()
-// good
-val userAuthenticationToken = getToken()
-```
-
-### Functions describe actions, Values describe entities
-
-Function names must answer "what does this do?" without reading the body. Variable names must answer "what is this?" without reading context.
-
-```scala
-// bad
-def check(x: String): Boolean = ???
-val cnt = getActiveSubscriptions().length
-
-// good
-def validateUserInput(input: String): Boolean = ???
-val activeSubscriptionCount = getActiveSubscriptions().length
-```
-
-### Boolean Prefixes (is, has, can, should)
-
-Variables holding boolean values must sound like questions or facts so `if` statements read as grammatically correct English.
-
-```scala
-// bad: sounds like an object or command
-val active = user.status == "active"
-if (active) { ... }
-
-// good: sounds like a sentence
-val isActive = user.status == "active"
-if (isActive) { ... }
-```
-
-### No Double Negatives (Positive Boolean Framing)
-
-Booleans and predicates must always be framed positively so they read naturally when prefixed with `!` or `not`.
-
-```scala
-// bad: brain-bending ("if not not hidden")
-if (!isNotHidden) { ... }
-
-// good: reads like English ("if not visible")
-if (!isVisible) { ... }
-```
-
-### Extract magic values & Complex Conditionals
-
-Named constants or variables replace raw literals and complex inline logic.
-
-```scala
-// bad: requires stopping to parse the logic and literals
-if (users.length > 5 && user.hasPaidTaxes && !user.hasClaimed) { ... }
-
-// good: reads like a business rule
 val minimumUsersForDiscount = 5
-val isEligibleForDiscount = users.length > minimumUsersForDiscount && user.hasPaidTaxes && !user.hasClaimed
-
+val isEligibleForDiscount =
+  users.length > minimumUsersForDiscount && user.hasPaidTaxes && !user.hasClaimed
 if (isEligibleForDiscount) { ... }
 ```
 
 ### Functions do one thing
-
-Size is irrelevant—cohesion matters. If it does multiple things, extract. When languages allow internal functions, use them to structure a long function without exposing helpers.
-
+Cohesion matters, not line count. Orchestrate in one function; put each step in a specifically typed helper. Prefer internal functions when the language allows, so helpers stay unexported.
 ```scala
-// good: one purpose, internal helpers for structure
-def processUser(input: Any): Unit =
-  val validatedUser = validateUserInput(input)
+def persistValidUser(rawUserInput: RawUserInput): Unit =
+  val validatedUser = validateUserInput(rawUserInput)
   val normalizedUser = normalizeUser(validatedUser)
   persistUser(normalizedUser)
-end processUser
-
-def validateUserInput(input: Any): User = ???
-def normalizeUser(user: User): User = ???
-def persistUser(user: User): Unit = ???
-```
-
-### Generic types need descriptive names
-
-Single-letter type parameters (`T`, `E`, `A`) obscure intent. Name type parameters for what they represent in the domain.
-
-```scala
-// bad: single-letter types reveal nothing
-def retry[T, E](fallibleAttempt: () => Either[E, T], maxAttempts: Int): Either[E, T] = ???
-def findOrDefault[A](items: List[A], predicate: A => Boolean, default: A): A = ???
-
-// good: type names express domain meaning
-def retry[Value, Error](fallibleAttempt: () => Either[Error, Value], maxAttempts: Int): Either[Error, Value] = ???
-def findOrDefault[Item](items: List[Item], matches: Item => Boolean, fallback: Item): Item = ???
 ```
 
 ### Abstract only when necessary or reused
+Stay specific. Extract only when the same logic appears twice or the extraction makes the caller read as prose.
 
-Do not extract abstractions preemptively. Make code specific and direct. Extract only when the same logic appears in multiple places or clarifies calling code.
+## Type Safety
 
+Types document assumptions. A change that alters behavior must fail to compile, not slip through as a still-green rename.
 
-## Control Flow & Structure (Paradigm-Dependent)
+- Specific functions for specific types. `charge(subscriber: Subscriber)` — not `charge(entity: Any)` / `unknown` / `object` / untyped `string`.
+- Refine domain values. IDs, money, emails, and statuses are not raw `String`/`Int`/`Boolean`.
+- *Make illegal states unrepresentable*. Mutually exclusive cases are a sum type / discriminated union, not a pile of flags.
+- This is not dependent types or compile-time content validation. It is precise signatures and refined types so the compiler guards the assumptions.
 
-### Multi-Paradigm (TypeScript, Python, etc.)
+## Control Flow
 
-* **Guard Clauses:** Enforce early returns to prevent deep nesting. The main happy-path logic must be completely un-indented at the bottom of the function.
+### Multi-paradigm (TypeScript, Python, …)
+Guard clauses. Prerequisites return early. Happy path stays unindented at the bottom.
 ```typescript
-// bad: nested and hard to follow
-function processRefund(order: Order) {
-  if (order.isPaid) {
-    if (!order.isRefunded) {
-      issueRefund(order);
-    }
-  }
-}
-// good: prerequisites handled early, happy path reads like prose
 function processRefund(order: Order) {
   if (!order.isPaid) return;
   if (order.isRefunded) return;
   issueRefund(order);
 }
-
 ```
 
-### Functional (Scala, Haskell, etc.)
-
-* **Pattern Matching & Combinators:** Prefer pattern matching over `if/else` chains. Use monadic flow (`for` comprehensions, `do` notation) to handle short-circuiting naturally.
-* **Descriptive Chaining:** When chaining optional values or fallbacks, name each one descriptively.
+### Functional (Scala, Haskell, …)
+Pattern match instead of `if/else` chains. Use monadic flow (`for` / `do`) for short-circuiting. Name each intermediate in a chain.
 ```scala
 val environmentConfiguration: Option[Config] = loadFromEnvironment()
 val defaultConfiguration: Option[Config] = loadDefault()
 val config = environmentConfiguration orElse defaultConfiguration
-
 ```
 
-## State, Side Effects & Error Handling (Paradigm-Dependent)
+## State, Effects & Errors
 
-### Functional Languages — Absolute Purity
-
-* **Domain is Pure:** Zero side effects in the domain. Immutability is default. All I/O lives at the boundary. Aim for referential transparency.
-* **Errors as Values:** No exceptions for control flow. Domain functions return `Either`, `Result`, `Option`, or equivalent types—never throw.
+### Functional — absolute purity
+Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
 ```scala
-// good: domain returns Either, pure
 def withdraw(balance: Money, amount: Money): Either[InsufficientFunds, Money] =
   Either.cond(amount <= balance, balance - amount, InsufficientFunds(amount))
-
 ```
 
-
-* **Loops:** Prefer recursion or higher-order functions (`map`, `filter`, `fold`) over imperative loops.
-
-### Multi-Paradigm Languages — Pragmatic Purity
-
-* **Purity by Default:** Push functional patterns where the codebase context allows it. Prefer `map`/`filter`/`reduce` over imperative loops. Use `const`/`final` by default.
-* **Boundary Side Effects:** Keep domain logic pure. Encapsulate side effects at boundaries.
+### Multi-paradigm — pragmatic purity
+Push `map`/`filter`/`reduce` and `const`/`final` by default. Domain stays pure. Side effects stay at the orchestration boundary.
 ```typescript
-// good: domain logic is pure, side effects at boundary
 function calculateDiscount(order: Order): Order {
   return { ...order, total: order.total * 0.9 };
 }
-// orchestration layer
 const discountedOrder = calculateDiscount(order);
 logger.info("discount applied");
 await repository.save(discountedOrder);
-
 ```
 
-## Usage
+## Write
+Apply silently. Do not narrate these rules.
 
-Load this skill when:
+## Review
+Detect the paradigm and load the matching language file. Cite `path:line`. Show the rewrite. Poet wins over local idiom. If clean: `poet: clean`.
 
-* Reviewing existing code for readability violations.
-* Writing new code to apply these principles from the start.
+Group violations:
 
-## Review Output Format
-
-When reviewing, automatically detect the language paradigm and tailor the output. List violations grouped by:
-
-1. **Excessive Comments:** Restating code or replaceable by better names. (Never suggest adding comments to solve a context problem; suggest refactoring instead).
-2. **Naming & Vocabulary Violations:** Abbreviations, single-letter variables, unclear intent, mixed domain terminology.
-3. **Grammar & Boolean Violations:** Double negatives, missing boolean prefixes (`is/has/can`), complex un-encapsulated conditionals.
-4. **Function Design Violations:** Doing multiple things, poorly named generic parameters, premature abstraction.
-5. **Control Flow & State Violations:**
-* *(If Multi-Paradigm):* Missing guard clauses, deep nesting, imperative loops where functional fits, leaked side effects.
-* *(If Functional):* Missed pattern matching opportunities, unsafe exceptions, unnecessary mutability, non-idiomatic monadic chaining.
+1. **Comments** — restating code, or a missing allowed *why*/link.
+2. **Naming & vocabulary** — abbreviations, unclear intent, mixed domain terms, single-letter type params.
+3. **Grammar & booleans** — double negatives, missing `is`/`has`/`can`/`should`, un-named compound predicates.
+4. **Function design** — mixed concerns, premature abstraction, unspecific types.
+5. **Type safety** — `Any`/`any`, primitive obsession, illegal states that still typecheck, casts that hide breakage.
+6. **Control flow & effects**
+   - Multi-paradigm: missing guards, deep nesting, imperative loops where a transform fits, leaked side effects.
+   - Functional: missed pattern match, thrown exceptions, mutability, non-idiomatic combinators.
