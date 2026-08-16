@@ -15,117 +15,112 @@ These rules apply universally, regardless of the language paradigm.
 
 ### No unnecessary comments
 Comments are forbidden when code can express the same intent. Exception: links to external resources that provide context impossible to express in code (specs, RFCs, bug reports).
-```python
-# bad: comment restates code
-increment = value + 1  # add one to value
+```scala
+// bad: comment restates code
+val increment = value + 1 // add one to value
 
-# good: external link adds context the code cannot
-def calculateRetryDelay(attempt: int) -> int:
-    # @see: [https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)
-    return min(base_delay * (2 ** attempt), max_delay)
+// good: name expresses intent
+val incrementedValue = value + 1
 
+// good: external link adds context the code cannot
+def calculateRetryDelay(attempt: Int): Int =
+  // @see: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
+  math.min(baseDelay * math.pow(2, attempt).toInt, maxDelay)
 ```
 
 ### Ubiquitous Language (No Synonyms)
 
 Code must exactly mirror domain terminology. If the business calls it a `Subscriber`, the code cannot call it a `User`, `Client`, or `Account`.
 
-```typescript
+```scala
 // bad: mixing terms for the same concept
-function chargeClient(user: Customer) { ... }
+def chargeClient(user: Customer): Unit = ???
 
 // good: consistent domain vocabulary
-function chargeSubscriber(subscriber: Subscriber) { ... }
-
+def chargeSubscriber(subscriber: Subscriber): Unit = ???
 ```
 
 ### Full names, never abbreviate
 
 Use complete descriptive names. Boilerplate is acceptable.
 
-```typescript
+```scala
 // bad
-const uat = getToken();
+val uat = getToken()
 // good
-const userAuthenticationToken = getToken();
-
+val userAuthenticationToken = getToken()
 ```
 
 ### Functions describe actions, Values describe entities
 
 Function names must answer "what does this do?" without reading the body. Variable names must answer "what is this?" without reading context.
 
-```typescript
+```scala
 // bad
-function check(x) { ... }
-const cnt = getActiveSubscriptions().length;
+def check(x: String): Boolean = ???
+val cnt = getActiveSubscriptions().length
 
 // good
-function validateUserInput(input: string) { ... }
-const activeSubscriptionCount = getActiveSubscriptions().length;
-
+def validateUserInput(input: String): Boolean = ???
+val activeSubscriptionCount = getActiveSubscriptions().length
 ```
 
 ### Boolean Prefixes (is, has, can, should)
 
 Variables holding boolean values must sound like questions or facts so `if` statements read as grammatically correct English.
 
-```typescript
+```scala
 // bad: sounds like an object or command
-const active = user.status === 'active';
-if (active) { ... } 
+val active = user.status == "active"
+if (active) { ... }
 
 // good: sounds like a sentence
-const isActive = user.status === 'active';
+val isActive = user.status == "active"
 if (isActive) { ... }
-
 ```
 
 ### No Double Negatives (Positive Boolean Framing)
 
 Booleans and predicates must always be framed positively so they read naturally when prefixed with `!` or `not`.
 
-```typescript
+```scala
 // bad: brain-bending ("if not not hidden")
-if (!isNotHidden) { ... } 
+if (!isNotHidden) { ... }
 
 // good: reads like English ("if not visible")
-if (!isVisible) { ... } 
-
+if (!isVisible) { ... }
 ```
 
 ### Extract magic values & Complex Conditionals
 
 Named constants or variables replace raw literals and complex inline logic.
 
-```typescript
+```scala
 // bad: requires stopping to parse the logic and literals
 if (users.length > 5 && user.hasPaidTaxes && !user.hasClaimed) { ... }
 
 // good: reads like a business rule
-const minimumUsersForDiscount = 5;
-const isEligibleForDiscount = users.length > minimumUsersForDiscount && user.hasPaidTaxes && !user.hasClaimed;
+val minimumUsersForDiscount = 5
+val isEligibleForDiscount = users.length > minimumUsersForDiscount && user.hasPaidTaxes && !user.hasClaimed
 
 if (isEligibleForDiscount) { ... }
-
 ```
 
 ### Functions do one thing
 
 Size is irrelevant—cohesion matters. If it does multiple things, extract. When languages allow internal functions, use them to structure a long function without exposing helpers.
 
-```typescript
+```scala
 // good: one purpose, internal helpers for structure
-function processUser(input: unknown) {
-  const validatedUser = _validateUserInput(input);
-  const normalizedUser = _normalizeUser(validatedUser);
-  _persistUser(normalizedUser);
+def processUser(input: Any): Unit =
+  val validatedUser = validateUserInput(input)
+  val normalizedUser = normalizeUser(validatedUser)
+  persistUser(normalizedUser)
+end processUser
 
-  function _validateUserInput(input: unknown): User { ... }
-  function _normalizeUser(user: User): User { ... }
-  function _persistUser(user: User): void { ... }
-}
-
+def validateUserInput(input: Any): User = ???
+def normalizeUser(user: User): User = ???
+def persistUser(user: User): Unit = ???
 ```
 
 ### Generic types need descriptive names
