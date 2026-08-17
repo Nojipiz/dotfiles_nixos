@@ -33,21 +33,22 @@ let
           "--executable-path"
           "${pkgs.chromium}/bin/chromium"
         ];
-        "enabled" = true;
+        "enabled" = false;
       };
     };
   };
 in
 {
   home = {
+    file.".config/opencode" = {
+      source = config;
+    };
     file.".config/opencode/opencode.json" = {
       text = builtins.toJSON opencodeConfig;
     };
-    file.".config/opencode/skills/poet" = {
-      source = skills/poet;
-    };
     packages = with pkgs; [
       unstable.opencode
+      imagemagick
     ];
   };
 }
