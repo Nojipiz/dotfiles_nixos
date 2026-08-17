@@ -1,6 +1,6 @@
 ---
 name: poet
-description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, no redundant comments, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, or renaming code, or when the user mentions readability, naming, comments, or clean structure.
+description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless user-validated with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, or renaming code, or when the user mentions readability, naming, comments, or clean structure.
 compatibility: opencode, claude, pi
 ---
 
@@ -11,9 +11,9 @@ When the target is Scala, Read [reference/scala.md](reference/scala.md). When th
 ## Grammar & Naming
 
 ### Comments
-Forbidden when code can express the same intent. Allowed: irreducible *why*, compiler/library workarounds, safety or performance invariants, and links to specs/RFCs/bugs.
+Forbidden by default. Code must express intent through names, types, and structure. The only exception: a comment the user has explicitly validated that contains an external link (spec, RFC, bug tracker, blog post). No link, no comment.
 ```scala
-val incrementedValue = value + 1 // <- No comment here, explicit via code.
+val incrementedValue = value + 1 // Code is self-documenting.
 
 def calculateRetryDelay(attempt: Int): Int =
   // @see: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
@@ -111,7 +111,7 @@ Detect the paradigm and load the matching language file. Cite `path:line`. Show 
 
 Group violations:
 
-1. **Comments** — restating code, or a missing allowed *why*/link.
+1. **Comments** — any comment without a user-validated external link.
 2. **Naming & vocabulary** — abbreviations, unclear intent, mixed domain terms, single-letter type params.
 3. **Grammar & booleans** — double negatives, missing `is`/`has`/`can`/`should`, un-named compound predicates.
 4. **Function design** — mixed concerns, premature abstraction, unspecific types.

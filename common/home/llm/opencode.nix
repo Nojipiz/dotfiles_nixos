@@ -41,7 +41,7 @@ in
 {
   home = {
     file.".config/opencode" = {
-      source = ./config/harness;
+      source = config/harness;
     };
     file.".config/opencode/opencode.json" = {
       text = builtins.toJSON opencodeConfig;
