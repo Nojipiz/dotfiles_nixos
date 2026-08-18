@@ -27,11 +27,35 @@ def chargeSubscriber(subscriber: Subscriber): Unit = ???
 ```
 
 ### Names
+- Encode the full context. A reader must understand what the value holds or what the function does without seeing its body or definition site.
 - Full words. Never abbreviate (`userAuthenticationToken`, not `uat`).
 - Functions answer "what does this do?"; values answer "what is this?"
 - Booleans use `is`/`has`/`can`/`should` and are framed positively (`isVisible`, never `isNotHidden`).
 - Name type parameters for what they represent (`Value`, `Error`, `Item`), not `T`/`E`/`A`.
 - Collections are plural; lookups are `byX` (`subscribersById`).
+
+```scala
+// Too short — what kind of amount? what context?
+val amount: Money = ???
+val amountChargedInDefaultCurrency: Money = ???
+
+// Too short — which user? doing what?
+val user: User = ???
+val userRequestingAccountClosure: User = ???
+
+// Too short — eligible for what?
+val isEligible: Boolean = ???
+val isSubscriberEligibleForAnnualDiscount: Boolean = ???
+
+// Too short — what does calculate do? calculate what?
+def calculate(order: Order): Money = ???
+def calculateRefundAmountAfterRestockingFee(order: Order): Money = ???
+
+// Too short — filters which orders by what status?
+val orders: List[Order] = ???
+val pendingOrdersAwaitingFraudReview: List[Order] = ???
+val ordersBySubscriberId: Map[SubscriberId, List[Order]] = ???
+```
 
 ### Extract magic values & compound predicates
 Name domain literals and complex conditions. Leave `0`, `1`, `""`, `None`/`null` alone.
