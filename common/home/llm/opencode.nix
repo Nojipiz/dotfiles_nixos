@@ -48,6 +48,7 @@ in
     };
     packages = with pkgs; [
       unstable.opencode
+      # For ui-image-comparator skill
       imagemagick
     ];
   };
