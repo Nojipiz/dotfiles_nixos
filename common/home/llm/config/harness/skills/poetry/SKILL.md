@@ -17,6 +17,23 @@ Two modes:
 
 **User's request:** $ARGUMENTS
 
+### `branch`
+
+Use this command to review the diff between this branch and the root branch (main or default).
+
+### `session`
+
+Use this command to review the diff of code changes of this session.
+
+### `review_pr`
+
+Use this command to review the content of a PR.
+
+1. Extract the PR URL or `owner/repo#number` from `$ARGUMENTS` (everything after `review_pr`).
+2. Use `gh pr view <url-or-number> --json files,body,title` to fetch PR metadata.
+3. Use `gh pr diff <url-or-number>` to get the diff.
+4. Review the diff following the workflow below.
+
 ---
 
 ## Language References

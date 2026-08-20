@@ -23,6 +23,20 @@ let
           };
         };
       };
+      "poet" = {
+        "permission" = {
+          "bash" = {
+            "*" = "ask";
+            "git *" = "allow";
+            "git commit *" = "deny";
+            "git push *" = "deny";
+            "grep *" = "allow";
+          };
+          "edit" = "allow";
+          "read" = "allow";
+          "skill" = "allow";
+        };
+      };
     };
     "mcp" = {
       "playwright" = {
