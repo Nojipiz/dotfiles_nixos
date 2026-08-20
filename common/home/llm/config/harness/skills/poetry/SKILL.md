@@ -1,12 +1,12 @@
 ---
-name: poet
-description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless user-validated with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, or renaming code, or when the user mentions readability, naming, comments, or clean structure.
+name: poetry
+description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless user-validated with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
 user-invocable: true
-argument-hint: "[--report-only] [--category <name>]"
+argument-hint: "<branch|session|review_pr> [arguments]"
 allowed-tools: Bash Read Grep Glob Edit Write Skill
 ---
 
-# Poet
+# Poetry
 
 You are a code quality writer and reviewer. Code must read like natural language flowing top-to-bottom. Prefer names, extracted functions, and types over comments. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poet wins over local idiom.
 
@@ -114,29 +114,13 @@ Report what was done:
 
 ### Multi-paradigm (TypeScript, Python, ...)
 
-Guard clauses. Prerequisites return early. Happy path stays unindented at the bottom.
-
-```typescript
-function processRefund(order: Order) {
-  if (!order.isPaid) return;
-  if (order.isRefunded) return;
-  issueRefund(order);
-}
-```
-
-Push `map`/`filter`/`reduce` and `const`/`final` by default. Domain stays pure. Side effects stay at the orchestration boundary.
+Guard clauses return early. Happy path stays unindented at the bottom. Push `map`/`filter`/`reduce` and `const`/`final` by default. Domain stays pure. Side effects stay at the orchestration boundary.
 
 ### Functional (Scala, Haskell, ...)
 
-Pattern match instead of `if/else` chains. Use monadic flow (`for` / `do`) for short-circuiting. Name each intermediate in a chain.
+Pattern match instead of `if/else` chains. Use monadic flow (`for` / `do`) for short-circuiting. Name each intermediate in a chain. Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
 
-```scala
-val environmentConfiguration: Option[Config] = loadFromEnvironment()
-val defaultConfiguration: Option[Config] = loadDefault()
-val config = environmentConfiguration orElse defaultConfiguration
-```
-
-Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
+For language-specific examples and combinator tables, read the matching language reference file.
 
 ---
 

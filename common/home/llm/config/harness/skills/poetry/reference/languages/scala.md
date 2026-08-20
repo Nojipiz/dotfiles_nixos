@@ -139,3 +139,22 @@ def processPayment(order: Order): Either[PaymentError, Receipt] =
 
 ### Refine, do not annotate
 `subscriber: Subscriber` is the check. `subscriber: Any /* actually a Subscriber */` is a defect. Phantom or tagged types are welcome when two values share a representation but must not mix (`DebitMoney` vs `CreditMoney`).
+
+## Control Flow
+
+Pattern match instead of `if/else` chains. Use monadic flow (`for` / `do`) for short-circuiting. Name each intermediate in a chain.
+
+```scala
+val environmentConfiguration: Option[Config] = loadFromEnvironment()
+val defaultConfiguration: Option[Config] = loadDefault()
+val config = environmentConfiguration orElse defaultConfiguration
+```
+
+## State, Effects & Errors
+
+Absolute purity. Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
+
+```scala
+def withdraw(balance: Money, amount: Money): Either[InsufficientFunds, Money] =
+  Either.cond(amount <= balance, balance - amount, InsufficientFunds(amount))
+```

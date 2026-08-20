@@ -342,3 +342,28 @@ function agentServiceAdapter(agentManager: AgentManager) {
 ```
 
 **Rule:** If the adapter is a 1:1 passthrough, delete it. Adapters earn their existence when they transform interfaces.
+
+## Control Flow
+
+Guard clauses. Prerequisites return early. Happy path stays unindented at the bottom.
+
+```typescript
+function processRefund(order: Order) {
+  if (!order.isPaid) return;
+  if (order.isRefunded) return;
+  issueRefund(order);
+}
+```
+
+## State, Effects & Errors
+
+Pragmatic purity. Push `map`/`filter`/`reduce` and `const` by default. Domain stays pure. Side effects stay at the orchestration boundary.
+
+```typescript
+function calculateDiscount(order: Order): Order {
+  return { ...order, total: order.total * 0.9 };
+}
+const discountedOrder = calculateDiscount(order);
+logger.info("discount applied");
+await repository.save(discountedOrder);
+```
