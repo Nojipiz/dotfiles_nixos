@@ -193,6 +193,152 @@ Use `satisfies` to check a value against a type without widening. Use `as const`
 
 `readonly` properties, `ReadonlyArray`, `as const` inputs. Mutation happens in dedicated, named steps — not as a side effect of a calculation.
 
+## Type Assertions vs Narrowing
+
+```typescript
+// Bad: assertion — trusts the developer, not the compiler
+const agent = agents.find((a) => a.id === id) as Agent;
+agent.start();
+
+// Bad: non-null assertion where result might be undefined
+const config = configMap.get(provider)!;
+const port = config.port;
+```
+
+```typescript
+// Good: narrowing — trusts the compiler
+const agent = agents.find((a) => a.id === id);
+if (!agent) throw new AgentNotFoundError(id);
+agent.start(); // TypeScript knows agent is Agent here
+
+const config = configMap.get(provider);
+if (!config) throw new UnsupportedProviderError(provider);
+const port = config.port;
+```
+
+**Rule:** Type assertions (`as X`, `!`) tell the compiler to stop checking. Narrowing (`if`, `switch`, schema validation) tells it to check harder. Prefer narrowing.
+
+## Schema Inference vs Hand-Written Types
+
+```typescript
+// Bad: hand-written type that duplicates a schema
+const subscriberSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  status: z.enum(["active", "inactive"]),
+});
+
+interface Subscriber {
+  id: string;        // will drift from schema
+  name: string;
+  status: "active" | "inactive";
+}
+```
+
+```typescript
+// Good: infer from schema
+type Subscriber = z.infer<typeof subscriberSchema>;
+```
+
+**Rule:** If a schema exists, the type MUST be inferred. Never hand-write a parallel type.
+
+## Placeholder stubs
+
+If the function needs to exist, implement it. If it doesn't, don't create it.
+
+```typescript
+// Bad: stub that returns a hardcoded value
+function validateUser(input: UserInput): boolean {
+  return true;
+}
+
+// Bad: empty catch that swallows the error
+try {
+  riskyOperation();
+} catch (error) {
+  // silently swallow
+}
+
+// Bad: TODO comment as implementation
+function processPayment(order: Order): Result<PaymentError, Receipt> {
+  // TODO: implement payment processing
+  throw new Error("not implemented");
+}
+```
+
+```typescript
+// Good: implement or remove
+function validateUser(input: UserInput): Result<ValidationError, User> {
+  const name = validateName(input.name);
+  if (!name.ok) return name;
+  const email = validateEmail(input.email);
+  if (!email.ok) return email;
+  return { ok: true, value: { name: name.value, email: email.value } };
+}
+
+// Good: never() signals a code path that should be unreachable
+function processPayment(order: Order): Result<PaymentError, Receipt> {
+  return never("processPayment not yet implemented");
+}
+```
+
+**Rule:** `throw new Error("not implemented")` is a code smell — use `never()` or don't define the function. Empty catch blocks are always wrong.
+
 ### Refine, do not comment
 
 `amount: MoneyCents` is the check. `amount: number /* cents */` is a defect. Optional fields that change meaning by presence should be a union, not `field?: T` plus a boolean.
+
+## Callback Pyramids
+
+```typescript
+// Bad: nested callbacks — pyramid of doom
+loadUser(userId, (user) => {
+  loadSubscription(user.id, (subscription) => {
+    loadPermissions(subscription.plan, (permissions) => {
+      renderDashboard(user, subscription, permissions);
+    });
+  });
+});
+```
+
+```typescript
+// Good: flatten with async/await
+const user = await loadUser(userId);
+const subscription = await loadSubscription(user.id);
+const permissions = await loadPermissions(subscription.plan);
+renderDashboard(user, subscription, permissions);
+```
+
+**Rule:** Nesting more than 2 callbacks deep is always wrong. Flatten with async/await or promises.
+
+## Barrel Files (Index Re-exports)
+
+```typescript
+// Bad: index.ts that only re-exports
+export { ClaudeProvider } from "./claude";
+export { CodexProvider } from "./codex";
+export type { Provider, ProviderConfig } from "./types";
+```
+
+**Rule:** Import directly from the source file. Barrel files create circular dependency risks and make it harder to find definitions.
+
+## Wrapper/Adapter Layers
+
+AI loves creating intermediate layers instead of modifying existing code.
+
+```typescript
+// Bad: adapter with identical signature
+function agentServiceAdapter(agentManager: AgentManager) {
+  return {
+    getAgent: (id: string) => agentManager.getAgent(id),
+    listAgents: () => agentManager.listAgents(),
+  };
+}
+```
+
+```typescript
+// Good: use the existing interface directly
+// If AgentManager already has getAgent/listAgents, pass it directly.
+```
+
+**Rule:** If the adapter is a 1:1 passthrough, delete it. Adapters earn their existence when they transform interfaces.

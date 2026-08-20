@@ -101,5 +101,41 @@ Domain returns `Either[DomainError, Value]` or `Option`. Sealed error ADTs, not 
 ### Exhaustiveness is the test
 A new `OrderStatus` case must break every match that did not handle it. Do not add a wildcard to silence the compiler in domain code.
 
+## Placeholder stubs
+
+If the function needs to exist, implement it. If it doesn't, don't create it.
+
+```scala
+// Bad: stub that returns a hardcoded value
+def validateUser(input: UserInput): Boolean = true
+
+// Bad: empty catch that swallows the error
+try
+  riskyOperation()
+catch
+  case _ => ()
+
+// Bad: TODO comment as implementation
+def processPayment(order: Order): Either[PaymentError, Receipt] =
+  // TODO: implement payment processing
+  ???
+```
+
+```scala
+// Good: implement or remove
+def validateUser(input: UserInput): Either[ValidationError, User] =
+  for
+    name  <- validateName(input.name)
+    email <- validateEmail(input.email)
+  yield User(name, email)
+
+// Good: ??? signals a genuine unfinished branch — the compiler warns on it
+def processPayment(order: Order): Either[PaymentError, Receipt] =
+  // This compiles but will throw at runtime — only acceptable during early prototyping
+  ???
+```
+
+**Rule:** `???` is a compiler-visible placeholder, not a production pattern. If the function ships, implement it. Empty catch blocks are always wrong.
+
 ### Refine, do not annotate
 `subscriber: Subscriber` is the check. `subscriber: Any /* actually a Subscriber */` is a defect. Phantom or tagged types are welcome when two values share a representation but must not mix (`DebitMoney` vs `CreditMoney`).
