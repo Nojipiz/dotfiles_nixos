@@ -1,6 +1,6 @@
 # Naming
 
-Names encode intent. A reader must understand what the value holds or what the function does without seeing its body or definition site.
+Code should read as natural language, as close as possible. Names encode intent — a reader must understand what the value holds or what the function does without seeing its body or definition site. When you read a line aloud, it should sound like a sentence a domain expert would say.
 
 ## Core Rules
 
@@ -37,7 +37,7 @@ val pendingOrdersAwaitingFraudReview: List[Order] = ???
 val ordersBySubscriberId: Map[SubscriberId, List[Order]] = ???
 ```
 
-**Rule:** If you need to see the body to understand the name, the name is too short.
+**Rule:** If you need to see the body to understand the name, the name is too short. Code should read like a sentence.
 
 ### 2. Overly Literal Names
 
@@ -99,25 +99,8 @@ function processedSubscriber() { ... }  // when everything else is processSubscr
 
 **Rule:** Match the existing conventions. If the project says `subscriberService.ts`, new files follow. Consistency beats personal preference.
 
-### 5. Implementation-Describing Names
 
-Names that expose how something works instead of what it does.
-
-```typescript
-// Bad: exposes implementation detail
-function filterAndMapSubscribers(subscribers: Subscriber[]) { ... }
-function arrayWithSortedScores(numbers: number[]) { ... }
-const cachedSubscriberMap: Map<string, Subscriber> = ...;
-
-// Good: describes the intent
-function activeSubscriberEmails(subscribers: Subscriber[]) { ... }
-const sortedScores: number[] = ...;
-const subscribersById: Map<string, Subscriber> = ...;
-```
-
-**Rule:** The name should describe the result, not the steps to get there.
-
-### 6. Mixed Domain Vocabulary
+### 5. Mixed Domain Vocabulary
 
 Using synonyms or inconsistent terms for the same concept.
 
@@ -134,9 +117,9 @@ Using synonyms or inconsistent terms for the same concept.
 chargeSubscriber()
 ```
 
-**Rule:** Mirror domain terms exactly. No synonyms. If the business says `Subscriber`, the code cannot say `User`, `Client`, or `Account` in the same context.
+**Rule:** Mirror domain terms exactly. No synonyms. If the business says `Subscriber`, the code cannot say `User`, `Client`, or `Account` in the same context. Use the same words a domain expert would use.
 
-### 7. Extract Magic Values & Compound Predicates
+### 6. Extract Magic Values & Compound Predicates
 
 Name domain literals and complex conditions. Leave `0`, `1`, `""`, `None`/`null` alone.
 

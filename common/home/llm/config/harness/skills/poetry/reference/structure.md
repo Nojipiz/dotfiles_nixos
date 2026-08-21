@@ -1,6 +1,6 @@
 # Structure
 
-Structural problems from code generated without understanding the architecture. Both extremes: too much repetition (copy-paste) and too much abstraction (DRY obsession).
+Structural problems from code generated without understanding the architecture. Both extremes: too much repetition (copy-paste) and too much abstraction (DRY obsession). Functions should not exist for a single call site — that's indirection, not abstraction.
 
 ## Patterns
 
@@ -77,7 +77,7 @@ payload = { title, body }
 scriptType = serviceScript ? "service" : "script"
 ```
 
-**Rule:** Don't extract a function until it's called from at least two unrelated call sites. A function called once is indirection, not abstraction.
+**Rule:** No function should exist if it's used only once — that makes the code difficult to read. A function called once is indirection, not abstraction. The only exception is deep nesting that would otherwise reduce readability, but even then, keep logic at the same level as much as possible.
 
 ### 3. God Functions
 
@@ -119,7 +119,7 @@ function handleMessage(raw):
 
 A big function is fine if the internal steps are extracted into named internal functions. The sin is not length — it's mixing concerns at the same level of abstraction. A 100-line function that calls 5 well-named helpers is clearer than a 30-line function that inlines everything.
 
-**Rule:** If a function has more than 3 levels of nesting or handles more than one concern, split it. Each function answers one question.
+**Rule:** If a function has more than 3 levels of nesting or handles more than one concern, split it. Each function answers one question. Keep logic at the same level — don't extract functions just to reduce line count.
 
 ### 4. God Files
 

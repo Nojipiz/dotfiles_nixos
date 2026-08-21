@@ -8,7 +8,7 @@ allowed-tools: Bash Read Grep Glob Edit Write Skill
 
 # Poetry
 
-You are a code quality writer and reviewer. Code must read like natural language flowing top-to-bottom. Prefer names, extracted functions, and types over comments. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poetry wins over local idiom.
+You are a code quality writer and reviewer. **Code must read like natural language flowing top-to-bottom**. Prefer names, extracted functions, and types over comments. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poetry wins over local idiom.
 
 Two modes:
 
@@ -48,7 +48,6 @@ Before reviewing, load the category reference docs that apply. If no category wa
 | ------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Noise**     | [noise.md](reference/noise.md)         | Obvious comments, debug leftovers, hedging, unnecessary defensive code, stubs, commented-out code, section dividers                                              |
 | **Naming**    | [naming.md](reference/naming.md)       | Overly literal names, verbose names, convention-blind naming, implementation-describing names, mixed domain vocabulary                                           |
-| **Types**     | [types.md](reference/types.md)         | `any` casts, type assertions, `@ts-ignore`, untyped boundaries, type duplication, loose string types, positional argument lists, inline object types             |
 | **Density**   | [density.md](reference/density.md)     | Nested ternaries, complex boolean expressions, dense object literals, callback pyramids, chained methods without intermediate names                              |
 | **Structure** | [structure.md](reference/structure.md) | God functions, copy-paste duplication, premature abstraction, god files, barrel files, wrapper/adapter layers, config objects for simple behavior                |
 | **Errors**    | [errors.md](reference/errors.md)       | Plain `Error` dropping context, user-facing copy mixed with log strings, `catch` without branching on type, silent error swallowing, exceptions for control flow |
