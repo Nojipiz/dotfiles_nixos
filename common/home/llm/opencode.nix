@@ -56,6 +56,7 @@ in
   home = {
     file.".config/opencode" = {
       source = config/harness;
+      recursive = true;
     };
     file.".config/opencode/opencode.json" = {
       text = builtins.toJSON opencodeConfig;
