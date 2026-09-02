@@ -1,6 +1,6 @@
 ---
 description: Autonomously builds a web UI to match a baseline design by iteratively capturing, comparing, and fixing code until >= 80% visual similarity is achieved.
-mode: primary
+mode: subagent
 model: openrouter/xiaomi/mimo-v2.5-pro
 permission:
   edit: allow
