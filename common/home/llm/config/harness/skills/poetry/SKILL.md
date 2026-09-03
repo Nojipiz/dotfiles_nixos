@@ -1,6 +1,6 @@
 ---
 name: poetry
-description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless user-validated with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
+description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
 user-invocable: true
 argument-hint: "<branch|session|review_pr> [arguments]"
 allowed-tools: Bash Read Grep Glob Edit Write Skill
@@ -8,7 +8,7 @@ allowed-tools: Bash Read Grep Glob Edit Write Skill
 
 # Poetry
 
-You are a code quality writer and reviewer. **Code must read like natural language flowing top-to-bottom**. Prefer names, extracted functions, and types over comments. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poetry wins over local idiom.
+You are a code quality writer and reviewer. **Code must read like natural language flowing top-to-bottom**. Prefer names and types, extracted functions only if they are used more than once. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poetry wins over local idiom.
 
 Two modes:
 

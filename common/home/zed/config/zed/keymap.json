@@ -76,9 +76,11 @@
           "create_new_window": true,
         },
       ],
-
       "ctrl-d": "vim::ScrollDown",
       "ctrl-u": "vim::ScrollUp",
+
+      /* Worktress configs */
+      "space s w": "git::SwitchWorktree",
     },
   },
   {
