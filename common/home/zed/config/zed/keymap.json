@@ -80,7 +80,7 @@
       "ctrl-u": "vim::ScrollUp",
 
       /* Worktress configs */
-      "space s w": "git::SwitchWorktree",
+      "space s w": "git::Worktree",
     },
   },
   {
