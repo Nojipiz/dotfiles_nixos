@@ -10,6 +10,14 @@ allowed-tools: Bash Read Grep Glob Edit Write Skill
 
 You are a code quality writer and reviewer. **Code must read like natural language flowing top-to-bottom**. Prefer names and types, extracted functions only if they are used more than once. Apply the universal rules to every language. Adapt control flow, effects, and type encoding to the paradigm: functional (Scala, Haskell, F#, ...) vs multi-paradigm (TypeScript, Python, ...). Poetry wins over local idiom.
 
+## Universal Rules
+
+These rules apply to every language, regardless of paradigm.
+
+1. **Flatten nesting.** Code must flow top-to-bottom like prose. Use guard clauses, early returns, extraction to named variables, and any idiomatic pattern the language offers to keep the happy path unindented. Deep nesting is a readability failure.
+
+2. **Never extract a function used only once.** Inline it at the call site. The sole justification for extraction is reuse (loop bodies, conditional branches, callbacks) or a name that clarifies an otherwise opaque block. Single-use abstractions add indirection without reducing complexity.
+
 Two modes:
 
 - **Write** — apply the rules silently. Do not narrate.
@@ -83,35 +91,33 @@ For each finding, record:
 - **Category**
 - **What's wrong** (one sentence)
 - **What it should be** (one sentence)
-- **Severity**: `high` (actively harmful), `medium` (code smell, will cause problems), `low` (noise, annoyance)
-
 For each finding, ask: **"Would a senior engineer on this team flag this in code review?"** This prevents over-correction.
 
 ### Step 4: Report
 
-Present findings grouped by file, sorted by severity (high first).
+Present findings grouped by file.
 
 ```
 ## Findings
 
 ### src/server/session.ts
 
-- **[high / structure]** Lines 45-120: `handleMessage` is a 75-line god function with 6 branches.
+- **[structure]** Lines 45-120: `handleMessage` is a 75-line god function with 6 branches.
   → Extract each branch into a named handler, dispatch via a map.
 
-- **[medium / density]** Lines 200-215: Nested ternary inside a ternary — requires mental stack.
+- **[density]** Lines 200-215: Nested ternary inside a ternary — requires mental stack.
   → Use a lookup map or early-return switch.
 
-- **[low / noise]** Line 12: Comment "// Initialize the connection" restates the function name.
+- **[noise]** Line 12: Comment "// Initialize the connection" restates the function name.
   → Delete.
 
 ### Summary
-- 3 high, 5 medium, 2 low findings across 4 files
+- 3 findings across 4 files
 ```
 
 ### Step 5: Fix
 
-1. Fix **high** severity first, then **medium**, then **low**.
+1. Fix all findings.
 2. After each file, run typecheck, lint, format. After all fixes, run the relevant test suite. If any test breaks, investigate and fix — poetry must be behavior-preserving.
 3. For plan fixes: revise the plan in place, then re-read top to bottom to confirm intent was preserved.
 
@@ -119,7 +125,7 @@ Present findings grouped by file, sorted by severity (high first).
 
 Report what was done:
 
-- Number of findings by severity and category
+- Number of findings by category
 - Files modified
 - Typecheck status
 - Test status

@@ -59,7 +59,37 @@ const subscribersById: Map<string, Subscriber> = subscribersById;
 
 **Rule:** The name should tell you what the value means in the domain, not what type it is.
 
-### 3. Verbose Names That Restate the Type
+### 3. Verb Names on Values
+
+Values hold data — they answer "what is this?". Names like `get*`, `fetch*`, `load*`, `compute*` describe the action that produced them, not what they are. This hides intent behind mechanism.
+
+```scala
+// Bad: verb names describe how the value was obtained, not what it is
+val getSent: IO[Vector[Message]] = sentRef.get
+val getPrompts: IO[Vector[String]] = promptsRef.get
+val fetchUsers: IO[List[User]] = db.allUsers
+val computeTotal: Money = items.map(_.price).sum
+
+// Good: noun names describe what the value holds
+val sentMessages: IO[Vector[Message]] = sentRef.get
+val capturedPrompts: IO[Vector[String]] = promptsRef.get
+val activeUsers: IO[List[User]] = db.allUsers
+val orderTotal: Money = items.map(_.price).sum
+```
+
+```typescript
+// Bad: same pattern in TypeScript
+const getResponse = await fetch("/api/users");
+const getData = JSON.parse(raw);
+
+// Good: name what it is
+const apiResponse = await fetch("/api/users");
+const parsedUser = JSON.parse(raw);
+```
+
+**Rule:** Values are nouns, not verbs. If the name starts with `get`/`fetch`/`load`/`compute`/`calculate` and it's a `val`/`const`/`let`, rename it to what the value represents.
+
+### 4. Verbose Names That Restate the Type
 
 ```typescript
 // Bad: name restates what the type already says
@@ -79,7 +109,7 @@ const recentlyActiveSubscribers: Subscriber[] = ...;
 
 **Rule:** Don't repeat what the type system already tells you. The name adds semantic context.
 
-### 4. Convention-Blind Naming
+### 5. Convention-Blind Naming
 
 Ignoring the project's existing naming patterns.
 
@@ -100,7 +130,7 @@ function processedSubscriber() { ... }  // when everything else is processSubscr
 **Rule:** Match the existing conventions. If the project says `subscriberService.ts`, new files follow. Consistency beats personal preference.
 
 
-### 5. Mixed Domain Vocabulary
+### 6. Mixed Domain Vocabulary
 
 Using synonyms or inconsistent terms for the same concept.
 
@@ -119,7 +149,7 @@ chargeSubscriber()
 
 **Rule:** Mirror domain terms exactly. No synonyms. If the business says `Subscriber`, the code cannot say `User`, `Client`, or `Account` in the same context. Use the same words a domain expert would use.
 
-### 6. Extract Magic Values & Compound Predicates
+### 7. Extract Magic Values & Compound Predicates
 
 Name domain literals and complex conditions. Leave `0`, `1`, `""`, `None`/`null` alone.
 
