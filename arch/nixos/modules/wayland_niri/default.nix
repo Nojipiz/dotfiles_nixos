@@ -10,7 +10,7 @@
     wtype # To allow Handy direct type
 
     vlc
-    unstable.noctalia-shell
+    unstable.noctalia
     xwayland-satellite-unstable
   ];
 

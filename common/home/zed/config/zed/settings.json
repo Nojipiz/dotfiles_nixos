@@ -59,6 +59,8 @@
 
       "initialization_options": { "isHttpEnabled": true },
       "settings": {
+        // Starting MCP on Metals
+        "startMcpServer": true,
         // Best effort for Scala 3 projects
         "enableBestEffort": true,
         // Using SBT/Mill bsp servers instead of bloop
