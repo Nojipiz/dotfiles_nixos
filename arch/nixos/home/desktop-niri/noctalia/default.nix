@@ -1,20 +1,13 @@
 let
-  wallpapers = [
-    ../../../../../media/wallpaper/initiald.jpg
-    ../../../../../media/base_wallpaper.png
-  ];
+  wallpaperDir = "Pictures/Wallpapers";
 in
 {
-  # Noctalia config.
   home.file.".config/noctalia" = {
     source = config/noctalia;
   };
+  home.sessionVariables.TERMINAL = "alacritty";
 
-  # Wallpaper config
-  # see https://docs.noctalia.dev/getting-started/nixos/#wallpapers
-  home.file.".cache/noctalia/wallpapers.json" = {
-    text = builtins.toJSON {
-      defaultWallpaper = builtins.head wallpapers;
-    };
+  home.file."${wallpaperDir}/base_wallpaper.png" = {
+    source = ../../../../../media/base_wallpaper.png;
   };
 }
