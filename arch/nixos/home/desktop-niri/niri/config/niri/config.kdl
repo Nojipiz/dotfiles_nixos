@@ -255,9 +255,6 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts noctalia (v5), see https://docs.noctalia.dev/noctalia/compositor-settings/niri/
-spawn-at-startup "noctalia"
-
 // For background
 // spawn-sh-at-startup "swaybg -m fill -i ~/Images/wallpaper/base_wallpaper.png"
 
@@ -308,8 +305,12 @@ window-rule {
     open-floating true
 }
 
-// ============================================ START Noctalia custom ============================================
-// see https://docs.noctalia.dev/getting-started/compositor-settings/niri/#_top
+// ============================================ START Noctalia settings ============================================
+
+// This line starts noctalia (v5), see https://docs.noctalia.dev/noctalia/compositor-settings/niri/
+spawn-at-startup "noctalia"
+
+// see https://docs.noctalia.dev/noctalia/compositor-settings/niri/
 window-rule {
   // Rounded corners for a modern look.
   geometry-corner-radius 20
@@ -317,15 +318,26 @@ window-rule {
   // Clips window contents to the rounded corner boundaries.
   clip-to-geometry true
 }
+
+// Floating Noctalia settings window.
+window-rule {
+  match app-id="dev.noctalia.Noctalia"
+  open-floating true
+  default-column-width { fixed 1080; }
+  default-window-height { fixed 920; }
+}
+
 debug {
   // Allows notification actions and window activation from Noctalia.
   honor-xdg-activation-with-invalid-serial
 }
+
+// Place the regular wallpaper on the backdrop.
 layer-rule {
-  match namespace="^noctalia-overview*"
+  match namespace="^noctalia-wallpaper"
   place-within-backdrop true
 }
-// ============================================ END Noctalia custom ============================================
+// ============================================ END Noctalia settings ============================================
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)

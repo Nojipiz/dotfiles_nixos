@@ -5,7 +5,6 @@
 mode = "dark"
 source = "custom"
 custom_palette = "nord"
-wallpaper_scheme = "m3-fruit-salad" # only used when source="wallpaper"
 
 [theme.templates]
 enable_builtin_templates = false
@@ -20,8 +19,6 @@ lang = ""
 corner_radius_scale = 1.0
 clipboard_enabled = true
 launch_apps_as_systemd_services = false
-# Terminal emulator for Terminal=true apps is discovered via $TERMINAL
-# (TERMINAL=alacritty is set in default.nix; do not include -e).
 
 [shell.animation]
 enabled = false
@@ -101,6 +98,7 @@ border_width = 0.0
 font_scale = 1.1
 capsule = true
 capsule_opacity = 1.0
+margin_ends = 0
 start = ["launcher-toggle", "workspaces", "sysmon", "active_window", "media"]
 center = ["clock"]
 end = ["tray", "network", "notifications", "battery", "volume", "brightness", "control-center"]
