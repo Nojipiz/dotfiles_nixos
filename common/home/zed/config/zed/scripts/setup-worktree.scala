@@ -2,6 +2,7 @@
 //> using scala 3.9.0
 //> using dep io.getkyo::kyo-core:1.0.0-RC7
 //> using dep io.getkyo::kyo-system:1.0.0-RC7
+//> using nativeVersion 0.5.12
 
 // ====== Set up of dependencies on Zed worktree trigger ======
 // Compatible with macOS and Linux.
