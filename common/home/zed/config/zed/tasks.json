@@ -17,7 +17,7 @@
   },
   {
     "label": "Setup Worktree",
-    "command": "$HOME/.config/zed/scripts/setup-worktree.sh",
+    "command": "$HOME/.config/zed/scripts/run-or-compile.sh $HOME/.config/zed/scripts/setup-worktree.scala",
     "cwd": "$ZED_WORKTREE_ROOT",
     "hooks": ["create_worktree"]
   }
