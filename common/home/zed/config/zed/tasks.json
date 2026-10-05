@@ -19,7 +19,6 @@
     "label": "Setup Worktree",
     "command": "$HOME/.config/zed/setup-worktree.sh",
     "cwd": "$ZED_WORKTREE_ROOT",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
+    "hooks": ["create_worktree"]
   }
 ]
