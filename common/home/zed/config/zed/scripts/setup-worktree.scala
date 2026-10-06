@@ -57,6 +57,14 @@ object Git:
     ).map(output => Chunk.from(output.linesIterator.filter(_.nonEmpty)))
 
   def ensureBranchExistsForWorktree(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+    def _extractWorktreeBranchName(worktreeRoot: Path): Maybe[String] =
+      worktreeRoot.name match
+        case Present(leaf) if leaf == "nix-config" =>
+          worktreeRoot.parent.flatMap(_.name) match
+            case Present(parentName) if parentName.nonEmpty => Present(parentName)
+            case _                                           => Present(leaf)
+        case other => other
+
     def _isBranchNameValid(branchName: String): Boolean < (Async & Abort[CommandException]) =
       Command("git", "check-ref-format", "--branch", branchName).cwd(repositoryRoot).textWithExitCode.map(_._2.isSuccess)
 
@@ -67,7 +75,7 @@ object Git:
       Command("git", "fetch", "origin").cwd(repositoryRoot).textWithExitCode.map: (output, code) =>
         if !code.isSuccess && output.trim.nonEmpty then Console.printFetchWarning(output.trim)
 
-    repositoryRoot.name match
+    _extractWorktreeBranchName(repositoryRoot) match
       case Absent =>
         Console.printSkip("Could not derive branch name from worktree path, skipping branch setup")
       case Present(branchName) if branchName.isEmpty =>
@@ -106,6 +114,14 @@ object Git:
 end Git
 
 object Dependencies:
+  def installAllProjectDependenciesIfPresent(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
+    for
+      hasPackageJsonFile <- (repositoryRoot / "package.json").exists
+      _                  <- Kyo.when(hasPackageJsonFile)(installJavaScriptDependencies(repositoryRoot)).unit
+      hasMillBuildFile   <- (repositoryRoot / "build.sc").exists
+      _                  <- Kyo.when(hasMillBuildFile)(resolveMillDependencies(repositoryRoot)).unit
+    yield ()
+
   def installJavaScriptDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
     for
       hasBunBinaryLockFile <- (repositoryRoot / "bun.lockb").exists
@@ -203,16 +219,12 @@ object SetupWorktree extends KyoApp:
   run {
     Path.run {
       for
-        repositoryTopLevel <- Command("git", "rev-parse", "--show-toplevel").text
-        repositoryRoot      = Path(repositoryTopLevel.trim)
-        _                  <- Console.printStep(s"Setting up dependencies for: $repositoryRoot")
-        _                  <- Git.ensureBranchExistsForWorktree(repositoryRoot).andThen(Console.printDone("Branch setup complete"))
-        hasPackageJsonFile <- (repositoryRoot / "package.json").exists
-        _                  <- Kyo.when(hasPackageJsonFile)(Dependencies.installJavaScriptDependencies(repositoryRoot)).unit
-        hasMillBuildFile   <- (repositoryRoot / "build.sc").exists
-        _                  <- Kyo.when(hasMillBuildFile)(Dependencies.resolveMillDependencies(repositoryRoot)).unit
-        _                  <- EnvironmentFiles.copyEnvironmentFilesFromSiblingWorktree(repositoryRoot)
-        _                  <- Console.printDone("Done.")
+        repositoryRoot <- Command("git", "rev-parse", "--show-toplevel").text.map(repositoryTopLevel => Path(repositoryTopLevel.trim))
+        _              <- Console.printStep(s"Setting up dependencies for: $repositoryRoot")
+        _              <- EnvironmentFiles.copyEnvironmentFilesFromSiblingWorktree(repositoryRoot)
+        _              <- Git.ensureBranchExistsForWorktree(repositoryRoot).andThen(Console.printDone("Branch setup complete"))
+        _              <- Dependencies.installAllProjectDependenciesIfPresent(repositoryRoot)
+        _              <- Console.printDone("Done.")
       yield ()
     }
   }
