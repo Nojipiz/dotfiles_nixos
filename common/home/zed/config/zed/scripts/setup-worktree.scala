@@ -24,11 +24,6 @@ object Console:
     Sync.defer(println(s"$dim○ Fetch warning: $detail$reset"))
 end Console
 
-object Shell:
-  def executeCommandWithInheritedInputOutput(cmd: Command): Unit < (Async & Abort[CommandException | ExitCode]) =
-    cmd.inheritIO.waitForSuccess
-end Shell
-
 object FilePaths:
   def extractFileNameFromRelativePath(relativePath: String): String =
     val separatorIndex = relativePath.lastIndexOf('/')
@@ -96,15 +91,15 @@ object Git:
                     Console.printStep(s"Already on branch '$branchName', pulling latest").andThen(pullWithFastForwardOnly(repositoryRoot))
                   else if localBranchExists then
                     Console.printStep(s"Checking out existing local branch '$branchName'").andThen(
-                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", branchName).cwd(repositoryRoot))
+                      Command("git", "checkout", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
                     ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
                   else if remoteBranchExists then
                     Console.printStep(s"Checking out remote branch 'origin/$branchName'").andThen(
-                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot))
+                      Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot).inheritIO.waitForSuccess
                     ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
                   else
                     Console.printStep(s"Creating new local branch '$branchName'").andThen(
-                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", "-b", branchName).cwd(repositoryRoot))
+                      Command("git", "checkout", "-b", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
                     ).andThen(Console.printDone(s"Branch '$branchName' created"))
               yield ()
         yield ()
@@ -120,15 +115,15 @@ object Dependencies:
       _ <-
         if hasBunBinaryLockFile || hasBunTextLockFile then
           Console.printStep("Bun project").andThen(
-            Shell.executeCommandWithInheritedInputOutput(Command("bun", "install", "--frozen-lockfile").cwd(repositoryRoot))
+            Command("bun", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
           ).andThen(Console.printDone("Bun install complete"))
         else if hasPnpmLockFile then
           Console.printStep("pnpm project").andThen(
-            Shell.executeCommandWithInheritedInputOutput(Command("pnpm", "install", "--frozen-lockfile").cwd(repositoryRoot))
+            Command("pnpm", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
           ).andThen(Console.printDone("pnpm install complete"))
         else if hasYarnLockFile then
           Console.printStep("Yarn project").andThen(
-            Shell.executeCommandWithInheritedInputOutput(Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot))
+            Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
           ).andThen(Console.printDone("Yarn install complete"))
         else
           (repositoryRoot / "package-lock.json").exists.map: hasPackageLockFile =>
@@ -142,13 +137,13 @@ object Dependencies:
               if hasPackageLockFile then "npm ci complete"
               else "npm install complete"
             Console.printStep(projectLabel).andThen(
-              Shell.executeCommandWithInheritedInputOutput(installCommand.cwd(repositoryRoot))
+              installCommand.cwd(repositoryRoot).inheritIO.waitForSuccess
             ).andThen(Console.printDone(completionLabel))
     yield ()
 
   def resolveMillDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
     Console.printStep("Mill project").andThen(
-      Shell.executeCommandWithInheritedInputOutput(Command("mill", "resolve", "_").cwd(repositoryRoot))
+      Command("mill", "resolve", "_").cwd(repositoryRoot).inheritIO.waitForSuccess
     ).andThen(Console.printDone("Mill resolve complete"))
 end Dependencies
 
