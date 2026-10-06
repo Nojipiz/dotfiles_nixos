@@ -12,16 +12,13 @@ object Console:
   private val dim   = "\u001b[2m"
   private val reset = "\u001b[0m"
 
-  def printStep(message: String): Unit < Sync = Sync.defer(println(s"$cyan→ $message$reset"))
-  def printDone(message: String): Unit < Sync = Sync.defer(println(s"$green✔ $message$reset"))
-  def printSkip(message: String): Unit < Sync = Sync.defer(println(s"$dim○ $message$reset"))
-  def printAddedFile(relativePath: String): Unit < Sync = Sync.defer(println(s"  $green+ $relativePath$reset"))
-  def printAlreadyUpToDate: Unit < Sync = Sync.defer(println(s"$green✔ Already up to date with remote$reset"))
-  def printPullSkipped(detail: String): Unit < Sync =
-    if detail.nonEmpty then Sync.defer(println(s"$dim○ Pull skipped (no upstream or diverged): $detail$reset"))
-    else Sync.defer(println(s"$dim○ Pull skipped (no upstream or diverged)$reset"))
-  def printFetchWarning(detail: String): Unit < Sync =
-    Sync.defer(println(s"$dim○ Fetch warning: $detail$reset"))
+  def printBuildTool(tool: String): Unit < Sync = Sync.defer(println(s"$cyan→ Build tool: $tool$reset"))
+  def printEnvFiles(files: Chunk[String]): Unit < Sync = Sync.defer {
+    if files.isEmpty then println(s"$dim○ Env files: none$reset")
+    else println(s"$green+ Env files: ${files.mkString(", ")}$reset")
+  }
+  def printInstall(command: String): Unit < Sync = Sync.defer(println(s"$cyan→ Install: $command$reset"))
+  def printDone(): Unit < Sync = Sync.defer(println(s"$green✔ Done$reset"))
 end Console
 
 object FilePaths:
@@ -39,9 +36,7 @@ object Git:
     Command("git", "show-ref", "--verify", "--quiet", reference).cwd(root).textWithExitCode.map(_._2.isSuccess)
 
   def pullWithFastForwardOnly(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
-    Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map: (output, code) =>
-      if code.isSuccess then Console.printAlreadyUpToDate
-      else Console.printPullSkipped(output.trim)
+    Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map((_, _) => ())
 
   def findIgnoredFiles(candidateWorktree: Path, repositoryRoot: Path): Chunk[String] < Async =
     Abort.recover[CommandException](_ => "")(
@@ -72,43 +67,33 @@ object Git:
       Command("git", "branch", "--show-current").cwd(repositoryRoot).textWithExitCode.map(_._1.trim)
 
     def _fetchOriginRemote: Unit < (Async & Abort[CommandException] & Sync) =
-      Command("git", "fetch", "origin").cwd(repositoryRoot).textWithExitCode.map: (output, code) =>
-        if !code.isSuccess && output.trim.nonEmpty then Console.printFetchWarning(output.trim)
+      Command("git", "fetch", "origin").cwd(repositoryRoot).textWithExitCode.map((_, _) => ())
 
     _extractWorktreeBranchName(repositoryRoot) match
-      case Absent =>
-        Console.printSkip("Could not derive branch name from worktree path, skipping branch setup")
-      case Present(branchName) if branchName.isEmpty =>
-        Console.printSkip("Empty worktree name, skipping branch setup")
+      case Absent => ()
+      case Present(branchName) if branchName.isEmpty => ()
       case Present(branchName) =>
         for
           isValid <- _isBranchNameValid(branchName)
           _ <-
-            if !isValid then Console.printSkip(s"Worktree name '$branchName' is not a valid branch name, skipping branch setup")
+            if !isValid then ()
             else
               for
                 currentBranchName <- _fetchCurrentBranchName
-                _                 <- Console.printStep(s"Ensuring branch '$branchName' for worktree")
                 _                 <- _fetchOriginRemote
                 localBranchExists <- isGitReferencePresent(repositoryRoot, s"refs/heads/$branchName")
                 remoteBranchExists <-
                   if localBranchExists then Sync.defer(false)
                   else isGitReferencePresent(repositoryRoot, s"refs/remotes/origin/$branchName")
                 _ <-
-                  if currentBranchName == branchName then
-                    Console.printStep(s"Already on branch '$branchName', pulling latest").andThen(pullWithFastForwardOnly(repositoryRoot))
+                  if currentBranchName == branchName then pullWithFastForwardOnly(repositoryRoot)
                   else if localBranchExists then
-                    Console.printStep(s"Checking out existing local branch '$branchName'").andThen(
-                      Command("git", "checkout", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
-                    ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
+                    Command("git", "checkout", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
+                      .andThen(pullWithFastForwardOnly(repositoryRoot))
                   else if remoteBranchExists then
-                    Console.printStep(s"Checking out remote branch 'origin/$branchName'").andThen(
-                      Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot).inheritIO.waitForSuccess
-                    ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
-                  else
-                    Console.printStep(s"Creating new local branch '$branchName'").andThen(
-                      Command("git", "checkout", "-b", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
-                    ).andThen(Console.printDone(s"Branch '$branchName' created"))
+                    Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot).inheritIO.waitForSuccess
+                      .andThen(pullWithFastForwardOnly(repositoryRoot))
+                  else Command("git", "checkout", "-b", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
               yield ()
         yield ()
 end Git
@@ -117,9 +102,13 @@ object Dependencies:
   def installAllProjectDependenciesIfPresent(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
     for
       hasPackageJsonFile <- (repositoryRoot / "package.json").exists
-      _                  <- Kyo.when(hasPackageJsonFile)(installJavaScriptDependencies(repositoryRoot)).unit
       hasMillBuildFile   <- (repositoryRoot / "build.sc").exists
-      _                  <- Kyo.when(hasMillBuildFile)(resolveMillDependencies(repositoryRoot)).unit
+      hasSbtBuildFile    <- (repositoryRoot / "build.sbt").exists
+      hasPackageJson     = hasPackageJsonFile
+      _ <- Kyo.when(hasPackageJson)(installJavaScriptDependencies(repositoryRoot)).unit
+      _ <- Kyo.when(hasMillBuildFile)(resolveMillDependencies(repositoryRoot)).unit
+      _ <- Kyo.when(hasSbtBuildFile)(resolveSbtDependencies(repositoryRoot)).unit
+      _ <- Kyo.when(!hasPackageJson && !hasMillBuildFile && !hasSbtBuildFile)(Console.printBuildTool("none")).unit
     yield ()
 
   def installJavaScriptDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
@@ -130,37 +119,40 @@ object Dependencies:
       hasYarnLockFile      <- (repositoryRoot / "yarn.lock").exists
       _ <-
         if hasBunBinaryLockFile || hasBunTextLockFile then
-          Console.printStep("Bun project").andThen(
-            Command("bun", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
-          ).andThen(Console.printDone("Bun install complete"))
+          Console.printBuildTool("bun")
+            .andThen(Console.printInstall("bun install --frozen-lockfile"))
+            .andThen(Command("bun", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess)
         else if hasPnpmLockFile then
-          Console.printStep("pnpm project").andThen(
-            Command("pnpm", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
-          ).andThen(Console.printDone("pnpm install complete"))
+          Console.printBuildTool("pnpm")
+            .andThen(Console.printInstall("pnpm install --frozen-lockfile"))
+            .andThen(Command("pnpm", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess)
         else if hasYarnLockFile then
-          Console.printStep("Yarn project").andThen(
-            Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess
-          ).andThen(Console.printDone("Yarn install complete"))
+          Console.printBuildTool("yarn")
+            .andThen(Console.printInstall("yarn install --frozen-lockfile"))
+            .andThen(Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess)
         else
           (repositoryRoot / "package-lock.json").exists.map: hasPackageLockFile =>
+            val tool = "npm"
             val installCommand =
-              if hasPackageLockFile then Command("npm", "ci")
-              else Command("npm", "install")
-            val projectLabel =
-              if hasPackageLockFile then "npm project"
-              else "Node project (no lockfile)"
-            val completionLabel =
-              if hasPackageLockFile then "npm ci complete"
-              else "npm install complete"
-            Console.printStep(projectLabel).andThen(
-              installCommand.cwd(repositoryRoot).inheritIO.waitForSuccess
-            ).andThen(Console.printDone(completionLabel))
+              if hasPackageLockFile then "npm ci"
+              else "npm install"
+            Console.printBuildTool(tool).andThen(
+              Console.printInstall(installCommand)
+            ).andThen(
+              val cmd = if hasPackageLockFile then Command("npm", "ci") else Command("npm", "install")
+              cmd.cwd(repositoryRoot).inheritIO.waitForSuccess
+            )
     yield ()
 
   def resolveMillDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
-    Console.printStep("Mill project").andThen(
-      Command("mill", "resolve", "_").cwd(repositoryRoot).inheritIO.waitForSuccess
-    ).andThen(Console.printDone("Mill resolve complete"))
+    Console.printBuildTool("mill")
+      .andThen(Console.printInstall("mill resolve _"))
+      .andThen(Command("mill", "resolve", "_").cwd(repositoryRoot).inheritIO.waitForSuccess)
+
+  def resolveSbtDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+    Console.printBuildTool("sbt")
+      .andThen(Console.printInstall("sbt update"))
+      .andThen(Command("sbt", "update").cwd(repositoryRoot).inheritIO.waitForSuccess)
 end Dependencies
 
 object EnvironmentFiles:
@@ -198,21 +190,20 @@ object EnvironmentFiles:
 
     _findSiblingWorktreeContainingEnvironmentFiles.flatMap:
       case Absent =>
-        Console.printSkip("No .env files found in sibling worktrees, skipping")
+        Console.printEnvFiles(Chunk.empty)
       case Present(siblingWorktree) =>
-        Console.printStep(s"Copying .env files from $siblingWorktree").andThen(
-          Git.findIgnoredFiles(siblingWorktree, repositoryRoot).flatMap: relativePaths =>
+        Git.findIgnoredFiles(siblingWorktree, repositoryRoot).flatMap: relativePaths =>
+          val wanted = relativePaths.filter(rp => !FilePaths.isSkippedTemplateFile(rp) && _isEnvironmentFileCopyable(rp))
+          Console.printEnvFiles(wanted).andThen(
             Kyo.foreachDiscard(relativePaths): relativePath =>
               val isWantedEnvironmentFile = !FilePaths.isSkippedTemplateFile(relativePath) && _isEnvironmentFileCopyable(relativePath)
               if !isWantedEnvironmentFile then ()
               else
                 val destinationPath = repositoryRoot / Path(relativePath)
                 Kyo.unless(destinationPath.exists)(
-                  (siblingWorktree / Path(relativePath)).copy(destinationPath).andThen(
-                    Console.printAddedFile(relativePath)
-                  )
+                  (siblingWorktree / Path(relativePath)).copy(destinationPath)
                 ).unit
-        ).andThen(Console.printDone("Env files copied"))
+          )
 end EnvironmentFiles
 
 object SetupWorktree extends KyoApp:
@@ -220,11 +211,10 @@ object SetupWorktree extends KyoApp:
     Path.run {
       for
         repositoryRoot <- Command("git", "rev-parse", "--show-toplevel").text.map(repositoryTopLevel => Path(repositoryTopLevel.trim))
-        _              <- Console.printStep(s"Setting up dependencies for: $repositoryRoot")
         _              <- EnvironmentFiles.copyEnvironmentFilesFromSiblingWorktree(repositoryRoot)
-        _              <- Git.ensureBranchExistsForWorktree(repositoryRoot).andThen(Console.printDone("Branch setup complete"))
+        _              <- Git.ensureBranchExistsForWorktree(repositoryRoot)
         _              <- Dependencies.installAllProjectDependenciesIfPresent(repositoryRoot)
-        _              <- Console.printDone("Done.")
+        _              <- Console.printDone()
       yield ()
     }
   }
