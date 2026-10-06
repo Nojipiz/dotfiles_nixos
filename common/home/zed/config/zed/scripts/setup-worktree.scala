@@ -1,12 +1,8 @@
 #!/usr/bin/env -S scala-cli shebang
-//> using scala 3.9.0
-//> using dep io.getkyo::kyo-core:1.0.0-RC7
-//> using dep io.getkyo::kyo-system:1.0.0-RC7
+//> using scala 3.8.4
+//> using dep io.getkyo::kyo-core:1.0.0-RC6
+//> using dep io.getkyo::kyo-system:1.0.0-RC6
 //> using nativeVersion 0.5.12
-
-// ====== Set up of dependencies on Zed worktree trigger ======
-// Compatible with macOS and Linux.
-// Scala-CLI port of setup-worktree.sh using kyo-system.
 
 import kyo.*
 
@@ -83,6 +79,68 @@ def listWorktrees(root: Path): Chunk[Path] < (Async & Abort[CommandException]) =
           Path(line.stripPrefix("worktree ").trim)
     )
 
+def worktreeBranchName(root: Path): Maybe[String] =
+  root.name
+
+def gitRefExists(root: Path, ref: String): Boolean < (Async & Abort[CommandException]) =
+  Command("git", "show-ref", "--verify", "--quiet", ref).cwd(root).textWithExitCode.map(_._2.isSuccess)
+
+def isValidBranchName(root: Path, branch: String): Boolean < (Async & Abort[CommandException]) =
+  Command("git", "check-ref-format", "--branch", branch).cwd(root).textWithExitCode.map(_._2.isSuccess)
+
+def currentBranch(root: Path): String < (Async & Abort[CommandException]) =
+  Command("git", "branch", "--show-current").cwd(root).textWithExitCode.map(_._1.trim)
+
+def pullFastForward(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
+  Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map: (output, code) =>
+    if code.isSuccess then println("→ Already up to date with remote")
+    else
+      val detail = output.trim
+      if detail.nonEmpty then println(s"→ Pull skipped (no upstream or diverged): $detail")
+      else println("→ Pull skipped (no upstream or diverged)")
+
+def fetchOrigin(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
+  Command("git", "fetch", "origin").cwd(root).textWithExitCode.map: (output, code) =>
+    if !code.isSuccess && output.trim.nonEmpty then println(s"→ Fetch warning: ${output.trim}")
+
+def ensureBranchForWorktree(root: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+  worktreeBranchName(root) match
+    case Absent =>
+      Sync.defer(println("→ Could not derive branch name from worktree path, skipping branch setup"))
+    case Present(branch) if branch.isEmpty =>
+      Sync.defer(println("→ Empty worktree name, skipping branch setup"))
+    case Present(branch) =>
+      for
+        valid <- isValidBranchName(root, branch)
+        _ <-
+          if !valid then Sync.defer(println(s"→ Worktree name '$branch' is not a valid branch name, skipping branch setup"))
+          else
+            for
+              current     <- currentBranch(root)
+              _           <- Sync.defer(println(s"→ Ensuring branch '$branch' for worktree"))
+              _           <- fetchOrigin(root)
+              localExists <- gitRefExists(root, s"refs/heads/$branch")
+              remoteExists <-
+                if localExists then Sync.defer(false)
+                else gitRefExists(root, s"refs/remotes/origin/$branch")
+              _ <-
+                if current == branch then
+                  Sync.defer(println(s"→ Already on branch '$branch', pulling latest")).andThen(pullFastForward(root))
+                else if localExists then
+                  Sync.defer(println(s"→ Checking out existing local branch '$branch'")).andThen(
+                    runWithInheritedIO(Command("git", "checkout", branch).cwd(root))
+                  ).andThen(pullFastForward(root))
+                else if remoteExists then
+                  Sync.defer(println(s"→ Checking out remote branch 'origin/$branch'")).andThen(
+                    runWithInheritedIO(Command("git", "checkout", "--track", s"origin/$branch").cwd(root))
+                  ).andThen(pullFastForward(root))
+                else
+                  Sync.defer(println(s"→ Creating new local branch '$branch'")).andThen(
+                    runWithInheritedIO(Command("git", "checkout", "-b", branch).cwd(root))
+                  )
+            yield ()
+      yield ()
+
 def ignoredFiles(candidate: Path, root: Path): Chunk[String] < Async =
   // `2>/dev/null` equivalent: never fail, treat launch errors as empty.
   // textWithExitCode never aborts on ExitCode, only on CommandException.
@@ -141,6 +199,7 @@ object SetupWorktree extends KyoApp:
         topLevelOutput <- Command("git", "rev-parse", "--show-toplevel").text
         root            = Path(topLevelOutput.trim)
         _              <- Sync.defer(println(s"Setting up dependencies for: $root"))
+        _              <- ensureBranchForWorktree(root)
         hasPackageJson <- (root / "package.json").exists
         _              <- Kyo.when(hasPackageJson)(installJavaScriptDependencies(root)).unit
         hasMillBuild   <- (root / "build.sc").exists
