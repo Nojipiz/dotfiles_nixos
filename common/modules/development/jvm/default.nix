@@ -9,7 +9,7 @@
 
     # Scala
     scalafmt
-    (scala-cli.override { jre = jdk25; })
+    (unstable.scala-cli.override { jre = jdk25; })
     sbt
     unstable.mill
     coursier
