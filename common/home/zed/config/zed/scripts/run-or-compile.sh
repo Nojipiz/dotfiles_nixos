@@ -29,7 +29,7 @@ fi
 # Only the packaging step runs in the cache dir, so build scratch never
 # touches the read-only script dir or the caller's directory. The binary
 # and the fallback below run in the caller's directory.
-if ( cd "$cacheDir" && scala-cli --power package --native "$src" -o "$bin.tmp" ); then
+if ( cd "$cacheDir" && scala-cli --power package "$src" -o "$bin.tmp" ); then
   # Via a temp file so an interrupted build never leaves a half-written
   # binary behind for the freshness check above to mistake as current.
   chmod +x "$bin.tmp"

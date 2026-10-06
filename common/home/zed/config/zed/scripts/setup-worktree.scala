@@ -1,8 +1,8 @@
 #!/usr/bin/env -S scala-cli shebang
-//> using scala 3.8.4
-//> using dep io.getkyo::kyo-core:1.0.0-RC6
-//> using dep io.getkyo::kyo-system:1.0.0-RC6
-//> using nativeVersion 0.5.12
+//> using scala 3.9.0
+//> using jvm system
+//> using dep io.getkyo::kyo-core:1.0.0-RC7
+//> using dep io.getkyo::kyo-system:1.0.0-RC7
 
 import kyo.*
 
