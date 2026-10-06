@@ -6,206 +6,218 @@
 
 import kyo.*
 
-def baseName(relativePath: String): String =
-  val separatorIndex = relativePath.lastIndexOf('/')
-  if separatorIndex < 0 then relativePath else relativePath.substring(separatorIndex + 1)
+object Console:
+  private val cyan  = "\u001b[36m"
+  private val green = "\u001b[32m"
+  private val dim   = "\u001b[2m"
+  private val reset = "\u001b[0m"
 
-def isEnvFile(relativePath: String): Boolean =
-  // Mirrors: grep -qE '(^|/)\.env([^/]*)$'
-  baseName(relativePath).startsWith(".env")
+  def printStep(message: String): Unit < Sync = Sync.defer(println(s"$cyan→ $message$reset"))
+  def printDone(message: String): Unit < Sync = Sync.defer(println(s"$green✔ $message$reset"))
+  def printSkip(message: String): Unit < Sync = Sync.defer(println(s"$dim○ $message$reset"))
+  def printAddedFile(relativePath: String): Unit < Sync = Sync.defer(println(s"  $green+ $relativePath$reset"))
+  def printAlreadyUpToDate: Unit < Sync = Sync.defer(println(s"$green✔ Already up to date with remote$reset"))
+  def printPullSkipped(detail: String): Unit < Sync =
+    if detail.nonEmpty then Sync.defer(println(s"$dim○ Pull skipped (no upstream or diverged): $detail$reset"))
+    else Sync.defer(println(s"$dim○ Pull skipped (no upstream or diverged)$reset"))
+  def printFetchWarning(detail: String): Unit < Sync =
+    Sync.defer(println(s"$dim○ Fetch warning: $detail$reset"))
+end Console
 
-val skippedSuffixes = Seq(".example", ".sample", ".template", ".dist")
+object Shell:
+  def executeCommandWithInheritedInputOutput(cmd: Command): Unit < (Async & Abort[CommandException | ExitCode]) =
+    cmd.inheritIO.waitForSuccess
+end Shell
 
-def isSkippedTemplate(relativePath: String): Boolean =
-  // Mirrors: *.example | *.sample | *.template | *.dist
-  skippedSuffixes.exists(relativePath.endsWith)
+object FilePaths:
+  def extractFileNameFromRelativePath(relativePath: String): String =
+    val separatorIndex = relativePath.lastIndexOf('/')
+    if separatorIndex < 0 then relativePath else relativePath.substring(separatorIndex + 1)
 
-def isCopyableEnvFile(relativePath: String): Boolean =
-  // Mirrors: .env | */.env | .env.* | */.env.*
-  val fileName = baseName(relativePath)
-  fileName == ".env" || fileName.startsWith(".env.")
+  def isSkippedTemplateFile(relativePath: String): Boolean =
+    val skippedTemplateSuffixes = Seq(".example", ".sample", ".template", ".dist")
+    skippedTemplateSuffixes.exists(relativePath.endsWith)
+end FilePaths
 
-def hasShareableEnvFiles(relativePaths: Chunk[String]): Boolean =
-  relativePaths.exists(relativePath => !isSkippedTemplate(relativePath) && isEnvFile(relativePath))
+object Git:
+  def isGitReferencePresent(root: Path, reference: String): Boolean < (Async & Abort[CommandException]) =
+    Command("git", "show-ref", "--verify", "--quiet", reference).cwd(root).textWithExitCode.map(_._2.isSuccess)
 
-def resolve(root: Path, relativePath: String): Path =
-  root / Path(relativePath)
+  def pullWithFastForwardOnly(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
+    Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map: (output, code) =>
+      if code.isSuccess then Console.printAlreadyUpToDate
+      else Console.printPullSkipped(output.trim)
 
-def runWithInheritedIO(cmd: Command): Unit < (Async & Abort[CommandException | ExitCode]) =
-  cmd.inheritIO.waitForSuccess
+  def findIgnoredFiles(candidateWorktree: Path, repositoryRoot: Path): Chunk[String] < Async =
+    Abort.recover[CommandException](_ => "")(
+      Command(
+        "git",
+        "-C",
+        candidateWorktree.toString,
+        "ls-files",
+        "--others",
+        "--ignored",
+        "--exclude-standard"
+      ).cwd(repositoryRoot).textWithExitCode.map(_._1)
+    ).map(output => Chunk.from(output.linesIterator.filter(_.nonEmpty)))
 
-def installJavaScriptDependencies(root: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
-  for
-    hasBunBinaryLock <- (root / "bun.lockb").exists
-    hasBunTextLock   <- (root / "bun.lock").exists
-    hasPnpmLock      <- (root / "pnpm-lock.yaml").exists
-    hasYarnLock      <- (root / "yarn.lock").exists
-    _ <-
-      if hasBunBinaryLock || hasBunTextLock then
-        Sync.defer(println("→ Bun project")).andThen(
-          runWithInheritedIO(Command("bun", "install", "--frozen-lockfile").cwd(root))
-        )
-      else if hasPnpmLock then
-        Sync.defer(println("→ pnpm project")).andThen(
-          runWithInheritedIO(Command("pnpm", "install", "--frozen-lockfile").cwd(root))
-        )
-      else if hasYarnLock then
-        Sync.defer(println("→ Yarn project")).andThen(
-          runWithInheritedIO(Command("yarn", "install", "--frozen-lockfile").cwd(root))
-        )
-      else
-        (root / "package-lock.json").exists.map: hasPackageLock =>
-          val installCommand =
-            if hasPackageLock then Command("npm", "ci")
-            else Command("npm", "install")
-          val projectLabel =
-            if hasPackageLock then "→ npm project"
-            else "→ Node project (no lockfile)"
-          Sync.defer(println(projectLabel)).andThen(
-            runWithInheritedIO(installCommand.cwd(root))
-          )
-  yield ()
+  def ensureBranchExistsForWorktree(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+    def _isBranchNameValid(branchName: String): Boolean < (Async & Abort[CommandException]) =
+      Command("git", "check-ref-format", "--branch", branchName).cwd(repositoryRoot).textWithExitCode.map(_._2.isSuccess)
 
-def resolveMillDependencies(root: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
-  Sync.defer(println("→ Mill project")).andThen(
-    runWithInheritedIO(Command("mill", "resolve", "_").cwd(root))
-  )
+    def _fetchCurrentBranchName: String < (Async & Abort[CommandException]) =
+      Command("git", "branch", "--show-current").cwd(repositoryRoot).textWithExitCode.map(_._1.trim)
 
-def listWorktrees(root: Path): Chunk[Path] < (Async & Abort[CommandException]) =
-  Command("git", "worktree", "list", "--porcelain").cwd(root).text.map: output =>
-    Chunk.from(
-      output.linesIterator.collect:
-        case line if line.startsWith("worktree ") =>
-          Path(line.stripPrefix("worktree ").trim)
-    )
+    def _fetchOriginRemote: Unit < (Async & Abort[CommandException] & Sync) =
+      Command("git", "fetch", "origin").cwd(repositoryRoot).textWithExitCode.map: (output, code) =>
+        if !code.isSuccess && output.trim.nonEmpty then Console.printFetchWarning(output.trim)
 
-def worktreeBranchName(root: Path): Maybe[String] =
-  root.name
-
-def gitRefExists(root: Path, ref: String): Boolean < (Async & Abort[CommandException]) =
-  Command("git", "show-ref", "--verify", "--quiet", ref).cwd(root).textWithExitCode.map(_._2.isSuccess)
-
-def isValidBranchName(root: Path, branch: String): Boolean < (Async & Abort[CommandException]) =
-  Command("git", "check-ref-format", "--branch", branch).cwd(root).textWithExitCode.map(_._2.isSuccess)
-
-def currentBranch(root: Path): String < (Async & Abort[CommandException]) =
-  Command("git", "branch", "--show-current").cwd(root).textWithExitCode.map(_._1.trim)
-
-def pullFastForward(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
-  Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map: (output, code) =>
-    if code.isSuccess then println("→ Already up to date with remote")
-    else
-      val detail = output.trim
-      if detail.nonEmpty then println(s"→ Pull skipped (no upstream or diverged): $detail")
-      else println("→ Pull skipped (no upstream or diverged)")
-
-def fetchOrigin(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
-  Command("git", "fetch", "origin").cwd(root).textWithExitCode.map: (output, code) =>
-    if !code.isSuccess && output.trim.nonEmpty then println(s"→ Fetch warning: ${output.trim}")
-
-def ensureBranchForWorktree(root: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
-  worktreeBranchName(root) match
-    case Absent =>
-      Sync.defer(println("→ Could not derive branch name from worktree path, skipping branch setup"))
-    case Present(branch) if branch.isEmpty =>
-      Sync.defer(println("→ Empty worktree name, skipping branch setup"))
-    case Present(branch) =>
-      for
-        valid <- isValidBranchName(root, branch)
-        _ <-
-          if !valid then Sync.defer(println(s"→ Worktree name '$branch' is not a valid branch name, skipping branch setup"))
-          else
-            for
-              current     <- currentBranch(root)
-              _           <- Sync.defer(println(s"→ Ensuring branch '$branch' for worktree"))
-              _           <- fetchOrigin(root)
-              localExists <- gitRefExists(root, s"refs/heads/$branch")
-              remoteExists <-
-                if localExists then Sync.defer(false)
-                else gitRefExists(root, s"refs/remotes/origin/$branch")
-              _ <-
-                if current == branch then
-                  Sync.defer(println(s"→ Already on branch '$branch', pulling latest")).andThen(pullFastForward(root))
-                else if localExists then
-                  Sync.defer(println(s"→ Checking out existing local branch '$branch'")).andThen(
-                    runWithInheritedIO(Command("git", "checkout", branch).cwd(root))
-                  ).andThen(pullFastForward(root))
-                else if remoteExists then
-                  Sync.defer(println(s"→ Checking out remote branch 'origin/$branch'")).andThen(
-                    runWithInheritedIO(Command("git", "checkout", "--track", s"origin/$branch").cwd(root))
-                  ).andThen(pullFastForward(root))
-                else
-                  Sync.defer(println(s"→ Creating new local branch '$branch'")).andThen(
-                    runWithInheritedIO(Command("git", "checkout", "-b", branch).cwd(root))
-                  )
-            yield ()
-      yield ()
-
-def ignoredFiles(candidate: Path, root: Path): Chunk[String] < Async =
-  // `2>/dev/null` equivalent: never fail, treat launch errors as empty.
-  // textWithExitCode never aborts on ExitCode, only on CommandException.
-  Abort.recover[CommandException](_ => "")(
-    Command(
-      "git",
-      "-C",
-      candidate.toString,
-      "ls-files",
-      "--others",
-      "--ignored",
-      "--exclude-standard"
-    ).cwd(root).textWithExitCode.map(_._1)
-  ).map(output => Chunk.from(output.linesIterator.filter(_.nonEmpty)))
-
-def findSiblingWorktreeHoldingEnvFiles(
-    root: Path
-): Maybe[Path] < (Async & Abort[CommandException]) =
-  def loop(remaining: Chunk[Path]): Maybe[Path] < (Async & Abort[CommandException]) =
-    if remaining.isEmpty then Absent
-    else if remaining.head == root then loop(remaining.tail)
-    else
-      val candidate = remaining.head
-      val others    = remaining.tail
-      ignoredFiles(candidate, root).map: relativePaths =>
-        if hasShareableEnvFiles(relativePaths) then Present(candidate)
-        else loop(others)
-  listWorktrees(root).flatMap(loop)
-
-def copyEnvFilesFromSiblingWorktree(
-    root: Path
-): Unit < (Async & PathRead & PathWrite & Sync & Abort[CommandException | FileSystemException]) =
-  findSiblingWorktreeHoldingEnvFiles(root).flatMap:
-    case Absent =>
-      Sync.defer(println("→ No .env files found in sibling worktrees, skipping"))
-    case Present(sibling) =>
-      Sync.defer(println(s"→ Copying .env files from $sibling")).andThen(
-        ignoredFiles(sibling, root).flatMap: relativePaths =>
-          Kyo.foreachDiscard(relativePaths): relativePath =>
-            val isWantedEnvFile = !isSkippedTemplate(relativePath) && isCopyableEnvFile(relativePath)
-            if !isWantedEnvFile then ()
+    repositoryRoot.name match
+      case Absent =>
+        Console.printSkip("Could not derive branch name from worktree path, skipping branch setup")
+      case Present(branchName) if branchName.isEmpty =>
+        Console.printSkip("Empty worktree name, skipping branch setup")
+      case Present(branchName) =>
+        for
+          isValid <- _isBranchNameValid(branchName)
+          _ <-
+            if !isValid then Console.printSkip(s"Worktree name '$branchName' is not a valid branch name, skipping branch setup")
             else
-              val destination = resolve(root, relativePath)
-              // copy creates parent directories by default (createFolders = true)
-              Kyo.unless(destination.exists)(
-                resolve(sibling, relativePath).copy(destination).andThen(
-                  Sync.defer(println(s"  + $relativePath"))
-                )
-              ).unit
-      )
+              for
+                currentBranchName <- _fetchCurrentBranchName
+                _                 <- Console.printStep(s"Ensuring branch '$branchName' for worktree")
+                _                 <- _fetchOriginRemote
+                localBranchExists <- isGitReferencePresent(repositoryRoot, s"refs/heads/$branchName")
+                remoteBranchExists <-
+                  if localBranchExists then Sync.defer(false)
+                  else isGitReferencePresent(repositoryRoot, s"refs/remotes/origin/$branchName")
+                _ <-
+                  if currentBranchName == branchName then
+                    Console.printStep(s"Already on branch '$branchName', pulling latest").andThen(pullWithFastForwardOnly(repositoryRoot))
+                  else if localBranchExists then
+                    Console.printStep(s"Checking out existing local branch '$branchName'").andThen(
+                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", branchName).cwd(repositoryRoot))
+                    ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
+                  else if remoteBranchExists then
+                    Console.printStep(s"Checking out remote branch 'origin/$branchName'").andThen(
+                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot))
+                    ).andThen(pullWithFastForwardOnly(repositoryRoot)).andThen(Console.printDone(s"Branch '$branchName' ready"))
+                  else
+                    Console.printStep(s"Creating new local branch '$branchName'").andThen(
+                      Shell.executeCommandWithInheritedInputOutput(Command("git", "checkout", "-b", branchName).cwd(repositoryRoot))
+                    ).andThen(Console.printDone(s"Branch '$branchName' created"))
+              yield ()
+        yield ()
+end Git
+
+object Dependencies:
+  def installJavaScriptDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & PathRead & Sync) =
+    for
+      hasBunBinaryLockFile <- (repositoryRoot / "bun.lockb").exists
+      hasBunTextLockFile   <- (repositoryRoot / "bun.lock").exists
+      hasPnpmLockFile      <- (repositoryRoot / "pnpm-lock.yaml").exists
+      hasYarnLockFile      <- (repositoryRoot / "yarn.lock").exists
+      _ <-
+        if hasBunBinaryLockFile || hasBunTextLockFile then
+          Console.printStep("Bun project").andThen(
+            Shell.executeCommandWithInheritedInputOutput(Command("bun", "install", "--frozen-lockfile").cwd(repositoryRoot))
+          ).andThen(Console.printDone("Bun install complete"))
+        else if hasPnpmLockFile then
+          Console.printStep("pnpm project").andThen(
+            Shell.executeCommandWithInheritedInputOutput(Command("pnpm", "install", "--frozen-lockfile").cwd(repositoryRoot))
+          ).andThen(Console.printDone("pnpm install complete"))
+        else if hasYarnLockFile then
+          Console.printStep("Yarn project").andThen(
+            Shell.executeCommandWithInheritedInputOutput(Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot))
+          ).andThen(Console.printDone("Yarn install complete"))
+        else
+          (repositoryRoot / "package-lock.json").exists.map: hasPackageLockFile =>
+            val installCommand =
+              if hasPackageLockFile then Command("npm", "ci")
+              else Command("npm", "install")
+            val projectLabel =
+              if hasPackageLockFile then "npm project"
+              else "Node project (no lockfile)"
+            val completionLabel =
+              if hasPackageLockFile then "npm ci complete"
+              else "npm install complete"
+            Console.printStep(projectLabel).andThen(
+              Shell.executeCommandWithInheritedInputOutput(installCommand.cwd(repositoryRoot))
+            ).andThen(Console.printDone(completionLabel))
+    yield ()
+
+  def resolveMillDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+    Console.printStep("Mill project").andThen(
+      Shell.executeCommandWithInheritedInputOutput(Command("mill", "resolve", "_").cwd(repositoryRoot))
+    ).andThen(Console.printDone("Mill resolve complete"))
+end Dependencies
+
+object EnvironmentFiles:
+  def copyEnvironmentFilesFromSiblingWorktree(
+      repositoryRoot: Path
+  ): Unit < (Async & PathRead & PathWrite & Sync & Abort[CommandException | FileSystemException]) =
+    def _isEnvironmentFileCopyable(relativePath: String): Boolean =
+      val fileName = FilePaths.extractFileNameFromRelativePath(relativePath)
+      fileName == ".env" || fileName.startsWith(".env.")
+
+    def _hasShareableEnvironmentFiles(relativePaths: Chunk[String]): Boolean =
+      def _isEnvironmentFile(relativePath: String): Boolean =
+        FilePaths.extractFileNameFromRelativePath(relativePath).startsWith(".env")
+      relativePaths.exists(relativePath => !FilePaths.isSkippedTemplateFile(relativePath) && _isEnvironmentFile(relativePath))
+
+    def _listAllWorktrees: Chunk[Path] < (Async & Abort[CommandException]) =
+      Command("git", "worktree", "list", "--porcelain").cwd(repositoryRoot).text.map: output =>
+        Chunk.from(
+          output.linesIterator.collect:
+            case line if line.startsWith("worktree ") =>
+              Path(line.stripPrefix("worktree ").trim)
+        )
+
+    def _findSiblingWorktreeContainingEnvironmentFiles: Maybe[Path] < (Async & Abort[CommandException]) =
+      def _searchRemainingWorktrees(remainingWorktrees: Chunk[Path]): Maybe[Path] < (Async & Abort[CommandException]) =
+        if remainingWorktrees.isEmpty then Absent
+        else if remainingWorktrees.head == repositoryRoot then _searchRemainingWorktrees(remainingWorktrees.tail)
+        else
+          val candidateWorktree = remainingWorktrees.head
+          val otherWorktrees    = remainingWorktrees.tail
+          Git.findIgnoredFiles(candidateWorktree, repositoryRoot).map: relativePaths =>
+            if _hasShareableEnvironmentFiles(relativePaths) then Present(candidateWorktree)
+            else _searchRemainingWorktrees(otherWorktrees)
+      _listAllWorktrees.flatMap(_searchRemainingWorktrees)
+
+    _findSiblingWorktreeContainingEnvironmentFiles.flatMap:
+      case Absent =>
+        Console.printSkip("No .env files found in sibling worktrees, skipping")
+      case Present(siblingWorktree) =>
+        Console.printStep(s"Copying .env files from $siblingWorktree").andThen(
+          Git.findIgnoredFiles(siblingWorktree, repositoryRoot).flatMap: relativePaths =>
+            Kyo.foreachDiscard(relativePaths): relativePath =>
+              val isWantedEnvironmentFile = !FilePaths.isSkippedTemplateFile(relativePath) && _isEnvironmentFileCopyable(relativePath)
+              if !isWantedEnvironmentFile then ()
+              else
+                val destinationPath = repositoryRoot / Path(relativePath)
+                Kyo.unless(destinationPath.exists)(
+                  (siblingWorktree / Path(relativePath)).copy(destinationPath).andThen(
+                    Console.printAddedFile(relativePath)
+                  )
+                ).unit
+        ).andThen(Console.printDone("Env files copied"))
+end EnvironmentFiles
 
 object SetupWorktree extends KyoApp:
   run {
     Path.run {
       for
-        topLevelOutput <- Command("git", "rev-parse", "--show-toplevel").text
-        root            = Path(topLevelOutput.trim)
-        _              <- Sync.defer(println(s"Setting up dependencies for: $root"))
-        _              <- ensureBranchForWorktree(root)
-        hasPackageJson <- (root / "package.json").exists
-        _              <- Kyo.when(hasPackageJson)(installJavaScriptDependencies(root)).unit
-        hasMillBuild   <- (root / "build.sc").exists
-        _              <- Kyo.when(hasMillBuild)(resolveMillDependencies(root)).unit
-        _              <- copyEnvFilesFromSiblingWorktree(root)
-        _              <- Sync.defer(println("Done."))
+        repositoryTopLevel <- Command("git", "rev-parse", "--show-toplevel").text
+        repositoryRoot      = Path(repositoryTopLevel.trim)
+        _                  <- Console.printStep(s"Setting up dependencies for: $repositoryRoot")
+        _                  <- Git.ensureBranchExistsForWorktree(repositoryRoot).andThen(Console.printDone("Branch setup complete"))
+        hasPackageJsonFile <- (repositoryRoot / "package.json").exists
+        _                  <- Kyo.when(hasPackageJsonFile)(Dependencies.installJavaScriptDependencies(repositoryRoot)).unit
+        hasMillBuildFile   <- (repositoryRoot / "build.sc").exists
+        _                  <- Kyo.when(hasMillBuildFile)(Dependencies.resolveMillDependencies(repositoryRoot)).unit
+        _                  <- EnvironmentFiles.copyEnvironmentFilesFromSiblingWorktree(repositoryRoot)
+        _                  <- Console.printDone("Done.")
       yield ()
     }
   }
