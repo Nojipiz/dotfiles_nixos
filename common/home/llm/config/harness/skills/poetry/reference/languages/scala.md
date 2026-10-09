@@ -50,7 +50,7 @@ Pattern match instead of boolean ladders. Keep matches exhaustive — the compil
 
 ## Type safety
 
-If it compiles, the assumptions should still hold. Encode the domain in types so a behavior-changing edit is a type error, not a passing rename.
+Apply Universal Rule 3 — encode the domain in types.
 
 ### Specific functions, specific types
 No `Any`. No `asInstanceOf`. No `null`. No `String`/`Int` standing in for domain values.
@@ -96,7 +96,7 @@ def issueRefund(order: Order): Either[RefundFailure, Order] =
 ```
 
 ### Errors as values
-Domain returns `Either[DomainError, Value]` or `Option`. Sealed error ADTs, not `String`/`Exception`.
+Domain returns `Either[DomainError, Value]` or `Option`. Sealed error ADTs, not `String`/`Exception`. See `../errors.md §5` for expected-vs-exceptional.
 
 ### Exhaustiveness is the test
 A new `OrderStatus` case must break every match that did not handle it. Do not add a wildcard to silence the compiler in domain code.
@@ -138,7 +138,7 @@ def processPayment(order: Order): Either[PaymentError, Receipt] =
 **Rule:** `???` is a compiler-visible placeholder, not a production pattern. If the function ships, implement it. Empty catch blocks are always wrong.
 
 ### Refine, do not annotate
-`subscriber: Subscriber` is the check. `subscriber: Any /* actually a Subscriber */` is a defect. Phantom or tagged types are welcome when two values share a representation but must not mix (`DebitMoney` vs `CreditMoney`).
+See `../naming.md §8`.
 
 ## Control Flow
 
@@ -152,7 +152,7 @@ val config = environmentConfiguration orElse defaultConfiguration
 
 ## State, Effects & Errors
 
-Absolute purity. Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
+Absolute purity. Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. See `../errors.md §5` — no exceptions for control flow. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
 
 ```scala
 def withdraw(balance: Money, amount: Money): Either[InsufficientFunds, Money] =

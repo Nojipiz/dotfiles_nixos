@@ -1,9 +1,6 @@
 ---
 name: poetry
 description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
-user-invocable: true
-argument-hint: "<branch|session|review_pr> [arguments]"
-allowed-tools: Bash Read Grep Glob Edit Write Skill
 ---
 
 # Poetry
@@ -16,41 +13,26 @@ These rules apply to every language, regardless of paradigm.
 
 1. **Flatten nesting.** Code must flow top-to-bottom like prose. Use guard clauses, early returns, extraction to named variables, and any idiomatic pattern the language offers to keep the happy path unindented. Deep nesting is a readability failure.
 
-2. **Never extract a function used only once.** Inline it at the call site. The sole justification for extraction is reuse (loop bodies, conditional branches, callbacks) or a name that clarifies an otherwise opaque block. Single-use abstractions add indirection without reducing complexity.
+2. **No single-use extraction.** See [structure.md §2](reference/structure.md).
+
+3. **Encode the domain in types.** If it compiles, the assumptions should still hold — a behavior-changing edit must be a type error, not a passing rename.
 
 Two modes:
 
 - **Write** — apply the rules silently. Do not narrate.
 - **Review** — detect the paradigm, load the matching language file, cite `path:line`, show the rewrite. If clean: `poetry: clean`.
 
-**User's request:** $ARGUMENTS
-
-### `branch`
-
-Use this command to review the diff between this branch and the root branch (main or default).
-
-### `session`
-
-Use this command to review the diff of code changes of this session.
-
-### `review_pr`
-
-Use this command to review the content of a PR.
-
-1. Extract the PR URL or `owner/repo#number` from `$ARGUMENTS` (everything after `review_pr`).
-2. Use `gh pr view <url-or-number> --json files,body,title` to fetch PR metadata.
-3. Use `gh pr diff <url-or-number>` to get the diff.
-4. Review the diff following the workflow below.
-
 ---
 
 ## Language References
+
+Detect the paradigm (functional vs multi-paradigm) and load the matching file — in parallel with category refs below, not after. It is the source of truth for control flow, effects, and type encoding.
 
 When the target is Scala, read [reference/languages/scala.md](reference/languages/scala.md). When the target is TypeScript, read [reference/languages/typescript.md](reference/languages/typescript.md).
 
 ## Categories
 
-Before reviewing, load the category reference docs that apply. If no category was specified, infer relevant categories from the user's request and changed code. If the task is broad or ambiguous, read all category references.
+Before reviewing, load the category reference docs that apply — all in parallel. If no category was specified, infer relevant categories from the user's request and changed code. If the task is broad or ambiguous, read all category references (fan-out: one agent per category, see Orchestration).
 
 | Category      | Reference                              | What it catches                                                                                                                                                  |
 | ------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -75,7 +57,7 @@ The target is whatever the user pointed at:
 
 ### Step 2: Establish Context
 
-Before flagging anything, understand what already exists.
+Before flagging anything, understand what already exists. Process changed files in parallel (one context read per file; fan-out to agents when available):
 
 For each changed file:
 
@@ -84,6 +66,8 @@ For each changed file:
 3. Read the **diff** to understand what was added vs what was already there.
 
 ### Step 3: Review
+
+Fan-out by category when using agents (Noise, Naming, Density, Structure, Errors, Modules are disjoint — run concurrently, then merge). Otherwise review serially.
 
 For each finding, record:
 
@@ -117,9 +101,8 @@ Present findings grouped by file.
 
 ### Step 5: Fix
 
-1. Fix all findings.
-2. After each file, run typecheck, lint, format. After all fixes, run the relevant test suite. If any test breaks, investigate and fix — poetry must be behavior-preserving.
-3. For plan fixes: revise the plan in place, then re-read top to bottom to confirm intent was preserved.
+1. Fix findings grouped by file — files in parallel when using agents, each with its own typecheck/lint/format. After all files merge, run the relevant test suite once. If any test breaks, investigate and fix — poetry must be behavior-preserving.
+2. For plan fixes: revise the plan in place, then re-read top to bottom to confirm intent was preserved.
 
 ### Step 6: Summary
 
@@ -134,20 +117,16 @@ Report what was done:
 
 ## Paradigm Rules
 
-### Multi-paradigm (TypeScript, Python, ...)
-
-Guard clauses return early. Happy path stays unindented at the bottom. Push `map`/`filter`/`reduce` and `const`/`final` by default. Domain stays pure. Side effects stay at the orchestration boundary.
-
-### Functional (Scala, Haskell, ...)
-
-Pattern match instead of `if/else` chains. Use monadic flow (`for` / `do`) for short-circuiting. Name each intermediate in a chain. Domain has zero side effects. Immutability is default. I/O lives at the boundary. Referential transparency. No exceptions for control flow — return `Either` / `Result` / `Option`. Prefer `map` / `filter` / `fold` / recursion over imperative loops.
-
-For language-specific examples and combinator tables, read the matching language reference file.
+Detect the paradigm (functional vs multi-paradigm), load the matching file in `reference/languages/` — it is the source of truth for control flow, effects, and type encoding. Do not duplicate its rules here.
 
 ---
 
-## Orchestration
+## Orchestration — fan-out by default
 
-Poetry is more effective when you split it into focused audits.
+Poetry is more effective as focused parallel audits. Categories are disjoint; files are independent.
 
-When managing agents as part of a task, give agents the path to this skill and the relevant category reference markdown files for them to read. Add poetry gates at strategic points in your plan phases.
+1. Load language + category refs in parallel (never serially).
+2. Fan-out: one agent per category (max 6) and/or per file. Give each the path to this skill, its ref file(s), and the file list/diff. Each returns `file:line, category, what's-wrong (1 sentence), fix (1 sentence)`.
+3. Fan-in: merge by file, dedupe overlaps (e.g. density vs naming predicates), apply the senior-engineer filter, then report.
+
+Add poetry gates at strategic points in your plan phases.

@@ -149,9 +149,9 @@ chargeSubscriber()
 
 **Rule:** Mirror domain terms exactly. No synonyms. If the business says `Subscriber`, the code cannot say `User`, `Client`, or `Account` in the same context. Use the same words a domain expert would use.
 
-### 7. Extract Magic Values & Compound Predicates
+### 7. Extract Magic Values
 
-Name domain literals and complex conditions. Leave `0`, `1`, `""`, `None`/`null` alone.
+Name domain literals. Leave `0`, `1`, `""`, `None`/`null` alone. For compound conditions, see `density.md §2`.
 
 ```scala
 val minimumSubscribersForDiscount = 5
@@ -161,3 +161,9 @@ if (isEligibleForDiscount) { ... }
 ```
 
 **Rule:** Domain constants get names. Technical zeros and empty strings don't.
+
+### 8. Refine, do not annotate
+
+The type is the check — never a comment restating it. `subscriber: Subscriber` over `subscriber: Any /* actually a Subscriber */`; `amount: MoneyCents` over `amount: number /* cents */`. Phantom/branded types separate values that share a representation (`DebitMoney` vs `CreditMoney`). Optional fields that change meaning by presence become a union, not `field?: T` plus a boolean.
+
+**Rule:** If the type doesn't enforce it, it isn't enforced.

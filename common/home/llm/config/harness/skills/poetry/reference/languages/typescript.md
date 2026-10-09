@@ -113,7 +113,7 @@ type UserSnapshot = Readonly<Pick<User, "id" | "name" | "email">>;
 
 ## Type safety
 
-If it compiles, the assumptions should still hold. Encode the domain in types so a behavior-changing edit is a type error, not a passing rename.
+Apply Universal Rule 3 — encode the domain in types.
 
 ### Specific functions, specific types
 
@@ -286,7 +286,7 @@ function processPayment(order: Order): Result<PaymentError, Receipt> {
 
 ### Refine, do not comment
 
-`amount: MoneyCents` is the check. `amount: number /* cents */` is a defect. Optional fields that change meaning by presence should be a union, not `field?: T` plus a boolean.
+See `../naming.md §8`.
 
 ## Callback Pyramids
 

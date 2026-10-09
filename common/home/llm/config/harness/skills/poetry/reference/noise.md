@@ -67,25 +67,7 @@ val canSubscriberAccessResource = subscriber.role == "admin" || resource.isPubli
 if (canSubscriberAccessResource) { ... }
 ```
 
-```scala
-// Bad: comment explaining a magic number
-// Maximum retry count is 5
-val maximumRetryAttemptsBeforeEscalation = 5
-```
-
-```scala
-// Bad: comment explaining a complex condition
-// Check if the order is eligible for refund (paid, not refunded, within 30 days)
-if (order.status == "paid" && order.refundedAt.isEmpty && daysSince(order.paidAt) <= 30) { ... }
-
-// Good: extract to a named predicate
-val isOrderEligibleForRefund =
-  order.status == "paid" &&
-  order.refundedAt.isEmpty &&
-  daysSince(order.paidAt) <= maximumRefundWindowInDays
-
-if (isOrderEligibleForRefund) { ... }
-```
+Magic numbers and complex conditions belong to `naming.md §7` / `density.md §2` — don't comment them, name them.
 
 ```scala
 // Bad: inline comment on a long line

@@ -45,6 +45,8 @@ const color = STATUS_COLOR[type] ?? "gray";
 
 ### 2. Complex Boolean Expressions
 
+Compound conditions belong here (canonical). For magic values inside them, see `naming.md §7`.
+
 ```typescript
 // Bad: compound boolean — what does this check?
 if (user.isActive && (!user.isBanned || user.hasAppealed) && user.loginCount > 0 && !user.isDeleted) {
