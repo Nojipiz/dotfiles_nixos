@@ -35,7 +35,7 @@ object Git:
   def isGitReferencePresent(root: Path, reference: String): Boolean < (Async & Abort[CommandException]) =
     Command("git", "show-ref", "--verify", "--quiet", reference).cwd(root).textWithExitCode.map(_._2.isSuccess)
 
-  def pullWithFastForwardOnly(root: Path): Unit < (Async & Abort[CommandException] & Sync) =
+  def pullWithFastForwardOnly(root: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
     Command("git", "pull", "--ff-only").cwd(root).textWithExitCode.map((_, _) => ())
 
   def findIgnoredFiles(candidateWorktree: Path, repositoryRoot: Path): Chunk[String] < Async =
@@ -69,33 +69,56 @@ object Git:
     def _fetchOriginRemote: Unit < (Async & Abort[CommandException] & Sync) =
       Command("git", "fetch", "origin").cwd(repositoryRoot).textWithExitCode.map((_, _) => ())
 
-    _extractWorktreeBranchName(repositoryRoot) match
-      case Absent => ()
-      case Present(branchName) if branchName.isEmpty => ()
-      case Present(branchName) =>
+    def _hasUpstreamBranch: Boolean < (Async & Abort[CommandException]) =
+      Command("git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}").cwd(repositoryRoot).textWithExitCode.map(_._2.isSuccess)
+
+    def _pullWhenUpstreamExists: Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+      _hasUpstreamBranch.flatMap: hasUpstream =>
+        Kyo.when(hasUpstream)(pullWithFastForwardOnly(repositoryRoot))
+
+    def _checkoutInferredBranch(branchName: String): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
+      for
+        isValid <- _isBranchNameValid(branchName)
+        _ <- Kyo.when(isValid) {
+          for
+            _                 <- _fetchOriginRemote
+            localBranchExists <- isGitReferencePresent(repositoryRoot, s"refs/heads/$branchName")
+            remoteBranchExists <-
+              if localBranchExists then Sync.defer(false)
+              else isGitReferencePresent(repositoryRoot, s"refs/remotes/origin/$branchName")
+            _ <-
+              if localBranchExists then
+                Command("git", "checkout", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
+                  .andThen(_pullWhenUpstreamExists)
+              else if remoteBranchExists then
+                Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot).inheritIO.waitForSuccess
+                  .andThen(_pullWhenUpstreamExists)
+              else Command("git", "checkout", "-b", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
+          yield ()
+        }
+      yield ()
+
+    // Trust git over the directory name: Zed already checks out the right
+    // branch, and the worktree dir is often just the project name (e.g.
+    // .../Macaws). Only fall back to inferring from the path on detached HEAD.
+    // Note: the two steps are separate generators (not if/else) so neither
+    // RHS is a `Unit | Unit < ...` union, which has no flatMap.
+    for
+      currentBranchName <- _fetchCurrentBranchName
+      isAttached = currentBranchName.nonEmpty && currentBranchName != "HEAD"
+      _ <- Kyo.when(isAttached) {
         for
-          isValid <- _isBranchNameValid(branchName)
-          _ <-
-            if !isValid then ()
-            else
-              for
-                currentBranchName <- _fetchCurrentBranchName
-                _                 <- _fetchOriginRemote
-                localBranchExists <- isGitReferencePresent(repositoryRoot, s"refs/heads/$branchName")
-                remoteBranchExists <-
-                  if localBranchExists then Sync.defer(false)
-                  else isGitReferencePresent(repositoryRoot, s"refs/remotes/origin/$branchName")
-                _ <-
-                  if currentBranchName == branchName then pullWithFastForwardOnly(repositoryRoot)
-                  else if localBranchExists then
-                    Command("git", "checkout", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
-                      .andThen(pullWithFastForwardOnly(repositoryRoot))
-                  else if remoteBranchExists then
-                    Command("git", "checkout", "--track", s"origin/$branchName").cwd(repositoryRoot).inheritIO.waitForSuccess
-                      .andThen(pullWithFastForwardOnly(repositoryRoot))
-                  else Command("git", "checkout", "-b", branchName).cwd(repositoryRoot).inheritIO.waitForSuccess
-              yield ()
+          _ <- _fetchOriginRemote
+          _ <- _pullWhenUpstreamExists
         yield ()
+      }
+      _ <- Kyo.unless(isAttached) {
+        _extractWorktreeBranchName(repositoryRoot) match
+          case Absent                                    => ()
+          case Present(branchName) if branchName.isEmpty => ()
+          case Present(branchName)                       => _checkoutInferredBranch(branchName)
+      }
+    yield ()
 end Git
 
 object Dependencies:
@@ -117,6 +140,7 @@ object Dependencies:
       hasBunTextLockFile   <- (repositoryRoot / "bun.lock").exists
       hasPnpmLockFile      <- (repositoryRoot / "pnpm-lock.yaml").exists
       hasYarnLockFile      <- (repositoryRoot / "yarn.lock").exists
+      hasPackageLockFile   <- (repositoryRoot / "package-lock.json").exists
       _ <-
         if hasBunBinaryLockFile || hasBunTextLockFile then
           Console.printBuildTool("bun")
@@ -131,17 +155,15 @@ object Dependencies:
             .andThen(Console.printInstall("yarn install --frozen-lockfile"))
             .andThen(Command("yarn", "install", "--frozen-lockfile").cwd(repositoryRoot).inheritIO.waitForSuccess)
         else
-          (repositoryRoot / "package-lock.json").exists.map: hasPackageLockFile =>
-            val tool = "npm"
-            val installCommand =
-              if hasPackageLockFile then "npm ci"
-              else "npm install"
-            Console.printBuildTool(tool).andThen(
-              Console.printInstall(installCommand)
-            ).andThen(
-              val cmd = if hasPackageLockFile then Command("npm", "ci") else Command("npm", "install")
-              cmd.cwd(repositoryRoot).inheritIO.waitForSuccess
-            )
+          val installCommand =
+            if hasPackageLockFile then "npm ci"
+            else "npm install"
+          val installEffect =
+            if hasPackageLockFile then Command("npm", "ci")
+            else Command("npm", "install")
+          Console.printBuildTool("npm")
+            .andThen(Console.printInstall(installCommand))
+            .andThen(installEffect.cwd(repositoryRoot).inheritIO.waitForSuccess)
     yield ()
 
   def resolveMillDependencies(repositoryRoot: Path): Unit < (Async & Abort[CommandException | ExitCode] & Sync) =
@@ -183,7 +205,7 @@ object EnvironmentFiles:
         else
           val candidateWorktree = remainingWorktrees.head
           val otherWorktrees    = remainingWorktrees.tail
-          Git.findIgnoredFiles(candidateWorktree, repositoryRoot).map: relativePaths =>
+          Git.findIgnoredFiles(candidateWorktree, repositoryRoot).flatMap: relativePaths =>
             if _hasShareableEnvironmentFiles(relativePaths) then Present(candidateWorktree)
             else _searchRemainingWorktrees(otherWorktrees)
       _listAllWorktrees.flatMap(_searchRemainingWorktrees)

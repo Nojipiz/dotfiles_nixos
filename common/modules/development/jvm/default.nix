@@ -10,7 +10,7 @@
     # Scala
     scalafmt
     (unstable.scala-cli.override { jre = jdk25; })
-    sbt
+    (sbt.override{jre = jdk25;})
     unstable.mill
     coursier
     unstable.metals
