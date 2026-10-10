@@ -1,6 +1,6 @@
 {
-  /* VSCode is the most lightweight 'base_keymap'. */
-  "base_keymap": "VSCode",
+  /* "None" loads no built-in keymap (and skips vim.json). Bindings are in keymap.json. */
+  "base_keymap": "None",
   "telemetry": {
     "metrics": true,
   },
