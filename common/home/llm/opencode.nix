@@ -1,91 +1,57 @@
 { pkgs, ... }:
 let
-  readOnlyBash = {
+  allowBareAndArgs = commands:
+    builtins.foldl' (allowed: command: allowed // { "${command}" = "allow"; "${command} *" = "allow"; }) { } commands;
+
+  askByDefault = {
     "*" = "ask";
-    "git *" = "allow";
+  };
+
+  versionControl = {
     "git commit *" = "deny";
     "git push *" = "deny";
-    "grep *" = "allow";
-    "grep" = "allow";
-    "rg *" = "allow";
-    "rg" = "allow";
-    # Directory listing and filesystem inspection (bare + args forms,
-    # since "cmd *" does not match bare "cmd").
-    "ls" = "allow";
-    "ls *" = "allow";
-    "dir" = "allow";
-    "dir *" = "allow";
-    "vdir" = "allow";
-    "vdir *" = "allow";
+  } // allowBareAndArgs [ "git" ];
+
+  contentSearch = allowBareAndArgs [ "grep" "rg" ];
+
+  directoryListing = {
     "pwd" = "allow";
-    "tree" = "allow";
-    "tree *" = "allow";
-    "find *" = "allow";
-    "find" = "allow";
-    "fd *" = "allow";
-    "fd" = "allow";
-    "eza *" = "allow";
-    "eza" = "allow";
-    "exa *" = "allow";
-    "exa" = "allow";
-    "lsd *" = "allow";
-    "lsd" = "allow";
-    # Read-only file inspection.
-    "cat *" = "allow";
-    "cat" = "allow";
-    "head *" = "allow";
-    "head" = "allow";
-    "tail *" = "allow";
-    "tail" = "allow";
-    "less *" = "allow";
-    "less" = "allow";
-    "more *" = "allow";
-    "more" = "allow";
-    "file *" = "allow";
-    "file" = "allow";
-    "stat *" = "allow";
-    "stat" = "allow";
-    "wc *" = "allow";
-    "wc" = "allow";
-    "du *" = "allow";
-    "du" = "allow";
-    "realpath *" = "allow";
-    "realpath" = "allow";
-    "readlink *" = "allow";
-    "readlink" = "allow";
-    "which *" = "allow";
-    "which" = "allow";
-  };
-  readOnlyPermissions = {
+  } // allowBareAndArgs [ "ls" "dir" "vdir" "tree" "find" "fd" "eza" "exa" "lsd" ];
+
+  fileInspection = allowBareAndArgs [ "cat" "head" "tail" "less" "more" "file" "stat" "wc" "du" "realpath" "readlink" "which" ];
+
+  scalaBuildTool = allowBareAndArgs [ "sbt" ];
+
+  readOnlyBash = askByDefault // versionControl // contentSearch // directoryListing // fileInspection;
+
+  buildBash = readOnlyBash // scalaBuildTool;
+
+  filesystemReads = {
     "read" = "allow";
     "glob" = "allow";
     "grep" = "allow";
-    # Per https://opencode.ai/docs/permissions/#external-directories,
-    # tools touching paths outside the workdir also need
-    # external_directory. Object form with "*" matches the docs example
-    # style ("~/secrets/**": "deny", "*": "allow").
     "external_directory" = {
       "*" = "allow";
     };
   };
+
+  buildPermission = filesystemReads // {
+    "bash" = buildBash;
+  };
+
+  planPermission = filesystemReads // {
+    "bash" = readOnlyBash;
+  };
+
   opencodeConfig = {
     "$schema" = "https://opencode.ai/config.json";
-    "permission" = readOnlyPermissions // {
-      "bash" = readOnlyBash;
-    };
+    "permission" = buildPermission;
     "agent" = {
       "build" = {
-        "permission" = readOnlyPermissions // {
-          "bash" = readOnlyBash;
-        };
+        "permission" = buildPermission;
       };
       "plan" = {
-        # No "edit" override here: v1 plan already denies edits except
-        # .opencode/plans/*.md (see `opencode debug agent plan`).
-        # Overriding with edit deny would clobber that exception.
-        "permission" = readOnlyPermissions // {
-          "bash" = readOnlyBash;
-        };
+        "permission" = planPermission;
       };
     };
     "mcp" = {

@@ -167,3 +167,22 @@ if (isEligibleForDiscount) { ... }
 The type is the check — never a comment restating it. `subscriber: Subscriber` over `subscriber: Any /* actually a Subscriber */`; `amount: MoneyCents` over `amount: number /* cents */`. Phantom/branded types separate values that share a representation (`DebitMoney` vs `CreditMoney`). Optional fields that change meaning by presence become a union, not `field?: T` plus a boolean.
 
 **Rule:** If the type doesn't enforce it, it isn't enforced.
+
+### 9. Never rename functions or create alias defs
+
+Function names are stable API. Never rename an existing `def`/`function` for clarity, and never introduce an alias that forwards to another function.
+
+```scala
+// Forbidden: alias def that only renames
+def thing = thing1
+def fetchActive = fetchActiveSubscribers
+def run(args: Args): IO[Unit] = runWith(args)
+```
+
+```typescript
+// Forbidden: same pattern in TypeScript
+const thing = thing1;
+export const fetchActive = fetchActiveSubscribers;
+```
+
+**Rule:** Leave existing function names untouched, even when a clearer name exists. Improve call-site locals, argument labels, types, or docs instead. Flagging a function name as unclear is not a finding; emitting a rename or alias def is a violation.

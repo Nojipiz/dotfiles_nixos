@@ -17,6 +17,8 @@ These rules apply to every language, regardless of paradigm.
 
 3. **Encode the domain in types.** If it compiles, the assumptions should still hold — a behavior-changing edit must be a type error, not a passing rename.
 
+4. **Never rename functions.** See [naming.md §9](reference/naming.md).
+
 Two modes:
 
 - **Write** — apply the rules silently. Do not narrate.
