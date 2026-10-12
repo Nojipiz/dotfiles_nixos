@@ -1,8 +1,10 @@
 ---
+name: poet
 description: Iterates poetry skill until clean.
 mode: subagent
 temperature: 0.1
 steps: 50
+maxTurns: 50
 permission:
   edit: allow
   read: allow
