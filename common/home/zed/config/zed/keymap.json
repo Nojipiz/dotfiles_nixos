@@ -95,7 +95,9 @@
   },
 
   /* ==================================== UNBINDINGS ==================================== */
-  /* from: https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-linux.json */
+  /* These actions are still loaded for base_keymap "Zed".
+     https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-linux.json
+     https://github.com/zed-industries/zed/blob/main/assets/keymaps/vim.json */
   {
     "context": "RecentProjects || (RecentProjects > Picker > Editor)",
     "unbind": {
@@ -168,7 +170,6 @@
     "context": "VimControl && !menu",
     "unbind": {
       "ctrl-j": "vim::Down",
-      "ctrl-k": "vim::Down",
       "ctrl-t": "pane::GoToOlderTag",
       "shift-h": "vim::WindowTop",
       "shift-l": "vim::WindowBottom",
@@ -196,7 +197,6 @@
       "ctrl-k ctrl-m": "toolchain::AddToolchain",
       "ctrl-t": "project_symbols::Toggle",
       "ctrl-p": "file_finder::Toggle",
-      "ctrl-w": "workspace::CloseActiveDock",
     },
   },
   {
@@ -217,6 +217,66 @@
   {
     "unbind": {
       "ctrl-k ctrl-o": "workspace::Open",
+    },
+  },
+
+  /* linux/vscode.json is not loaded for base_keymap "Zed". These bindings
+     follow that file, including the f5 contexts after Start. disable_ai drops
+     its assistant:: and agent:: chords, so those are omitted.
+     https://github.com/zed-industries/zed/blob/main/assets/keymaps/linux/vscode.json
+     https://github.com/zed-industries/zed/blob/main/crates/zed/src/zed.rs */
+  {
+    "context": "Editor",
+    "bindings": {
+      "shift-alt-f": "editor::Format",
+      "ctrl-k ctrl-f": "editor::FormatSelections",
+      "shift-alt-i": "editor::SplitSelectionIntoLines",
+      "alt-z": "editor::ToggleSoftWrap",
+      "ctrl-shift-space": "editor::ShowSignatureHelp",
+      "ctrl-shift-a": "editor::ToggleBlockComments",
+      "ctrl-/": [
+        "editor::ToggleComments",
+        { "advance_downwards": false, "comment_empty_lines": false },
+      ],
+      "ctrl-k f12": "editor::GoToDefinitionSplit",
+    },
+  },
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "ctrl-k z": "workspace::ToggleCenteredLayout",
+      "shift-alt-h": "call_hierarchy::ShowIncomingCalls",
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "f5": "debugger::Start",
+    },
+  },
+  {
+    "context": "Workspace && debugger_running",
+    "bindings": {
+      "f5": null,
+    },
+  },
+  {
+    "context": "Workspace && debugger_stopped",
+    "bindings": {
+      "f5": "debugger::Continue",
+    },
+  },
+  {
+    "context": "Workspace && debugger_session",
+    "bindings": {
+      "f10": "debugger::StepOver",
+      "f11": "debugger::StepInto",
+    },
+  },
+  {
+    "context": "CallHierarchyPicker > Picker > Editor",
+    "bindings": {
+      "shift-alt-h": "call_hierarchy::ToggleDirection",
     },
   },
 ]
