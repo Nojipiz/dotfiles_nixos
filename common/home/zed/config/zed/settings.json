@@ -1,6 +1,6 @@
 {
   /* VSCode is the most lightweight 'base_keymap'. */
-  "base_keymap": "VSCode",
+  "base_keymap": "Zed",
   "telemetry": {
     "metrics": true,
   },
