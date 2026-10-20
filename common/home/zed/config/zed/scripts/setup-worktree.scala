@@ -185,10 +185,14 @@ object EnvironmentFiles:
       val fileName = FilePaths.extractFileNameFromRelativePath(relativePath)
       fileName == ".env" || fileName.startsWith(".env.")
 
+    def _isConfigurationFileCopyable(relativePath: String): Boolean =
+      FilePaths.extractFileNameFromRelativePath(relativePath).endsWith(".conf")
+
+    def _isShareableFileCopyable(relativePath: String): Boolean =
+      _isEnvironmentFileCopyable(relativePath) || _isConfigurationFileCopyable(relativePath)
+
     def _hasShareableEnvironmentFiles(relativePaths: Chunk[String]): Boolean =
-      def _isEnvironmentFile(relativePath: String): Boolean =
-        FilePaths.extractFileNameFromRelativePath(relativePath).startsWith(".env")
-      relativePaths.exists(relativePath => !FilePaths.isSkippedTemplateFile(relativePath) && _isEnvironmentFile(relativePath))
+      relativePaths.exists(relativePath => !FilePaths.isSkippedTemplateFile(relativePath) && _isShareableFileCopyable(relativePath))
 
     def _listAllWorktrees: Chunk[Path] < (Async & Abort[CommandException]) =
       Command("git", "worktree", "list", "--porcelain").cwd(repositoryRoot).text.map: output =>
@@ -215,10 +219,10 @@ object EnvironmentFiles:
         Console.printEnvFiles(Chunk.empty)
       case Present(siblingWorktree) =>
         Git.findIgnoredFiles(siblingWorktree, repositoryRoot).flatMap: relativePaths =>
-          val wanted = relativePaths.filter(rp => !FilePaths.isSkippedTemplateFile(rp) && _isEnvironmentFileCopyable(rp))
+          val wanted = relativePaths.filter(rp => !FilePaths.isSkippedTemplateFile(rp) && _isShareableFileCopyable(rp))
           Console.printEnvFiles(wanted).andThen(
             Kyo.foreachDiscard(relativePaths): relativePath =>
-              val isWantedEnvironmentFile = !FilePaths.isSkippedTemplateFile(relativePath) && _isEnvironmentFileCopyable(relativePath)
+              val isWantedEnvironmentFile = !FilePaths.isSkippedTemplateFile(relativePath) && _isShareableFileCopyable(relativePath)
               if !isWantedEnvironmentFile then ()
               else
                 val destinationPath = repositoryRoot / Path(relativePath)
