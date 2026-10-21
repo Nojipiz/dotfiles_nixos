@@ -51,11 +51,20 @@ Prompt via the question tool before acting; record a decision per comment; never
 ```
 Closing this comment.
 
-Reason: [shortest possible explanation]
-Proof: [why it can't happen / isn't valid — types, tests, or docs with path:line + command run, e.g. "src/auth/guard.ts:42 User is Admin | Member, match exhaustive (tsc passes); tests/auth/guard.test.ts:88 covers guest rejection"]
+**Reason:** [shortest possible explanation]
+**Proof:** [why it can't happen / isn't valid — types, tests, or docs with path:line + command run, e.g. "src/auth/guard.ts:42 User is Admin | Member, match exhaustive (tsc passes); tests/auth/guard.test.ts:88 covers guest rejection"]
+
+Classified via 🧙🏾‍♂️ v1
 ```
 
-**B. Create fix** (VALID only) — one sentence: change + files. Implemented only after Accept; shape follows poetry.
+**B. Create fix** (VALID only) — implemented only after Accept; shape follows poetry. After fix + commit, post reply verbatim shape:
+```
+Fixed in <sha>.
+
+**Change:** [what changed + files]
+
+Classified via 🧙🏾‍♂️ v1
+```
 
 Options per comment (verbatim labels): `Accept` / `Decline: will be done later` / `Decline: out of scope` / `Decline: fix isn't correct` (then ask one-line direction). Declined comments stay open and appear in the summary under their label — never in the commit.
 
