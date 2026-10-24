@@ -9,7 +9,7 @@
   },
   {
       "label": "start opencode",
-      "command": "opencode",
+      "command": "opencode --auto",
       "use_new_terminal": true,
       "reveal_target": "dock",
       "allow_concurrent_runs": false,
