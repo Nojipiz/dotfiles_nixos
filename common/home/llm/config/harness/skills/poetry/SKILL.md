@@ -34,7 +34,7 @@ When the target is Scala, read [reference/languages/scala.md](reference/language
 
 ## Categories
 
-Before reviewing, load the category reference docs that apply — all in parallel. If no category was specified, infer relevant categories from the user's request and changed code. If the task is broad or ambiguous, read all category references (fan-out: one agent per category, see Orchestration).
+Before reviewing, list files in `reference/*.md` (top level only). Spawn one parallel subagent per file in a single block (see Orchestration). If a category was specified, only spawn for matching files; otherwise spawn for all.
 
 | Category      | Reference                              | What it catches                                                                                                                                                  |
 | ------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -59,7 +59,7 @@ The target is whatever the user pointed at:
 
 ### Step 2: Establish Context
 
-Before flagging anything, understand what already exists. Process changed files in parallel (one context read per file; fan-out to agents when available):
+Before flagging anything, understand what already exists. Process changed files in parallel in a single block (one context read per file):
 
 For each changed file:
 
@@ -69,7 +69,7 @@ For each changed file:
 
 ### Step 3: Review
 
-Fan-out by category when using agents (Noise, Naming, Density, Structure, Errors, Modules are disjoint — run concurrently, then merge). Otherwise review serially.
+List files in `reference/*.md` (top level only). Spawn one parallel subagent per file in a single block — one rule file per subagent, no merging or skipping. Audit subagents are READ-ONLY: MUST NOT edit, write, or fix code. Read the diff + full files, return `file:line, rule, what's-wrong (1 sentence), fix (1 sentence)` only. Main agent merges after all return.
 
 For each finding, record:
 
@@ -103,7 +103,7 @@ Present findings grouped by file.
 
 ### Step 5: Fix
 
-1. Fix findings grouped by file — files in parallel when using agents, each with its own typecheck/lint/format. After all files merge, run the relevant test suite once. If any test breaks, investigate and fix — poetry must be behavior-preserving.
+1. Main agent applies all fixes alone, grouped by file, serially. Never delegate fixes to the audit subagents. After all files are fixed, run typecheck/lint/format per file, then the relevant test suite once. If any test breaks, investigate and fix — poetry must be behavior-preserving.
 2. For plan fixes: revise the plan in place, then re-read top to bottom to confirm intent was preserved.
 
 ### Step 6: Summary
@@ -125,10 +125,10 @@ Detect the paradigm (functional vs multi-paradigm), load the matching file in `r
 
 ## Orchestration — fan-out by default
 
-Poetry is more effective as focused parallel audits. Categories are disjoint; files are independent.
+Poetry is more effective as focused parallel audits. Rule files are disjoint; files are independent.
 
-1. Load language + category refs in parallel (never serially).
-2. Fan-out: one agent per category (max 6) and/or per file. Give each the path to this skill, its ref file(s), and the file list/diff. Each returns `file:line, category, what's-wrong (1 sentence), fix (1 sentence)`.
-3. Fan-in: merge by file, dedupe overlaps (e.g. density vs naming predicates), apply the senior-engineer filter, then report.
+1. Load language + rule refs in parallel in a single block (never serially).
+2. Fan-out: one subagent per file in `reference/*.md` (top level only). Give each the path to this skill, its rule file, and the file list/diff. Audit subagents are READ-ONLY: MUST NOT edit, write, or fix code. Each returns `file:line, rule, what's-wrong (1 sentence), fix (1 sentence)` only.
+3. Fan-in: main agent merges by file, dedupes overlaps, applies the senior-engineer filter, then reports and fixes alone.
 
 Add poetry gates at strategic points in your plan phases.
