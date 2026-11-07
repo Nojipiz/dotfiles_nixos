@@ -12,6 +12,7 @@
 
     # Command line basics
     git
+    github-cli
     p7zip
     unzip
     wget
