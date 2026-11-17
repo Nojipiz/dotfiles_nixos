@@ -48,24 +48,58 @@ fi
 TMPDIR_OUT="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR_OUT"' EXIT
 
-# 1. Issue (conversation) comments, 2. inline review comments, 3. reviews metadata.
+OWNER="${REPO%%/*}"
+NAME="${REPO#*/}"
+
+# 1. Issue (conversation) comments, 2. inline review comments, 3. PR metadata.
 gh api "repos/${REPO}/pulls/${PR_NUMBER}/comments" --paginate > "$TMPDIR_OUT/inline.json"
 gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate > "$TMPDIR_OUT/issue.json"
 gh pr view "$PR_NUMBER" --repo "$REPO" --json number,title,url,headRefName,baseRefName,author,state > "$TMPDIR_OUT/meta.json"
+
+# 4. Thread resolution state. REST has none, so join via GraphQL reviewThreads.
+THREADS_QUERY='query($owner: String!, $name: String!, $number: Int!, $cursor: String) {
+  repository(owner: $owner, name: $name) {
+    pullRequest(number: $number) {
+      reviewThreads(first: 100, after: $cursor) {
+        pageInfo { hasNextPage endCursor }
+        nodes { isResolved comments(first: 100) { nodes { databaseId } } }
+      }
+    }
+  }
+}'
+
+echo '[]' > "$TMPDIR_OUT/thread_nodes.json"
+CURSOR=""
+while :; do
+  if [[ -z "$CURSOR" ]]; then
+    PAGE="$(gh api graphql -F owner="$OWNER" -F name="$NAME" -F number="$PR_NUMBER" -f query="$THREADS_QUERY")"
+  else
+    PAGE="$(gh api graphql -F owner="$OWNER" -F name="$NAME" -F number="$PR_NUMBER" -F cursor="$CURSOR" -f query="$THREADS_QUERY")"
+  fi
+  echo "$PAGE" | jq '.data.repository.pullRequest.reviewThreads.nodes' > "$TMPDIR_OUT/page_nodes.json"
+  jq -s '.[0] + .[1]' "$TMPDIR_OUT/thread_nodes.json" "$TMPDIR_OUT/page_nodes.json" > "$TMPDIR_OUT/acc.json"
+  mv "$TMPDIR_OUT/acc.json" "$TMPDIR_OUT/thread_nodes.json"
+  HAS_NEXT="$(echo "$PAGE" | jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.hasNextPage')"
+  CURSOR="$(echo "$PAGE" | jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.endCursor // empty')"
+  [[ "$HAS_NEXT" == "true" ]] || break
+done
 
 jq -n \
   --slurpfile inline "$TMPDIR_OUT/inline.json" \
   --slurpfile issue "$TMPDIR_OUT/issue.json" \
   --slurpfile meta "$TMPDIR_OUT/meta.json" \
-  '{
+  --slurpfile threads "$TMPDIR_OUT/thread_nodes.json" \
+  '($threads[0] | map({(.comments.nodes[].databaseId | tostring): .isResolved}) | add // {}) as $resolved
+  | {
     pr: $meta[0],
     inline_comments: ($inline[0] | map({
-      id, author: .user.login, body,
+      id, author: .user.login, author_type: .user.type, body,
       path, line: (.line // .original_line),
-      diff_hunk, url: .html_url, created_at, in_reply_to: .in_reply_to_id
+      diff_hunk, url: .html_url, created_at, in_reply_to: .in_reply_to_id,
+      is_resolved: $resolved[(.id | tostring)]
     })),
     issue_comments: ($issue[0] | map({
-      id, author: .user.login, body, url: .html_url, created_at
+      id, author: .user.login, author_type: .user.type, body, url: .html_url, created_at
     }))
   }' > "$TMPDIR_OUT/combined.json"
 

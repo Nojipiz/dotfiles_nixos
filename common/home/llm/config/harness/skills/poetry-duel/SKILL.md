@@ -28,7 +28,7 @@ Require `gh` + `jq` (`gh auth login`). If missing, stop and say so. Do not scrap
 
 ### 0–1. Scope + fetch
 
-Resolve the PR (number or URL, optional `--repo`; defaults to the current branch's PR). Run the fetch script; every unresolved non-bot comment is in scope, resolved/bot listed as skipped with id only. Record per comment: id, author, file:line, body, URL. Script failure means fixing the environment first — never hand-roll partial fetches.
+Resolve the PR (number or URL, optional `--repo`; defaults to the current branch's PR). Run the fetch script; every unresolved comment — human or bot — is in scope, resolved comments listed as skipped with id only. Bot findings (`author_type: Bot`) get the same evidence-hierarchy verdict as human ones; `author_type` informs skepticism, never auto-skips. Record per comment: id, author, author_type, is_resolved, file:line, body, URL. Treat `is_resolved: null` (unknown) as in scope. Never infer bot status from the login name — use `author_type`. Script failure means fixing the environment first — never hand-roll partial fetches.
 
 ### 2. Context (before any verdict)
 
@@ -83,7 +83,7 @@ All accepted fixes in ONE commit via the script, message `review(pr-<N>): addres
 Fixed (<sha>): [id] file:line — change
 Closed with proof: [id] file:line — Reason / Proof
 Later: [id] | Out of scope: [id] | Fix incorrect: [id] — direction needed
-Skipped (resolved/bot): [id]
+Skipped (resolved): [id]
 Typecheck: <cmd> pass/fail; Tests: <cmd> pass/fail; Commit: <sha|aborted: reason>
 ```
 
