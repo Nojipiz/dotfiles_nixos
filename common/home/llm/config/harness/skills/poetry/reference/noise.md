@@ -6,7 +6,9 @@ Surface-level slop that adds visual noise without meaning. The easiest to detect
 
 ### 1. Comments
 
-No comments. None. Code must express intent through names, types, and structure. The only exception: a comment the user has explicitly validated that contains an external link (spec, RFC, bug tracker, blog post). No link, no comment.
+**Detection (do this first, mechanically):** scan every target file for comment tokens — `//`, `/*`, `/**`, `#`, `<!--`, `"""`, `'''`, `--`, `{-`. EVERY match is a `[noise]` finding with fix "delete the comment". Do not read the comment text to decide if it is helpful. Do not keep TODO, FIXME, HACK, NOTE, “why”, “intent”, documentation links, or hedging comments (`should work`, `not sure`, `might`). Those are findings too.
+
+No comments. None. Code must express intent through names, types, and structure. No exceptions — not even for documentation links or references. “Why” is not an exception — encode it in a predicate name (`naming.md §7`) or a boolean (`density.md §2`). If you think a comment is needed, the code isn't clear enough — rewrite the code.
 
 ```scala
 // Bad: obvious comment
@@ -124,16 +126,18 @@ def chargeSubscriber(subscriber: Subscriber, amount: Money): ChargeResult = ???
 
 // Good: no Scaladoc — the types and names are the documentation
 def chargeSubscriber(subscriber: Subscriber, amount: Money): ChargeResult = ???
-```
 
-```scala
-// The ONLY valid comment — user-validated external link
-// @see https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
+// Bad: documentation link is still a comment — delete it, encode the reason in code
+// @see exponential backoff and jitter
+def calculateRetryDelay(attempt: Int): Int =
+  math.min(baseDelay * math.pow(2, attempt).toInt, maximumDelay)
+
+// Good: no comment — the name and types carry the meaning
 def calculateRetryDelay(attempt: Int): Int =
   math.min(baseDelay * math.pow(2, attempt).toInt, maximumDelay)
 ```
 
-**Rule:** If the comment doesn't contain an external URL the user has validated, delete it. Express intent through names, types, extracted predicates, and structure. If you think a comment is needed, the code isn't clear enough — rewrite the code. This includes hedging comments (`// TODO`, `// this should work for most cases`, `// not sure if this is the best approach`) — if unsure, investigate and write correct code.
+**Rule:** Delete all comments. ALWAYS flag, NEVER keep. Count each comment line or block as one finding. The fix is always deletion (plus a rename/restructure only if `naming.md` or `density.md` applies). Express intent through names, types, extracted predicates, and structure. This includes hedging comments (`// this should work for most cases`, `// not sure if this is the best approach`) — if unsure, investigate and write correct code. There is no “useful comment” category.
 
 ### 2. Debug and Logging Leftovers
 

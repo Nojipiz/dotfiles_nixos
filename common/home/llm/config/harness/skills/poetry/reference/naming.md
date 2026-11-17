@@ -168,21 +168,38 @@ The type is the check — never a comment restating it. `subscriber: Subscriber`
 
 **Rule:** If the type doesn't enforce it, it isn't enforced.
 
-### 9. Never rename functions or create alias defs
+### 9. No pass-through wrappers (no rename by indirection)
 
-Function names are stable API. Never rename an existing `def`/`function` for clarity, and never introduce an alias that forwards to another function.
+Renaming a function in place to a clearer name IS allowed — do it. What is forbidden is keeping two names for one behavior: a second `def` / `function` / `const` whose entire body is a forward to another function with no added logic, branching, mapping, or error handling. That is a rename hiding as a wrapper.
+
+**Detection (mechanical):** flag any function whose body is ONLY one of these, with the same arguments passed through unchanged (modulo currying/await):
+
+- `def foo = bar` / `def foo = bar(...)` / `def foo(args): T = bar(args)`
+- `function foo(...) { return bar(...); }` / `(...args) => bar(...args)`
+- `const foo = bar;` / `export const foo = bar;` / `export const foo = (...a) => bar(...a);`
+- adapter objects where every method is `method: (...a) => target.method(...a)` with identical signatures
+
+Extra default arguments, `async`/`await` passthrough, or doc-only re-export still counts as pass-through if no behavior is added. If the wrapper transforms the interface (adapts types, merges calls, adds branching/retry/mapping), it is a real adapter — judge it under `structure.md §2` and `typescript.md §Wrapper/Adapter Layers` instead.
 
 ```scala
-// Forbidden: alias def that only renames
-def thing = thing1
+// Forbidden: pass-through wrapper = rename by indirection — delete foo, call bar directly
 def fetchActive = fetchActiveSubscribers
 def run(args: Args): IO[Unit] = runWith(args)
+def getUser(id: UserId): User = getUserById(id)
 ```
 
 ```typescript
-// Forbidden: same pattern in TypeScript
+// Forbidden: same pattern in TypeScript — delete foo, call bar directly
 const thing = thing1;
 export const fetchActive = fetchActiveSubscribers;
+export function getUser(id: UserId): User { return getUserById(id); }
+const fetchActiveUsers = () => fetchActiveSubscribers();
 ```
 
-**Rule:** Leave existing function names untouched, even when a clearer name exists. Improve call-site locals, argument labels, types, or docs instead. Flagging a function name as unclear is not a finding; emitting a rename or alias def is a violation.
+```typescript
+// Allowed: in-place rename to a clearer name (one name, not two)
+- function calc(o: Order): Money { ... }
++ function calculateRefundAmountAfterRestockingFee(o: Order): Money { ... }
+```
+
+**Rule:** One behavior, one name. ALWAYS flag pass-through wrappers as `[naming]` findings. Fix: delete the wrapper and update all call sites to call the target directly. If both names are unclear, pick the clearest domain term (`§6`) and rename in place. Do NOT “preserve backward compatibility” with an alias — update the callers.

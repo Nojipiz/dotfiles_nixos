@@ -1,6 +1,6 @@
 ---
 name: poetry
-description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, comments forbidden unless with external link, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
+description: Writes and reviews code for prose-like readability; expressive names, ubiquitous domain language, no comments, extracted conditionals, flattened control flow, and type-refined APIs. Use when writing, reviewing, refactoring, renaming, starting a branch, starting a coding session, or reviewing a PR.
 ---
 
 # Poetry
@@ -17,7 +17,7 @@ These rules apply to every language, regardless of paradigm.
 
 3. **Encode the domain in types.** If it compiles, the assumptions should still hold — a behavior-changing edit must be a type error, not a passing rename.
 
-4. **Never rename functions.** See [naming.md §9](reference/naming.md).
+4. **No pass-through wrappers (no rename by indirection).** See [naming.md §9](reference/naming.md). Renaming a function in place to a clearer name IS allowed. What is forbidden is a second function whose body only forwards to another function — that keeps two names for one behavior.
 
 Two modes:
 
@@ -38,8 +38,8 @@ Before reviewing, list files in `reference/*.md` (top level only). Spawn one par
 
 | Category      | Reference                              | What it catches                                                                                                                                                  |
 | ------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Noise**     | [noise.md](reference/noise.md)         | Obvious comments, debug leftovers, hedging, unnecessary defensive code, stubs, commented-out code, section dividers                                              |
-| **Naming**    | [naming.md](reference/naming.md)       | Overly literal names, verbose names, convention-blind naming, implementation-describing names, mixed domain vocabulary                                           |
+| **Noise**     | [noise.md](reference/noise.md)         | ALL comments, debug leftovers, hedging, unnecessary defensive code, stubs, commented-out code, section dividers                                            |
+| **Naming**    | [naming.md](reference/naming.md)       | Overly literal names, verbose names, convention-blind naming, implementation-describing names, mixed domain vocabulary, pass-through wrapper functions             |
 | **Density**   | [density.md](reference/density.md)     | Nested ternaries, complex boolean expressions, dense object literals, callback pyramids, chained methods without intermediate names                              |
 | **Structure** | [structure.md](reference/structure.md) | God functions, copy-paste duplication, premature abstraction, god files, barrel files, wrapper/adapter layers, config objects for simple behavior                |
 | **Errors**    | [errors.md](reference/errors.md)       | Plain `Error` dropping context, user-facing copy mixed with log strings, `catch` without branching on type, silent error swallowing, exceptions for control flow |
@@ -77,7 +77,7 @@ For each finding, record:
 - **Category**
 - **What's wrong** (one sentence)
 - **What it should be** (one sentence)
-For each finding, ask: **"Would a senior engineer on this team flag this in code review?"** This prevents over-correction.
+For each finding, ask: **"Would a senior engineer on this team flag this in code review?"** This prevents over-correction. Exception: `noise.md §1` comments and `naming.md §9` pass-through wrappers ALWAYS survive this filter — every comment and every forward-only function is a finding, no matter how “helpful” or “harmless” it looks.
 
 ### Step 4: Report
 
